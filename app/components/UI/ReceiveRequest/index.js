@@ -1,44 +1,44 @@
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
-  InteractionManager,
-  TouchableOpacity,
-  SafeAreaView,
-  Dimensions,
-  StyleSheet,
-  View,
   Alert,
+  Dimensions,
+  InteractionManager,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import Share from 'react-native-share';
 import QRCode from 'react-native-qrcode-svg';
+import Share from 'react-native-share';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { connect } from 'react-redux';
 
-import Analytics from '../../../core/Analytics/Analytics';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import Logger from '../../../util/Logger';
-import Device from '../../../util/device';
 import { strings } from '../../../../locales/i18n';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import { generateUniversalLinkAddress } from '../../../util/payment-link-generator';
-import { getTicker } from '../../../util/transactions';
-import { allowedToBuy } from '../FiatOrders';
 import { showAlert } from '../../../actions/alert';
 import { toggleReceiveModal } from '../../../actions/modals';
 import { protectWalletModalVisible } from '../../../actions/user';
+import Analytics from '../../../core/Analytics/Analytics';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import Logger from '../../../util/Logger';
+import { generateUniversalLinkAddress } from '../../../util/payment-link-generator';
+import { getTicker } from '../../../util/transactions';
+import { allowedToBuy } from '../FiatOrders';
 
-import { fontStyles, colors as importedColors } from '../../../styles/common';
-import Text from '../../Base/Text';
+import IonicIcon from 'react-native-vector-icons/Ionicons';
+import Routes from '../../../constants/navigation/Routes';
+import ClipboardManager from '../../../core/ClipboardManager';
+import { colors as importedColors, fontStyles } from '../../../styles/common';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 import ModalHandler from '../../Base/ModalHandler';
-import ModalDragger from '../../Base/ModalDragger';
+import Text from '../../Base/Text';
 import AddressQRCode from '../../Views/AddressQRCode';
 import EthereumAddress from '../EthereumAddress';
 import GlobalAlert from '../GlobalAlert';
 import StyledButton from '../StyledButton';
-import ClipboardManager from '../../../core/ClipboardManager';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import Routes from '../../../constants/navigation/Routes';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -46,6 +46,7 @@ const createStyles = (colors) =>
       backgroundColor: colors.background.default,
       borderTopLeftRadius: 10,
       borderTopRightRadius: 10,
+      flex: 1,
     },
     body: {
       alignItems: 'center',
@@ -93,6 +94,17 @@ const createStyles = (colors) =>
     },
     titleWrapper: {
       marginTop: 10,
+      marginBottom: 80,
+      flexDirection: 'row',
+      marginHorizontal: 12,
+      justifyContent: 'center',
+    },
+
+    btnBack: {
+      position: 'absolute',
+      paddingHorizontal: 8,
+      left: 0,
+      zIndex: 10,
     },
   });
 
@@ -251,8 +263,19 @@ class ReceiveRequest extends PureComponent {
 
     return (
       <SafeAreaView style={styles.wrapper}>
-        <ModalDragger />
+        {/* <ModalDragger /> */}
         <View style={styles.titleWrapper}>
+          <TouchableOpacity
+            onPress={() => this.props.hideModal()}
+            activeOpacity={0.5}
+            style={styles.btnBack}
+          >
+            <IonicIcon
+              name={'ios-arrow-back'}
+              size={28}
+              color={colors.overlay.default}
+            />
+          </TouchableOpacity>
           <Text style={styles.title} testID={'receive-request-screen'}>
             {strings('receive_request.title')}
           </Text>
@@ -333,14 +356,14 @@ class ReceiveRequest extends PureComponent {
                 })}
               </StyledButton>
             )}
-            <StyledButton
+            {/* <StyledButton
               type={'normal'}
               onPress={this.onReceive}
               containerStyle={styles.actionButton}
               testID={'request-payment-button'}
             >
               {strings('receive_request.request_payment')}
-            </StyledButton>
+            </StyledButton> */}
           </View>
         </View>
 

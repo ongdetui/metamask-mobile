@@ -310,6 +310,11 @@ const createStyles = (colors) =>
       color: colors.text.default,
     },
     protectWalletButtonWrapper: { marginVertical: 8 },
+    title: {
+      fontSize: 17,
+      ...fontStyles.bold,
+      color: colors.text.default,
+    },
   });
 
 const metamask_name = require('../../../images/metamask-name.png'); // eslint-disable-line
@@ -1232,11 +1237,12 @@ class DrawerView extends PureComponent {
                 style={styles.metamaskFox}
                 resizeMethod={'auto'}
               />
-              <Image
+              {/* <Image
                 source={metamask_name}
                 style={styles.metamaskName}
                 resizeMethod={'auto'}
-              />
+              /> */}
+              <Text style={styles.title}>Twendee Wallet</Text>
             </View>
           </View>
           <View style={styles.account}>

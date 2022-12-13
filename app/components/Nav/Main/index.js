@@ -1,41 +1,40 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { util } from '@metamask/controllers';
+import NetInfo from '@react-native-community/netinfo';
+import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   AppState,
+  Linking,
+  PushNotificationIOS,
   StyleSheet,
   View,
-  Linking,
-  PushNotificationIOS, // eslint-disable-line react-native/split-platform-components
 } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import GlobalAlert from '../../UI/GlobalAlert';
 import BackgroundTimer from 'react-native-background-timer';
-import NotificationManager from '../../../core/NotificationManager';
-import Engine from '../../../core/Engine';
-import AppConstants from '../../../core/AppConstants';
 import PushNotification from 'react-native-push-notification';
+import { connect } from 'react-redux';
 import I18n, { strings } from '../../../../locales/i18n';
-import LockManager from '../../../core/LockManager';
-import FadeOutOverlay from '../../UI/FadeOutOverlay';
-import Device from '../../../util/device';
-import BackupAlert from '../../UI/BackupAlert';
-import Notification from '../../UI/Notification';
-import FiatOrders from '../../UI/FiatOrders';
 import {
-  showTransactionNotification,
   hideCurrentNotification,
-  showSimpleNotification,
   removeNotificationById,
   removeNotVisibleNotifications,
+  showSimpleNotification,
+  showTransactionNotification,
 } from '../../../actions/notification';
+import AppConstants from '../../../core/AppConstants';
+import Engine from '../../../core/Engine';
+import LockManager from '../../../core/LockManager';
+import Device from '../../../util/device';
+import BackupAlert from '../../UI/BackupAlert';
+import FadeOutOverlay from '../../UI/FadeOutOverlay';
+import FiatOrders from '../../UI/FiatOrders';
+import GlobalAlert from '../../UI/GlobalAlert';
+import Notification from '../../UI/Notification';
 import ProtectYourWalletModal from '../../UI/ProtectYourWalletModal';
-import MainNavigator from './MainNavigator';
 import SkipAccountSecurityModal from '../../UI/SkipAccountSecurityModal';
-import { util } from '@metamask/controllers';
 import SwapsLiveness from '../../UI/Swaps/SwapsLiveness';
+import MainNavigator from './MainNavigator';
 
 import {
   setInfuraAvailabilityBlocked,
@@ -43,16 +42,15 @@ import {
 } from '../../../actions/infuraAvailability';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import ReviewModal from '../../UI/ReviewModal';
-import { useTheme } from '../../../util/theme';
-import RootRPCMethodsUI from './RootRPCMethodsUI';
-import usePrevious from '../../hooks/usePrevious';
-import { colors as importedColors } from '../../../styles/common';
 import WarningAlert from '../../../components/UI/WarningAlert';
 import { KOVAN, RINKEBY, ROPSTEN } from '../../../constants/network';
 import { MM_DEPRECATED_NETWORKS } from '../../../constants/urls';
-import { useEnableAutomaticSecurityChecks } from '../../hooks/EnableAutomaticSecurityChecks';
+import { colors as importedColors } from '../../../styles/common';
+import { useTheme } from '../../../util/theme';
 import { useMinimumVersions } from '../../hooks/MinimumVersions';
+import usePrevious from '../../hooks/usePrevious';
+import ReviewModal from '../../UI/ReviewModal';
+import RootRPCMethodsUI from './RootRPCMethodsUI';
 
 const Stack = createStackNavigator();
 
@@ -87,7 +85,7 @@ const Main = (props) => {
 
   const prevLockTime = usePrevious(props.lockTime);
 
-  useEnableAutomaticSecurityChecks();
+  // useEnableAutomaticSecurityChecks();
   useMinimumVersions();
 
   const pollForIncomingTransactions = useCallback(async () => {
@@ -232,7 +230,7 @@ const Main = (props) => {
         }
         if (data && data.action === 'tx') {
           if (data.id) {
-            NotificationManager.setTransactionToView(data.id);
+            // NotificationManager.setTransactionToView(data.id);
           }
           props.navigation.navigate('TransactionsHome');
         }
@@ -244,13 +242,13 @@ const Main = (props) => {
     });
 
     setTimeout(() => {
-      NotificationManager.init({
-        navigation: props.navigation,
-        showTransactionNotification: props.showTransactionNotification,
-        hideCurrentNotification: props.hideCurrentNotification,
-        showSimpleNotification: props.showSimpleNotification,
-        removeNotificationById: props.removeNotificationById,
-      });
+      // NotificationManager.init({
+      //   navigation: props.navigation,
+      //   showTransactionNotification: props.showTransactionNotification,
+      //   hideCurrentNotification: props.hideCurrentNotification,
+      //   showSimpleNotification: props.showSimpleNotification,
+      //   removeNotificationById: props.removeNotificationById,
+      // });
       pollForIncomingTransactions();
       checkInfuraAvailability();
       removeConnectionStatusListener.current = NetInfo.addEventListener(
@@ -337,16 +335,16 @@ Main.propTypes = {
   /**
    * Dispatch showing a transaction notification
    */
-  showTransactionNotification: PropTypes.func,
+  // showTransactionNotification: PropTypes.func,
   /**
    * Dispatch showing a simple notification
    */
-  showSimpleNotification: PropTypes.func,
+  // showSimpleNotification: PropTypes.func,
   /**
    * Dispatch hiding a transaction notification
    */
-  hideCurrentNotification: PropTypes.func,
-  removeNotificationById: PropTypes.func,
+  // hideCurrentNotification: PropTypes.func,
+  // removeNotificationById: PropTypes.func,
   /**
    * Indicates whether third party API mode is enabled
    */

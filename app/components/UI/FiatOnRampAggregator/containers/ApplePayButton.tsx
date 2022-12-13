@@ -82,9 +82,9 @@ const ApplePayButton = ({
       // @ts-expect-error pop is not defined
       navigation.dangerouslyGetParent()?.pop();
       protectWalletModalVisible();
-      NotificationManager.showSimpleNotification(
-        getNotificationDetails(fiatOrder),
-      );
+      // NotificationManager.showSimpleNotification(
+      //   getNotificationDetails(fiatOrder),
+      // );
       trackEvent('ONRAMP_PURCHASE_SUBMITTED', {
         provider_onramp: (fiatOrder?.data as Order)?.provider?.name,
         payment_method_id: (fiatOrder?.data as Order)?.paymentMethod?.id,

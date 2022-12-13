@@ -1,41 +1,41 @@
 /* eslint-disable react/display-name */
 import React from 'react';
-import NavbarTitle from '../NavbarTitle';
-import ModalNavbarTitle from '../ModalNavbarTitle';
-import AccountRightButton from '../AccountRightButton';
-import NavbarBrowserTitle from '../NavbarBrowserTitle';
 import {
   Alert,
+  Image,
+  InteractionManager,
+  Keyboard,
+  Platform,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  StyleSheet,
-  Image,
-  Keyboard,
-  InteractionManager,
-  Platform,
+  View
 } from 'react-native';
-import { fontStyles, colors as importedColors } from '../../../styles/common';
-import IonicIcon from 'react-native-vector-icons/Ionicons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import IonicIcon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import URL from 'url-parse';
 import { strings } from '../../../../locales/i18n';
-import AppConstants from '../../../core/AppConstants';
-import DeeplinkManager from '../../../core/DeeplinkManager';
-import Analytics from '../../../core/Analytics/Analytics';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import { importAccountFromPrivateKey } from '../../../util/address';
-import Device from '../../../util/device';
-import { isGatewayUrl } from '../../../lib/ens-ipfs/resolver';
-import { getHost } from '../../../util/browser';
-import generateTestId from '../../../../wdio/utils/generateTestId';
-import { WALLET_VIEW_BURGER_ICON_ID } from '../../../../wdio/features/testIDs/Screens/WalletView.testIds';
 import {
   NAV_ANDROID_BACK_BUTTON,
-  NETWORK_BACK_ARROW_BUTTON_ID,
+  NETWORK_BACK_ARROW_BUTTON_ID
 } from '../../../../wdio/features/testIDs/Screens/NetworksScreen.testids';
+import { WALLET_VIEW_BURGER_ICON_ID } from '../../../../wdio/features/testIDs/Screens/WalletView.testIds';
+import generateTestId from '../../../../wdio/utils/generateTestId';
+import Analytics from '../../../core/Analytics/Analytics';
+import AppConstants from '../../../core/AppConstants';
+import DeeplinkManager from '../../../core/DeeplinkManager';
+import { isGatewayUrl } from '../../../lib/ens-ipfs/resolver';
+import { colors as importedColors, fontStyles } from '../../../styles/common';
+import { importAccountFromPrivateKey } from '../../../util/address';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import { getHost } from '../../../util/browser';
+import Device from '../../../util/device';
+import AccountRightButton from '../AccountRightButton';
+import ModalNavbarTitle from '../ModalNavbarTitle';
+import NavbarBrowserTitle from '../NavbarBrowserTitle';
+import NavbarTitle from '../NavbarTitle';
 const { HOMEPAGE_URL } = AppConstants;
 
 const trackEvent = (event) => {
@@ -51,6 +51,11 @@ const trackEventWithParameters = (event, params) => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 17,
+    ...fontStyles.bold,
+    color: '#333333',
+  },
   metamaskName: {
     width: 122,
     height: 15,
@@ -687,17 +692,22 @@ export function getOnboardingNavbarOptions(
       height: 15,
       tintColor: themeColors.text.default,
     },
+    title: {
+      tintColor: themeColors.text.default,
+      fontSize: 16,
+    },
   });
 
   return {
     headerStyle: innerStyles.headerStyle,
     headerTitle: () => (
       <View style={styles.metamaskNameTransparentWrapper}>
-        <Image
+        {/* <Image
           source={metamask_name}
           style={innerStyles.metamaskName}
           resizeMethod={'auto'}
-        />
+        /> */}
+        <Text style={styles.title}>Twendee Wallet</Text>
       </View>
     ),
     headerBackTitle: strings('navigation.back'),
@@ -728,11 +738,12 @@ export function getTransparentOnboardingNavbarOptions(themeColors) {
   return {
     headerTitle: () => (
       <View style={styles.metamaskNameTransparentWrapper}>
-        <Image
+        {/* <Image
           source={metamask_name}
           style={innerStyles.metamaskName}
           resizeMethod={'auto'}
-        />
+        /> */}
+        <Text style={styles.title}>Twendee Wallet</Text>
       </View>
     ),
     headerLeft: () => <View />,
@@ -762,11 +773,12 @@ export function getTransparentBackOnboardingNavbarOptions(themeColors) {
   return {
     headerTitle: () => (
       <View style={styles.metamaskNameTransparentWrapper}>
-        <Image
+        {/* <Image
           source={metamask_name}
           style={innerStyles.metamaskName}
           resizeMethod={'auto'}
-        />
+        /> */}
+        <Text style={styles.title}>Twendee Wallet</Text>
       </View>
     ),
     headerBackTitle: strings('navigation.back'),
@@ -810,11 +822,12 @@ export function getOptinMetricsNavbarOptions(themeColors) {
           />
         </View>
         <View style={styles.metamaskNameWrapper}>
-          <Image
+          {/* <Image
             source={metamask_name}
             style={innerStyles.metamaskName}
             resizeMethod={'auto'}
-          />
+          /> */}
+          <Text style={styles.title}>Twendee Wallet</Text>
         </View>
       </View>
     ),
@@ -997,9 +1010,9 @@ export function getWalletNavbarOptions(
       <TouchableOpacity
         style={styles.infoButton}
         // eslint-disable-next-line
-        onPress={openQRScanner}
+        // onPress={openQRScanner}
       >
-        <AntIcon name="scan1" size={28} style={innerStyles.headerIcon} />
+        {/* <AntIcon name="scan1" size={28} style={innerStyles.headerIcon} /> */}
       </TouchableOpacity>
     ),
     headerStyle: innerStyles.headerStyle,

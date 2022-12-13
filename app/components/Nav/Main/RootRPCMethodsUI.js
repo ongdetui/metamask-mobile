@@ -1,62 +1,61 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { StyleSheet, Alert, InteractionManager } from 'react-native';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { ethErrors } from 'eth-json-rpc-errors';
 import { ethers } from 'ethers';
 import abi from 'human-standard-token-abi';
-import { ethErrors } from 'eth-json-rpc-errors';
+import PropTypes from 'prop-types';
+import { Alert, InteractionManager, StyleSheet } from 'react-native';
+import { connect, useSelector } from 'react-redux';
 
-import Approval from '../../Views/Approval';
-import NotificationManager from '../../../core/NotificationManager';
-import Engine from '../../../core/Engine';
+import { util } from '@metamask/controllers';
+import { swapsUtils } from '@metamask/swaps-controller';
+import BigNumber from 'bignumber.js';
+import { BN } from 'ethereumjs-util';
+import Modal from 'react-native-modal';
 import { strings } from '../../../../locales/i18n';
-import { hexToBN, fromWei } from '../../../util/number';
+import {
+  toggleApproveModal,
+  toggleDappTransactionModal,
+} from '../../../actions/modals';
+import { networkSwitched } from '../../../actions/onboardNetwork';
 import {
   setEtherTransaction,
   setTransactionObject,
 } from '../../../actions/transaction';
-import PersonalSign from '../../UI/PersonalSign';
-import TypedSign from '../../UI/TypedSign';
-import Modal from 'react-native-modal';
+import { KEYSTONE_TX_CANCELED } from '../../../constants/error';
+import Analytics from '../../../core/Analytics/Analytics';
+import Engine from '../../../core/Engine';
+import { ApprovalTypes } from '../../../core/RPCMethods/RPCMethodMiddleware';
+import TransactionTypes from '../../../core/TransactionTypes';
 import WalletConnect from '../../../core/WalletConnect';
+import { getTokenList } from '../../../reducers/tokens';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import { toLowerCaseEquals } from '../../../util/general';
+import Logger from '../../../util/Logger';
+import { fromWei, hexToBN } from '../../../util/number';
+import { useTheme } from '../../../util/theme';
 import {
-  getMethodData,
-  TOKEN_METHOD_TRANSFER,
   APPROVE_FUNCTION_SIGNATURE,
-  getTokenValueParam,
-  getTokenAddressParam,
   calcTokenAmount,
+  getMethodData,
+  getTokenAddressParam,
+  getTokenValueParam,
   getTokenValueParamAsHex,
   isSwapTransaction,
+  TOKEN_METHOD_TRANSFER,
 } from '../../../util/transactions';
-import { BN } from 'ethereumjs-util';
-import Logger from '../../../util/Logger';
-import MessageSign from '../../UI/MessageSign';
-import Approve from '../../Views/ApproveView/Approve';
-import WatchAssetRequest from '../../UI/WatchAssetRequest';
 import AccountApproval from '../../UI/AccountApproval';
-import TransactionTypes from '../../../core/TransactionTypes';
 import AddCustomNetwork from '../../UI/AddCustomNetwork';
-import SwitchCustomNetwork from '../../UI/SwitchCustomNetwork';
-import {
-  toggleDappTransactionModal,
-  toggleApproveModal,
-} from '../../../actions/modals';
-import { swapsUtils } from '@metamask/swaps-controller';
-import { util } from '@metamask/controllers';
-import Analytics from '../../../core/Analytics/Analytics';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import BigNumber from 'bignumber.js';
-import { getTokenList } from '../../../reducers/tokens';
-import { toLowerCaseEquals } from '../../../util/general';
-import { ApprovalTypes } from '../../../core/RPCMethods/RPCMethodMiddleware';
-import { KEYSTONE_TX_CANCELED } from '../../../constants/error';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import { useTheme } from '../../../util/theme';
-import withQRHardwareAwareness from '../../UI/QRHardware/withQRHardwareAwareness';
+import MessageSign from '../../UI/MessageSign';
+import PersonalSign from '../../UI/PersonalSign';
 import QRSigningModal from '../../UI/QRHardware/QRSigningModal';
-import { networkSwitched } from '../../../actions/onboardNetwork';
+import withQRHardwareAwareness from '../../UI/QRHardware/withQRHardwareAwareness';
+import SwitchCustomNetwork from '../../UI/SwitchCustomNetwork';
+import TypedSign from '../../UI/TypedSign';
+import WatchAssetRequest from '../../UI/WatchAssetRequest';
+import Approval from '../../Views/Approval';
+import Approve from '../../Views/ApproveView/Approve';
 
 const hstInterface = new ethers.utils.Interface(abi);
 
@@ -233,10 +232,10 @@ const RootRPCMethodsUI = (props) => {
           `${transactionMeta.id}:finished`,
           (transactionMeta) => {
             if (transactionMeta.status === 'submitted') {
-              NotificationManager.watchSubmittedTransaction({
-                ...transactionMeta,
-                assetType: transactionMeta.transaction.assetType,
-              });
+              // NotificationManager.watchSubmittedTransaction({
+              //   ...transactionMeta,
+              //   assetType: transactionMeta.transaction.assetType,
+              // });
             } else {
               if (props.swapsTransactions[transactionMeta.id]?.analytics) {
                 trackSwaps(ANALYTICS_EVENT_OPTS.SWAP_FAILED, transactionMeta);

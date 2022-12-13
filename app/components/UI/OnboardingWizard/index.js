@@ -158,7 +158,7 @@ const OnboardingWizard = (props) => {
     <Modal
       animationIn={{ from: { opacity: 1 }, to: { opacity: 1 } }}
       animationOut={{ from: { opacity: 0 }, to: { opacity: 0 } }}
-      isVisible
+      isVisible={false}
       backdropOpacity={0}
       disableAnimation
       transparent

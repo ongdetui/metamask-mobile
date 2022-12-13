@@ -1,51 +1,63 @@
-import React, { PureComponent } from 'react';
+import { swapsUtils } from '@metamask/swaps-controller';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
+  Alert,
+  InteractionManager,
   ScrollView,
-  TextInput,
   StyleSheet,
   Text,
-  View,
+  TextInput,
   TouchableOpacity,
-  InteractionManager,
+  View,
 } from 'react-native';
-import { swapsUtils } from '@metamask/swaps-controller';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 import { connect } from 'react-redux';
-import Engine from '../../../core/Engine';
-import Analytics from '../../../core/Analytics/Analytics';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import AppConstants from '../../../core/AppConstants';
 import { strings } from '../../../../locales/i18n';
+import Analytics from '../../../core/Analytics/Analytics';
+import AppConstants from '../../../core/AppConstants';
+import Engine from '../../../core/Engine';
+import AnalyticsV2 from '../../../util/analyticsV2';
 
-import { swapsLivenessSelector } from '../../../reducers/swaps';
 import { showAlert } from '../../../actions/alert';
-import { protectWalletModalVisible } from '../../../actions/user';
 import {
   toggleAccountsModal,
   toggleReceiveModal,
 } from '../../../actions/modals';
 import { newAssetTransaction } from '../../../actions/transaction';
+import { protectWalletModalVisible } from '../../../actions/user';
+import { swapsLivenessSelector } from '../../../reducers/swaps';
 
-import Device from '../../../util/device';
+import {
+  importAccountFromPrivateKey,
+  isQRHardwareAccount,
+  renderAccountName,
+} from '../../../util/address';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import { renderFiat } from '../../../util/number';
-import { isQRHardwareAccount, renderAccountName } from '../../../util/address';
-import { getEther } from '../../../util/transactions';
+import Device from '../../../util/device';
 import {
   doENSReverseLookup,
   isDefaultAccountName,
 } from '../../../util/ENSUtils';
+import { renderFiat } from '../../../util/number';
+import { getEther } from '../../../util/transactions';
 import { isSwapsAllowed } from '../Swaps/utils';
 
-import Identicon from '../Identicon';
+import Routes from '../../../constants/navigation/Routes';
+import ClipboardManager from '../../../core/ClipboardManager';
+import DeeplinkManager from '../../../core/DeeplinkManager';
+import { baseStyles, fontStyles } from '../../../styles/common';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 import AssetActionButton from '../AssetActionButton';
 import EthereumAddress from '../EthereumAddress';
-import { fontStyles, baseStyles } from '../../../styles/common';
-import { allowedToBuy } from '../FiatOrders';
+import Identicon from '../Identicon';
 import AssetSwapButton from '../Swaps/components/AssetSwapButton';
-import ClipboardManager from '../../../core/ClipboardManager';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import Routes from '../../../constants/navigation/Routes';
+
+const trackEvent = (event) => {
+  InteractionManager.runAfterInteractions(() => {
+    Analytics.trackEvent(event);
+  });
+};
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -135,6 +147,12 @@ const createStyles = (colors) =>
       justifyContent: 'center',
       alignItems: 'flex-start',
       flexDirection: 'row',
+    },
+
+    btnScan: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });
 
@@ -356,6 +374,59 @@ class AccountOverview extends PureComponent {
     } catch {}
   };
 
+  onScanSuccess = (data, content) => {
+    const { navigation } = this.props;
+    if (data.private_key) {
+      Alert.alert(
+        strings('wallet.private_key_detected'),
+        strings('wallet.do_you_want_to_import_this_account'),
+        [
+          {
+            text: strings('wallet.cancel'),
+            onPress: () => false,
+            style: 'cancel',
+          },
+          {
+            text: strings('wallet.yes'),
+            onPress: async () => {
+              try {
+                await importAccountFromPrivateKey(data.private_key);
+                navigation.navigate('ImportPrivateKeyView', {
+                  screen: 'ImportPrivateKeySuccess',
+                });
+              } catch (e) {
+                Alert.alert(
+                  strings('import_private_key.error_title'),
+                  strings('import_private_key.error_message'),
+                );
+              }
+            },
+          },
+        ],
+        { cancelable: false },
+      );
+    } else if (data.seed) {
+      Alert.alert(
+        strings('wallet.error'),
+        strings('wallet.logout_to_import_seed'),
+      );
+    } else {
+      setTimeout(() => {
+        DeeplinkManager.parse(content, {
+          origin: AppConstants.DEEPLINKS.ORIGIN_QR_CODE,
+        });
+      }, 500);
+    }
+  };
+
+  openQRScanner = () => {
+    const { navigation } = this.props;
+    navigation.navigate('QRScanner', {
+      onScanSuccess: this.onScanSuccess,
+    });
+    trackEvent(ANALYTICS_EVENT_OPTS.WALLET_QR_SCANNER);
+  };
+
   render() {
     const {
       account: { address, name },
@@ -477,24 +548,38 @@ class AccountOverview extends PureComponent {
 
             <View style={styles.actions}>
               <AssetActionButton
-                icon="receive"
-                onPress={this.onReceive}
-                label={strings('asset_overview.receive_button')}
-              />
-              {allowedToBuy(chainId) && (
-                <AssetActionButton
-                  icon="buy"
-                  onPress={this.onBuy}
-                  label={strings('asset_overview.buy_button')}
-                />
-              )}
-              <AssetActionButton
                 testID={'token-send-button'}
                 icon="send"
                 onPress={this.onSend}
                 label={strings('asset_overview.send_button')}
               />
-              {AppConstants.SWAPS.ACTIVE && (
+              <AssetActionButton
+                icon="receive"
+                onPress={this.onReceive}
+                label={strings('asset_overview.receive_button')}
+              />
+              {/* {allowedToBuy(chainId) && (
+                <AssetActionButton
+                  icon="buy"
+                  onPress={this.onBuy}
+                  label={strings('asset_overview.buy_button')}
+                />
+              )} */}
+              <AssetActionButton
+                testID={'token-send-button'}
+                icon={
+                  <View style={styles.btnScan}>
+                    <AntIcon
+                      name="scan1"
+                      size={20}
+                      color={colors.primary.inverse}
+                    />
+                  </View>
+                }
+                onPress={this.openQRScanner}
+                label={'Scan'}
+              />
+              {AppConstants.SWAPS.ACTIVE && false && (
                 <AssetSwapButton
                   isFeatureLive={swapsIsLive}
                   isNetworkAllowed={isSwapsAllowed(chainId)}

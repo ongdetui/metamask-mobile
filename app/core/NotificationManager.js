@@ -216,10 +216,10 @@ class NotificationManager {
         }
         Promise.all(pollPromises);
 
-        Device.isIos() &&
-          setTimeout(() => {
-            this.requestPushNotificationsPermission();
-          }, 7000);
+        // Device.isIos() &&
+        //   setTimeout(() => {
+        //     this.requestPushNotificationsPermission();
+        //   }, 7000);
 
         // Prompt review
         ReviewManager.promptReview();

@@ -1,40 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import {
-  ScrollView,
-  TouchableOpacity,
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
   BackHandler,
   InteractionManager,
   Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import { fontStyles } from '../../../styles/common';
-import StyledButton from '../../UI/StyledButton';
-import OnboardingProgress from '../../UI/OnboardingProgress';
-import { strings } from '../../../../locales/i18n';
-import AndroidBackHandler from '../AndroidBackHandler';
-import Device from '../../../util/device';
-import SeedphraseModal from '../../UI/SeedphraseModal';
-import { getOnboardingNavbarOptions } from '../../UI/Navbar';
-import scaling from '../../../util/scaling';
-import Engine from '../../../core/Engine';
-import { ONBOARDING_WIZARD } from '../../../constants/storage';
-import { CHOOSE_PASSWORD_STEPS } from '../../../constants/onboarding';
-import SkipAccountSecurityModal from '../../UI/SkipAccountSecurityModal';
-import SeedPhraseVideo from '../../UI/SeedPhraseVideo';
-import { connect } from 'react-redux';
-import setOnboardingWizardStep from '../../../actions/wizard';
-import AnalyticsV2 from '../../../util/analyticsV2';
 import DefaultPreference from 'react-native-default-preference';
-import { useTheme } from '../../../util/theme';
-import generateTestId from '../../../../wdio/utils/generateTestId';
+import { connect } from 'react-redux';
+import { strings } from '../../../../locales/i18n';
 import {
   PROTECT_YOUR_WALLET_CONTAINER_ID,
   REMIND_LATER_BUTTON_ID,
 } from '../../../../wdio/features/testIDs/Screens/WalletSetupScreen.testIds';
+import generateTestId from '../../../../wdio/utils/generateTestId';
+import setOnboardingWizardStep from '../../../actions/wizard';
+import { CHOOSE_PASSWORD_STEPS } from '../../../constants/onboarding';
+import { ONBOARDING_WIZARD } from '../../../constants/storage';
+import Engine from '../../../core/Engine';
+import { fontStyles } from '../../../styles/common';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import scaling from '../../../util/scaling';
+import { useTheme } from '../../../util/theme';
+import { getOnboardingNavbarOptions } from '../../UI/Navbar';
+import OnboardingProgress from '../../UI/OnboardingProgress';
+import SeedphraseModal from '../../UI/SeedphraseModal';
+import SkipAccountSecurityModal from '../../UI/SkipAccountSecurityModal';
+import StyledButton from '../../UI/StyledButton';
+import AndroidBackHandler from '../AndroidBackHandler';
 const createStyles = (colors) =>
   StyleSheet.create({
     mainWrapper: {
@@ -162,7 +161,7 @@ const AccountBackupStep1 = (props) => {
   );
 
   const goNext = () => {
-    props.navigation.navigate('AccountBackupStep1B', { ...props.route.params });
+    props.navigation.navigate('ManualBackupStep1', { ...props.route.params });
     InteractionManager.runAfterInteractions(() => {
       AnalyticsV2.trackEvent(
         AnalyticsV2.ANALYTICS_EVENTS.WALLET_SECURITY_STARTED,
@@ -231,7 +230,6 @@ const AccountBackupStep1 = (props) => {
             <Text style={styles.title}>
               {strings('account_backup_step_1.title')}
             </Text>
-            <SeedPhraseVideo onClose={skip} />
             <View style={styles.text}>
               <Text style={styles.label}>
                 {strings('account_backup_step_1.info_text_1_1')}{' '}

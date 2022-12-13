@@ -1,22 +1,21 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import StyledButton from '../StyledButton';
-import { StyleSheet, Text, View, InteractionManager } from 'react-native';
-import TransactionHeader from '../TransactionHeader';
-import AccountInfoCard from '../AccountInfoCard';
-import { strings } from '../../../../locales/i18n';
-import { fontStyles } from '../../../styles/common';
-import Device from '../../../util/device';
-import NotificationManager from '../../../core/NotificationManager';
-import AnalyticsV2 from '../../../util/analyticsV2';
+import React, { PureComponent } from 'react';
+import { InteractionManager, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import URL from 'url-parse';
-import { getAddressAccountType } from '../../../util/address';
-import { ThemeContext, mockTheme } from '../../../util/theme';
+import { strings } from '../../../../locales/i18n';
 import {
   ACCOUNT_APROVAL_MODAL_CONTAINER_ID,
   CANCEL_BUTTON_ID,
 } from '../../../constants/test-ids';
+import { fontStyles } from '../../../styles/common';
+import { getAddressAccountType } from '../../../util/address';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import AccountInfoCard from '../AccountInfoCard';
+import StyledButton from '../StyledButton';
+import TransactionHeader from '../TransactionHeader';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -141,16 +140,16 @@ class AccountApproval extends PureComponent {
 
   showWalletConnectNotification = (confirmation = false) => {
     if (this.props.walletConnectRequest) {
-      const title = this.props.currentPageInformation.title;
+      // const title = this.props.currentPageInformation.title;
       InteractionManager.runAfterInteractions(() => {
-        NotificationManager.showSimpleNotification({
-          status: `simple_notification${!confirmation ? '_rejected' : ''}`,
-          duration: 5000,
-          title: confirmation
-            ? strings('notifications.wc_connected_title', { title })
-            : strings('notifications.wc_connected_rejected_title'),
-          description: strings('notifications.wc_description'),
-        });
+        // NotificationManager.showSimpleNotification({
+        //   status: `simple_notification${!confirmation ? '_rejected' : ''}`,
+        //   duration: 5000,
+        //   title: confirmation
+        //     ? strings('notifications.wc_connected_title', { title })
+        //     : strings('notifications.wc_connected_rejected_title'),
+        //   description: strings('notifications.wc_description'),
+        // });
       });
     }
   };

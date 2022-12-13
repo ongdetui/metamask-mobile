@@ -1,25 +1,24 @@
+import { isValidAddress } from 'ethereumjs-util';
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
+  InteractionManager,
+  StyleSheet,
   Text,
   TextInput,
   View,
-  StyleSheet,
-  InteractionManager,
 } from 'react-native';
-import { fontStyles } from '../../../styles/common';
-import Engine from '../../../core/Engine';
-import PropTypes from 'prop-types';
-import { strings } from '../../../../locales/i18n';
-import { isValidAddress } from 'ethereumjs-util';
-import ActionView from '../ActionView';
-import { isSmartContractAddress } from '../../../util/transactions';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import AppConstants from '../../../core/AppConstants';
-import Alert, { AlertType } from '../../Base/Alert';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { strings } from '../../../../locales/i18n';
+import AppConstants from '../../../core/AppConstants';
+import Engine from '../../../core/Engine';
+import { fontStyles } from '../../../styles/common';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import { isSmartContractAddress } from '../../../util/transactions';
+import Alert, { AlertType } from '../../Base/Alert';
 import WarningMessage from '../../Views/SendFlow/WarningMessage';
-import NotificationManager from '../../../core/NotificationManager';
-import { ThemeContext, mockTheme } from '../../../util/theme';
+import ActionView from '../ActionView';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -121,14 +120,14 @@ export default class AddCustomToken extends PureComponent {
       () => {
         InteractionManager.runAfterInteractions(() => {
           this.props.navigation.goBack();
-          NotificationManager.showSimpleNotification({
-            status: `simple_notification`,
-            duration: 5000,
-            title: strings('wallet.token_toast.token_imported_title'),
-            description: strings('wallet.token_toast.token_imported_desc', {
-              tokenSymbol: symbol,
-            }),
-          });
+          // NotificationManager.showSimpleNotification({
+          //   status: `simple_notification`,
+          //   duration: 5000,
+          //   title: strings('wallet.token_toast.token_imported_title'),
+          //   description: strings('wallet.token_toast.token_imported_desc', {
+          //     tokenSymbol: symbol,
+          //   }),
+          // });
         });
       },
     );

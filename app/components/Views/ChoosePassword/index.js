@@ -662,11 +662,11 @@ class ChoosePassword extends PureComponent {
                   <Text style={styles.title}>
                     {strings('choose_password.title')}
                   </Text>
-                  <View style={styles.text}>
+                  {/* <View style={styles.text}>
                     <Text style={styles.subtitle}>
                       {strings('choose_password.subtitle')}
                     </Text>
-                  </View>
+                  </View> */}
                 </View>
                 <View style={styles.field}>
                   <Text style={styles.hintLabel}>

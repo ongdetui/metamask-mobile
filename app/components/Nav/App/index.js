@@ -311,7 +311,7 @@ const App = ({ userLoggedIn }) => {
       animation?.current?.play();
       animationName?.current?.play();
     };
-    startAnimation();
+    // startAnimation();
   }, [isAuthChecked]);
 
   const setNavigatorRef = (ref) => {
@@ -428,7 +428,7 @@ const App = ({ userLoggedIn }) => {
             />
           </Stack.Navigator>
         </NavigationContainer>
-        {renderSplash()}
+        {/* {renderSplash()} */}
         <Toast ref={toastRef} />
       </>
     )) ||
