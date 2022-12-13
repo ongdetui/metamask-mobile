@@ -1,59 +1,58 @@
-import React, { PureComponent } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
-  BackHandler,
-  Text,
-  View,
-  ScrollView,
-  StyleSheet,
   Alert,
+  BackHandler,
   Image,
   InteractionManager,
   Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import StyledButton from '../../UI/StyledButton';
+import AnimatedFox from 'react-native-animated-fox';
+import Button from 'react-native-button';
+import DefaultPreference from 'react-native-default-preference';
+import ElevatedView from 'react-native-elevated-view';
+import Animated, { EasingNode } from 'react-native-reanimated';
+import { connect } from 'react-redux';
+import { strings } from '../../../../locales/i18n';
 import {
-  fontStyles,
+  WALLET_SETUP_CREATE_NEW_WALLET_BUTTON_ID,
+  WALLET_SETUP_SCREEN_DESCRIPTION_ID,
+  WALLET_SETUP_SCREEN_IMPORT_FROM_SEED_BUTTON_ID,
+  WALLET_SETUP_SCREEN_TITLE_ID,
+} from '../../../../wdio/features/testIDs/Screens/WalletSetupScreen.testIds';
+import generateTestId from '../../../../wdio/utils/generateTestId';
+import { saveOnboardingEvent } from '../../../actions/onboarding';
+import { loadingSet, loadingUnset } from '../../../actions/user';
+import { ONBOARDING, PREVIOUS_SCREEN } from '../../../constants/navigation';
+import Routes from '../../../constants/navigation/Routes';
+import { EXISTING_USER, METRICS_OPT_IN } from '../../../constants/storage';
+import Analytics from '../../../core/Analytics/Analytics';
+import Engine from '../../../core/Engine';
+import PreventScreenshot from '../../../core/PreventScreenshot';
+import SecureKeychain from '../../../core/SecureKeychain';
+import {
   baseStyles,
   colors as importedColors,
+  fontStyles,
 } from '../../../styles/common';
-import OnboardingScreenWithBg from '../../UI/OnboardingScreenWithBg';
-import { strings } from '../../../../locales/i18n';
-import Button from 'react-native-button';
-import { connect } from 'react-redux';
-import SecureKeychain from '../../../core/SecureKeychain';
-import Engine from '../../../core/Engine';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 import FadeOutOverlay from '../../UI/FadeOutOverlay';
-import TermsAndConditions from '../TermsAndConditions';
-import Analytics from '../../../core/Analytics/Analytics';
-import { saveOnboardingEvent } from '../../../actions/onboarding';
 import {
   getTransparentBackOnboardingNavbarOptions,
   getTransparentOnboardingNavbarOptions,
 } from '../../UI/Navbar';
-import Device from '../../../util/device';
 import BaseNotification from '../../UI/Notification/BaseNotification';
-import Animated, { EasingNode } from 'react-native-reanimated';
-import ElevatedView from 'react-native-elevated-view';
-import { loadingSet, loadingUnset } from '../../../actions/user';
-import PreventScreenshot from '../../../core/PreventScreenshot';
+import OnboardingScreenWithBg from '../../UI/OnboardingScreenWithBg';
+import StyledButton from '../../UI/StyledButton';
 import WarningExistingUserModal from '../../UI/WarningExistingUserModal';
-import { PREVIOUS_SCREEN, ONBOARDING } from '../../../constants/navigation';
-import { EXISTING_USER, METRICS_OPT_IN } from '../../../constants/storage';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import DefaultPreference from 'react-native-default-preference';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import AnimatedFox from 'react-native-animated-fox';
-import Routes from '../../../constants/navigation/Routes';
-import generateTestId from '../../../../wdio/utils/generateTestId';
-import {
-  WALLET_SETUP_SCREEN_TITLE_ID,
-  WALLET_SETUP_SCREEN_DESCRIPTION_ID,
-  WALLET_SETUP_SCREEN_IMPORT_FROM_SEED_BUTTON_ID,
-  WALLET_SETUP_CREATE_NEW_WALLET_BUTTON_ID,
-} from '../../../../wdio/features/testIDs/Screens/WalletSetupScreen.testIds';
 
 const PUB_KEY = process.env.MM_PUBNUB_PUB_KEY;
 
@@ -113,7 +112,6 @@ const createStyles = (colors) =>
     createWrapper: {
       flex: 1,
       justifyContent: 'flex-end',
-      marginBottom: 24,
     },
     buttonWrapper: {
       marginBottom: 16,
@@ -440,19 +438,6 @@ class Onboarding extends PureComponent {
               {strings('import_wallet.import_from_seed_button')}
             </StyledButton>
           </View>
-          {/* Temporarily Disable Sync until the new improved version is ready for release */}
-          {__DEV__ && (
-            <View style={styles.buttonWrapper}>
-              <StyledButton
-                style={styles.button}
-                type={'normal'}
-                onPress={this.onPressSync}
-                testID={'onboarding-import-button'}
-              >
-                {strings('import_wallet.sync_from_browser_extension_button')}
-              </StyledButton>
-            </View>
-          )}
           <View style={styles.buttonWrapper}>
             <StyledButton
               type={'blue'}
@@ -530,9 +515,6 @@ class Onboarding extends PureComponent {
               </View>
             )}
           </ScrollView>
-          <View style={styles.termsAndConditions}>
-            <TermsAndConditions navigation={this.props.navigation} />
-          </View>
         </OnboardingScreenWithBg>
         <FadeOutOverlay />
 

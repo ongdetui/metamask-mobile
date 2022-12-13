@@ -1,51 +1,51 @@
+import { MetaMaskKeyring as QRHardwareKeyring } from '@keystonehq/metamask-airgapped-keyring';
 import {
   AccountTrackerController,
   AddressBookController,
+  ApprovalController,
   AssetsContractController,
-  TokenListController,
-  ControllerMessenger,
+  CollectibleDetectionController,
+  CollectiblesController,
   ComposableController,
+  ControllerMessenger,
   CurrencyRateController,
+  GasFeeController,
   KeyringController,
-  PersonalMessageManager,
   MessageManager,
   NetworkController,
+  PersonalMessageManager,
   PhishingController,
   PreferencesController,
   TokenBalancesController,
+  TokenDetectionController,
+  TokenListController,
   TokenRatesController,
+  TokensController,
   Transaction,
   TransactionController,
   TypedMessageManager,
   WalletDevice,
-  GasFeeController,
-  TokensController,
-  CollectiblesController,
-  TokenDetectionController,
-  CollectibleDetectionController,
-  ApprovalController,
 } from '@metamask/controllers';
 import SwapsController, { swapsUtils } from '@metamask/swaps-controller';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MetaMaskKeyring as QRHardwareKeyring } from '@keystonehq/metamask-airgapped-keyring';
-import Encryptor from './Encryptor';
 import { toChecksumAddress } from 'ethereumjs-util';
-import Networks, {
-  isMainnetByChainId,
-  getDecimalChainId,
-} from '../util/networks';
-import AppConstants from './AppConstants';
+import { LAST_INCOMING_TX_BLOCK_INFO } from '../constants/storage';
 import { store } from '../store';
+import AnalyticsV2 from '../util/analyticsV2';
+import { isZero } from '../util/lodash';
+import Logger from '../util/Logger';
+import Networks, {
+  getDecimalChainId,
+  isMainnetByChainId,
+} from '../util/networks';
 import {
-  renderFromTokenMinimalUnit,
   balanceToFiatNumber,
+  renderFromTokenMinimalUnit,
   weiToFiatNumber,
 } from '../util/number';
+import AppConstants from './AppConstants';
+import Encryptor from './Encryptor';
 import NotificationManager from './NotificationManager';
-import Logger from '../util/Logger';
-import { LAST_INCOMING_TX_BLOCK_INFO } from '../constants/storage';
-import { isZero } from '../util/lodash';
-import AnalyticsV2 from '../util/analyticsV2';
 
 const NON_EMPTY = 'NON_EMPTY';
 
@@ -85,7 +85,7 @@ class Engine {
         },
       );
       const networkController = new NetworkController({
-        infuraProjectId: process.env.MM_INFURA_PROJECT_ID || NON_EMPTY,
+        infuraProjectId: 'd8546d0a025a4fe999681996b879bf34' || NON_EMPTY,
         providerConfig: {
           static: {
             eth_sendTransaction: async (

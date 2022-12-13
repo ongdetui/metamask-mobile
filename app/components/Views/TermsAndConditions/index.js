@@ -1,12 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import PropTypes from 'prop-types';
-import { fontStyles } from '../../../styles/common';
+import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 import { strings } from '../../../../locales/i18n';
 import AppConstants from '../../../core/AppConstants';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import generateTestId from '../../../../wdio/utils/generateTestId';
-import { TERMS_AND_CONDITIONS_BUTTON_ID } from '../../../../wdio/features/testIDs/Components/TermsAndConditions.testIds';
+import { fontStyles } from '../../../styles/common';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -48,18 +46,19 @@ export default class TermsAndConditions extends PureComponent {
     const styles = createStyles(colors);
 
     return (
-      <TouchableOpacity
-        {...generateTestId(Platform, TERMS_AND_CONDITIONS_BUTTON_ID)}
-        onPress={this.press}
-      >
-        <Text style={styles.text}>
-          {strings('terms_and_conditions.description')}
-          <Text style={styles.link}>
-            {strings('terms_and_conditions.terms')}
-          </Text>
-          .
-        </Text>
-      </TouchableOpacity>
+      // <TouchableOpacity
+      //   {...generateTestId(Platform, TERMS_AND_CONDITIONS_BUTTON_ID)}
+      //   onPress={this.press}
+      // >
+      //   <Text style={styles.text}>
+      //     {strings('terms_and_conditions.description')}
+      //     <Text style={styles.link}>
+      //       {strings('terms_and_conditions.terms')}
+      //     </Text>
+      //     .
+      //   </Text>
+      // </TouchableOpacity>
+      <></>
     );
   }
 }

@@ -13,8 +13,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		153C1ABB2217BCDC0088EFE0 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153C1A742217BCDC0088EFE0 /* JavaScriptCore.framework */; };
-		153F84CA2319B8FD00C19B63 /* Branch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153F84C92319B8DB00C19B63 /* Branch.framework */; };
-		153F84CB2319B8FD00C19B63 /* Branch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 153F84C92319B8DB00C19B63 /* Branch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		158B063B211A72F500DF3C74 /* InpageBridgeWeb3.js in Resources */ = {isa = PBXBuildFile; fileRef = 158B0639211A72F500DF3C74 /* InpageBridgeWeb3.js */; };
 		15ACC9FB226555820063978B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		15ACC9FC22655C3A0063978B /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15723E2D225FD0B800A5B418 /* Lottie.framework */; };
@@ -22,8 +20,6 @@
 		15AD28A921B7CFD9005DEB23 /* release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 15FDD86021B76461006B7C35 /* release.xcconfig */; };
 		15AD28AA21B7CFDC005DEB23 /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 15FDD82721B7642B006B7C35 /* debug.xcconfig */; };
 		15D158ED210BD912006982B5 /* Metamask.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D158EC210BD8C8006982B5 /* Metamask.ttf */; };
-		15F7795E22A1B7B500B1DF8C /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15F7795722A1B79400B1DF8C /* Mixpanel.framework */; };
-		15F7795F22A1B7B500B1DF8C /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 15F7795722A1B79400B1DF8C /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		15F7796522A1BC8C00B1DF8C /* RCTAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F7796422A1BC8C00B1DF8C /* RCTAnalytics.m */; };
 		2370F9A340CF4ADFBCFB0543 /* EuclidCircularB-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 58572D81B5D54ED79A16A16D /* EuclidCircularB-RegularItalic.otf */; };
 		298242C958524BB38FB44CAE /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9FD3FB1258A41A5A0546C83 /* Roboto-BoldItalic.ttf */; };
@@ -39,6 +35,10 @@
 		650F2B9D24DC5FF200C3B9C4 /* libRCTAesForked.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 650F2B9C24DC5FEC00C3B9C4 /* libRCTAesForked.a */; };
 		654378B0243E2ADC00571B9C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654378AF243E2ADC00571B9C /* File.swift */; };
 		7C0226ABD9694AEDBAF3016F /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF552F79C77A4184A690513A /* Roboto-ThinItalic.ttf */; };
+		7D1C980629481D3B00A9F8EF /* Branch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C97FF29481D1900A9F8EF /* Branch.framework */; };
+		7D1C980729481D3B00A9F8EF /* Branch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C97FF29481D1900A9F8EF /* Branch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7D1C9827294825C900A9F8EF /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C9820294825A300A9F8EF /* Mixpanel.framework */; };
+		7D1C9828294825C900A9F8EF /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C9820294825A300A9F8EF /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E08FB90F3754D47994208B4 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9A37B5BF2914CF1B49EEF80 /* Roboto-Thin.ttf */; };
 		813214A2220E40C7BBB5ED9E /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A783D1CD7D27456796FE2E1B /* Roboto-Bold.ttf */; };
 		887E75FB64A54509A08D6C50 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E020F42F788744B3BCE17F05 /* Roboto-LightItalic.ttf */; };
@@ -110,13 +110,6 @@
 			remoteGlobalIDString = E298D0521C73D1B800589D22;
 			remoteInfo = Branch;
 		};
-		153F84CC2319B8FD00C19B63 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 153F84C42319B8DA00C19B63 /* BranchSDK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E298D0511C73D1B800589D22;
-			remoteInfo = Branch;
-		};
 		15723E2C225FD0B800A5B418 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4379F36F969347758D1A9F96 /* Lottie.xcodeproj */;
@@ -180,19 +173,47 @@
 			remoteGlobalIDString = E1F160B01E677D2200391AE3;
 			remoteInfo = Mixpanel_macOS;
 		};
-		15F7796022A1B7B500B1DF8C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 15F7794F22A1B79400B1DF8C /* Mixpanel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7C170C291A4A02F500D9E0F2;
-			remoteInfo = Mixpanel;
-		};
 		650F2B9B24DC5FEC00C3B9C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 650F2B9724DC5FEB00C3B9C4 /* RCTAesForked.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 32D980DD1BE9F11C00FA27E5;
 			remoteInfo = RCTAesForked;
+		};
+		7D1C97FE29481D1900A9F8EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D1C97FA29481D1800A9F8EF /* BranchSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E298D0521C73D1B800589D22;
+			remoteInfo = Branch;
+		};
+		7D1C981F294825A300A9F8EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7C170C2A1A4A02F500D9E0F2;
+			remoteInfo = Mixpanel;
+		};
+		7D1C9821294825A300A9F8EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 511FC39D1C2B74BD00DC4796;
+			remoteInfo = Mixpanel_watchOS;
+		};
+		7D1C9823294825A300A9F8EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1C2BEB61CFD6A010052172F;
+			remoteInfo = Mixpanel_tvOS;
+		};
+		7D1C9825294825A300A9F8EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F160B01E677D2200391AE3;
+			remoteInfo = Mixpanel_macOS;
 		};
 		B339FEFA289ABD70001B89FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -224,8 +245,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				15F7795F22A1B7B500B1DF8C /* Mixpanel.framework in Embed Frameworks */,
-				153F84CB2319B8FD00C19B63 /* Branch.framework in Embed Frameworks */,
+				7D1C980729481D3B00A9F8EF /* Branch.framework in Embed Frameworks */,
+				7D1C9828294825C900A9F8EF /* Mixpanel.framework in Embed Frameworks */,
 				15ACC9FD22655C3A0063978B /* Lottie.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -294,6 +315,9 @@
 		654378AF243E2ADC00571B9C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		67FBD519E04742E0AF191782 /* EuclidCircularB-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "EuclidCircularB-Bold.otf"; path = "../app/fonts/EuclidCircularB-Bold.otf"; sourceTree = "<group>"; };
 		684F2C84313849199863B5FE /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../app/fonts/Roboto-Black.ttf"; sourceTree = "<group>"; };
+		7D1C97FA29481D1800A9F8EF /* BranchSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BranchSDK.xcodeproj; path = "branch-ios-sdk/ios-branch-deep-linking-attribution/carthage-files/BranchSDK.xcodeproj"; sourceTree = "<group>"; };
+		7D1C980429481D2E00A9F8EF /* Mixpanel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mixpanel.framework; sourceTree = "<group>"; };
+		7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-iphone/mixpanel-iphone/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		7FF1597C0ACA4902B86140B2 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		8E369AC13A2049B6B21E5120 /* libRCTSearchApi.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTSearchApi.a; sourceTree = "<group>"; };
 		9499B01ECAC44DA29AC44E80 /* EuclidCircularB-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "EuclidCircularB-SemiboldItalic.otf"; path = "../app/fonts/EuclidCircularB-SemiboldItalic.otf"; sourceTree = "<group>"; };
@@ -336,13 +360,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F961A37228105CF9007442B5 /* LinkPresentation.framework in Frameworks */,
+				7D1C9827294825C900A9F8EF /* Mixpanel.framework in Frameworks */,
 				650F2B9D24DC5FF200C3B9C4 /* libRCTAesForked.a in Frameworks */,
 				153C1ABB2217BCDC0088EFE0 /* JavaScriptCore.framework in Frameworks */,
 				15ACC9FC22655C3A0063978B /* Lottie.framework in Frameworks */,
-				15F7795E22A1B7B500B1DF8C /* Mixpanel.framework in Frameworks */,
-				153F84CA2319B8FD00C19B63 /* Branch.framework in Frameworks */,
 				0FD509E0336BF221F6527B24 /* libPods-MetaMask.a in Frameworks */,
 				D45BF85DECACCB74EDCBE88A /* libPods-MetaMask.a in Frameworks */,
+				7D1C980629481D3B00A9F8EF /* Branch.framework in Frameworks */,
 				B638844E306CAE9147B52C85 /* libPods-MetaMask.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,6 +552,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7D1C97FB29481D1800A9F8EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7D1C97FF29481D1900A9F8EF /* Branch.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7D1C9819294825A200A9F8EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7D1C9820294825A300A9F8EF /* Mixpanel.framework */,
+				7D1C9822294825A300A9F8EF /* Mixpanel.framework */,
+				7D1C9824294825A300A9F8EF /* Mixpanel.framework */,
+				7D1C9826294825A300A9F8EF /* Mixpanel.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,6 +585,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */,
+				7D1C980429481D2E00A9F8EF /* Mixpanel.framework */,
+				7D1C97FA29481D1800A9F8EF /* BranchSDK.xcodeproj */,
 				654378AF243E2ADC00571B9C /* File.swift */,
 				15FDD86021B76461006B7C35 /* release.xcconfig */,
 				15FDD82721B7642B006B7C35 /* debug.xcconfig */,
@@ -601,8 +647,6 @@
 			);
 			dependencies = (
 				15ACC9FF22655C3A0063978B /* PBXTargetDependency */,
-				15F7796122A1B7B500B1DF8C /* PBXTargetDependency */,
-				153F84CD2319B8FD00C19B63 /* PBXTargetDependency */,
 			);
 			name = MetaMask;
 			productName = "Hello World";
@@ -645,9 +689,7 @@
 				ORGANIZATIONNAME = MetaMask;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 48XVW22RCG;
 						LastSwiftMigration = 1140;
-						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -673,12 +715,20 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 7D1C97FB29481D1800A9F8EF /* Products */;
+					ProjectRef = 7D1C97FA29481D1800A9F8EF /* BranchSDK.xcodeproj */;
+				},
+				{
 					ProductGroup = 153F84C52319B8DA00C19B63 /* Products */;
 					ProjectRef = 153F84C42319B8DA00C19B63 /* BranchSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = 15723E24225FD0B800A5B418 /* Products */;
 					ProjectRef = 4379F36F969347758D1A9F96 /* Lottie.xcodeproj */;
+				},
+				{
+					ProductGroup = 7D1C9819294825A200A9F8EF /* Products */;
+					ProjectRef = 7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */;
 				},
 				{
 					ProductGroup = 15F7795022A1B79400B1DF8C /* Products */;
@@ -766,6 +816,41 @@
 			fileType = archive.ar;
 			path = libRCTAesForked.a;
 			remoteRef = 650F2B9B24DC5FEC00C3B9C4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7D1C97FF29481D1900A9F8EF /* Branch.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Branch.framework;
+			remoteRef = 7D1C97FE29481D1900A9F8EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7D1C9820294825A300A9F8EF /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 7D1C981F294825A300A9F8EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7D1C9822294825A300A9F8EF /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 7D1C9821294825A300A9F8EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7D1C9824294825A300A9F8EF /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 7D1C9823294825A300A9F8EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7D1C9826294825A300A9F8EF /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 7D1C9825294825A300A9F8EF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1061,20 +1146,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		153F84CD2319B8FD00C19B63 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Branch;
-			targetProxy = 153F84CC2319B8FD00C19B63 /* PBXContainerItemProxy */;
-		};
 		15ACC9FF22655C3A0063978B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Lottie_iOS;
 			targetProxy = 15ACC9FE22655C3A0063978B /* PBXContainerItemProxy */;
-		};
-		15F7796122A1B7B500B1DF8C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Mixpanel;
-			targetProxy = 15F7796022A1B7B500B1DF8C /* PBXContainerItemProxy */;
 		};
 		B339FEF9289ABD70001B89FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1114,13 +1189,15 @@
 				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetaMask/MetaMaskDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1024;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 48XVW22RCG;
+				DEVELOPMENT_TEAM = AX7BFFJV8B;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "x86_64 i386";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 arm64e armv7";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1163,9 +1240,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twendee.wallet;
 				PRODUCT_NAME = MetaMask;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development io.metamask.MetaMask";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetaMask-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1181,12 +1258,14 @@
 				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetaMask/MetaMask.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1024;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 48XVW22RCG;
+				DEVELOPMENT_TEAM = AX7BFFJV8B;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "x86_64 i386";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64e arm64 armv7";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1230,9 +1309,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twendee.wallet;
 				PRODUCT_NAME = MetaMask;
-				PROVISIONING_PROFILE_SPECIFIER = "Bitrise AppStore io.metamask.MetaMask";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetaMask-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
