@@ -20,7 +20,7 @@ import ClipboardManager from '../../../core/ClipboardManager';
 import { useTheme } from '../../../util/theme';
 
 // eslint-disable-next-line import/no-commonjs
-const metamaskErrorImage = require('../../../images/metamask-error.png');
+const metamaskErrorImage = require('../../../images/android-face-recognition.png');
 
 const createStyles = (colors) =>
   StyleSheet.create({

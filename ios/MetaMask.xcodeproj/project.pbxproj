@@ -39,6 +39,8 @@
 		7D1C980729481D3B00A9F8EF /* Branch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C97FF29481D1900A9F8EF /* Branch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7D1C9827294825C900A9F8EF /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C9820294825A300A9F8EF /* Mixpanel.framework */; };
 		7D1C9828294825C900A9F8EF /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1C9820294825A300A9F8EF /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7D1C98A529515BD700A9F8EF /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D1C989B29515BD700A9F8EF /* BootSplash.storyboard */; };
+		7D1C98A629515BD700A9F8EF /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D1C989B29515BD700A9F8EF /* BootSplash.storyboard */; };
 		7E08FB90F3754D47994208B4 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9A37B5BF2914CF1B49EEF80 /* Roboto-Thin.ttf */; };
 		813214A2220E40C7BBB5ED9E /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A783D1CD7D27456796FE2E1B /* Roboto-Bold.ttf */; };
 		887E75FB64A54509A08D6C50 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E020F42F788744B3BCE17F05 /* Roboto-LightItalic.ttf */; };
@@ -318,6 +320,7 @@
 		7D1C97FA29481D1800A9F8EF /* BranchSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BranchSDK.xcodeproj; path = "branch-ios-sdk/ios-branch-deep-linking-attribution/carthage-files/BranchSDK.xcodeproj"; sourceTree = "<group>"; };
 		7D1C980429481D2E00A9F8EF /* Mixpanel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mixpanel.framework; sourceTree = "<group>"; };
 		7D1C9818294825A200A9F8EF /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-iphone/mixpanel-iphone/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
+		7D1C989B29515BD700A9F8EF /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = MetaMask/BootSplash.storyboard; sourceTree = "<group>"; };
 		7FF1597C0ACA4902B86140B2 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		8E369AC13A2049B6B21E5120 /* libRCTSearchApi.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTSearchApi.a; sourceTree = "<group>"; };
 		9499B01ECAC44DA29AC44E80 /* EuclidCircularB-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "EuclidCircularB-SemiboldItalic.otf"; path = "../app/fonts/EuclidCircularB-SemiboldItalic.otf"; sourceTree = "<group>"; };
@@ -408,6 +411,7 @@
 		13B07FAE1A68108700A75B9A /* MetaMask */ = {
 			isa = PBXGroup;
 			children = (
+				7D1C989B29515BD700A9F8EF /* BootSplash.storyboard */,
 				B339FEA72899852C001B89FB /* MetaMask-QA-Info.plist */,
 				AA9EDF17249955C7005D89EE /* MetaMaskDebug.entitlements */,
 				15F7796222A1BC1E00B1DF8C /* NativeModules */,
@@ -871,6 +875,7 @@
 				298242C958524BB38FB44CAE /* Roboto-BoldItalic.ttf in Resources */,
 				2DB27BE39B164356A98A0FB1 /* Roboto-Italic.ttf in Resources */,
 				4CEFC9E34A8D4288BFE2F85A /* Roboto-Light.ttf in Resources */,
+				7D1C98A529515BD700A9F8EF /* BootSplash.storyboard in Resources */,
 				887E75FB64A54509A08D6C50 /* Roboto-LightItalic.ttf in Resources */,
 				15AD28A921B7CFD9005DEB23 /* release.xcconfig in Resources */,
 				EF65C42EA15B4774B1947A12 /* Roboto-Medium.ttf in Resources */,
@@ -910,6 +915,7 @@
 				B339FF19289ABD70001B89FB /* Roboto-Italic.ttf in Resources */,
 				B339FF1A289ABD70001B89FB /* Roboto-Light.ttf in Resources */,
 				B339FF1B289ABD70001B89FB /* Roboto-LightItalic.ttf in Resources */,
+				7D1C98A629515BD700A9F8EF /* BootSplash.storyboard in Resources */,
 				B339FF1C289ABD70001B89FB /* release.xcconfig in Resources */,
 				B339FF1D289ABD70001B89FB /* Roboto-Medium.ttf in Resources */,
 				B339FF1E289ABD70001B89FB /* Roboto-MediumItalic.ttf in Resources */,
@@ -1192,7 +1198,7 @@
 				CODE_SIGN_ENTITLEMENTS = MetaMask/MetaMaskDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = AX7BFFJV8B;
@@ -1262,7 +1268,7 @@
 				CODE_SIGN_ENTITLEMENTS = MetaMask/MetaMask.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = AX7BFFJV8B;
 				ENABLE_BITCODE = NO;

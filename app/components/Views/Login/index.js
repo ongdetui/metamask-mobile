@@ -50,6 +50,7 @@ import BiometryButton from '../../UI/BiometryButton';
 import { LoginOptionsSwitch } from '../../UI/LoginOptionsSwitch';
 import StyledButton from '../../UI/StyledButton';
 import ErrorBoundary from '../ErrorBoundary';
+import SplashScreen from 'react-native-splash-screen';
 
 const deviceHeight = Device.getDeviceHeight();
 const breakPoint = deviceHeight < 700;
@@ -306,6 +307,7 @@ class Login extends PureComponent {
     }
     setTimeout(() => {
       this.setState({ loadingApp: false });
+      SplashScreen.hide();
     }, 500);
     this.props.checkedAuth();
   }

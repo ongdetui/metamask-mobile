@@ -30,13 +30,15 @@ import {
   WELCOME_SCREEN_CAROUSEL_CONTAINER_ID,
 } from '../../../../wdio/features/testIDs/Screens/WelcomeScreen.testIds';
 import generateTestId from '../../../../wdio/utils/generateTestId';
+import SplashScreen from 'react-native-splash-screen';
+import Images from '../../../images';
 
-const IMAGE_3_RATIO = 215 / 315;
-const IMAGE_2_RATIO = 222 / 239;
-const IMAGE_1_RATIO = 285 / 203;
+const IMAGE_3_RATIO = 239 / 343;
+const IMAGE_2_RATIO = 229 / 343;
+const IMAGE_1_RATIO = 230 / 343;
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-const IMG_PADDING = Device.isIphoneX() ? 100 : Device.isIphone5S() ? 180 : 220;
+const IMG_PADDING = Device.isIphoneX() ? 60 : Device.isIphone5S() ? 40 : 80;
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -87,8 +89,8 @@ const createStyles = (colors) =>
     },
     // eslint-disable-next-line react-native/no-unused-styles
     carouselImage3: {
-      width: DEVICE_WIDTH - 60,
-      height: (DEVICE_WIDTH - 60) * IMAGE_3_RATIO,
+      width: DEVICE_WIDTH - IMG_PADDING,
+      height: (DEVICE_WIDTH - IMG_PADDING) * IMAGE_3_RATIO,
     },
     carouselImageWrapper: {
       flex: 1,
@@ -117,9 +119,9 @@ const createStyles = (colors) =>
     },
   });
 
-const onboarding_carousel_1 = require('../../../images/onboarding-carousel-1.png'); // eslint-disable-line
-const onboarding_carousel_2 = require('../../../images/onboarding-carousel-2.png'); // eslint-disable-line
-const onboarding_carousel_3 = require('../../../images/onboarding-carousel-3.png'); // eslint-disable-line
+const onboarding_carousel_1 = Images.onboarding_carousel_1;
+const onboarding_carousel_2 = Images.onboarding_carousel_2;
+const onboarding_carousel_3 = Images.onboarding_carousel_3;
 
 const carousel_images = [
   onboarding_carousel_1,
@@ -183,6 +185,9 @@ class OnboardingCarousel extends PureComponent {
   componentDidMount = () => {
     this.updateNavBar();
     this.trackEvent(ANALYTICS_EVENTS_V2.ONBOARDING_WELCOME_MESSAGE_VIEWED);
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3500);
   };
 
   componentDidUpdate = () => {
