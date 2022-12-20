@@ -77,7 +77,7 @@ const createStyles = (colors) =>
     },
   });
 
-const foxImage = require('../../../images/fox.png'); // eslint-disable-line import/no-commonjs
+const foxImage = require('../../../images/logo.png'); // eslint-disable-line import/no-commonjs
 
 export default class PhishingModal extends PureComponent {
   static propTypes = {

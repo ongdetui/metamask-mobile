@@ -1,21 +1,21 @@
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
-  InteractionManager,
   Dimensions,
-  View,
-  Text,
+  InteractionManager,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import PropTypes from 'prop-types';
 import { strings } from '../../../../locales/i18n';
-import TabThumbnail from './TabThumbnail';
 import { colors as importedColors, fontStyles } from '../../../styles/common';
-import Device from '../../../util/device';
 import AnalyticsV2 from '../../../util/analyticsV2';
-import { ThemeContext, mockTheme } from '../../../util/theme';
+import Device from '../../../util/device';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import TabThumbnail from './TabThumbnail';
 
 const THUMB_VERTICAL_MARGIN = 15;
 const NAVBAR_SIZE = Device.isIphoneX() ? 88 : 64;

@@ -1,20 +1,20 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
-import { fontStyles, baseStyles } from '../../../../styles/common';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import PropTypes from 'prop-types';
-import Identicon from '../../../UI/Identicon';
+import { strings } from '../../../../../locales/i18n';
+import { baseStyles, fontStyles } from '../../../../styles/common';
 import {
+  isENS,
   isQRHardwareAccount,
   renderShortAddress,
   renderSlightlyLongAddress,
-  isENS,
 } from '../../../../util/address';
-import { strings } from '../../../../../locales/i18n';
-import Text from '../../../Base/Text';
 import { hasZeroWidthPoints } from '../../../../util/confusables';
 import { useTheme } from '../../../../util/theme';
+import Text from '../../../Base/Text';
+import Identicon from '../../../UI/Identicon';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -100,12 +100,12 @@ const createStyles = (colors) =>
     label: {
       flexDirection: 'row',
       alignItems: 'center',
-      width: '15%',
+      width: '18%',
     },
     labelText: {
       ...fontStyles.normal,
       color: colors.text.default,
-      fontSize: 16,
+      fontSize: 15,
     },
     textInput: {
       ...fontStyles.normal,
@@ -223,6 +223,7 @@ export const AddressTo = (props) => {
     displayExclamation,
     isConfirmScreen = false,
     isFromAddressBook = false,
+    amount = false,
   } = props;
   const { colors, themeAppearance } = useTheme();
   const styles = createStyles(colors);
@@ -233,7 +234,7 @@ export const AddressTo = (props) => {
     return (
       <View style={styles.wrapper}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>To:</Text>
+          <Text style={styles.labelText}>{amount ? 'Amount' : 'To:'}</Text>
         </View>
         <View
           style={[
@@ -296,7 +297,7 @@ export const AddressTo = (props) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.label}>
-        <Text style={styles.labelText}>To:</Text>
+        <Text style={styles.labelText}>{amount ? 'Amount:' : 'To:'}</Text>
       </View>
       {!addressToReady ? (
         <View
@@ -528,6 +529,8 @@ AddressTo.propTypes = {
    * Returns if it selected from address book
    */
   isFromAddressBook: PropTypes.bool,
+
+  amount: PropTypes.bool,
 };
 
 export const AddressFrom = (props) => {

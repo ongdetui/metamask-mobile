@@ -1,20 +1,20 @@
+import Fuse from 'fuse.js';
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
+  ActivityIndicator,
+  ScrollView,
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
-  ScrollView,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import { fontStyles } from '../../../../styles/common';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Fuse from 'fuse.js';
-import { isSmartContractAddress } from '../../../../util/transactions';
 import { strings } from '../../../../../locales/i18n';
+import { fontStyles } from '../../../../styles/common';
+import { mockTheme, ThemeContext } from '../../../../util/theme';
+import { isSmartContractAddress } from '../../../../util/transactions';
 import AddressElement from '../AddressElement';
-import { ThemeContext, mockTheme } from '../../../../util/theme';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -30,6 +30,7 @@ const createStyles = (colors) =>
     },
     messageLeft: {
       textAlign: 'left',
+      color: `#004868`,
     },
     myAccountsWrapper: {
       flexGrow: 1,

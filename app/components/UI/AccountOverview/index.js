@@ -39,8 +39,8 @@ import {
   doENSReverseLookup,
   isDefaultAccountName,
 } from '../../../util/ENSUtils';
-import { renderFiat } from '../../../util/number';
-import { getEther } from '../../../util/transactions';
+import { renderFiat, renderFromWei } from '../../../util/number';
+import { getEther, getTicker } from '../../../util/transactions';
 import { isSwapsAllowed } from '../Swaps/utils';
 
 import Routes from '../../../constants/navigation/Routes';
@@ -49,9 +49,8 @@ import DeeplinkManager from '../../../core/DeeplinkManager';
 import { baseStyles, fontStyles } from '../../../styles/common';
 import { mockTheme, ThemeContext } from '../../../util/theme';
 import AssetActionButton from '../AssetActionButton';
-import EthereumAddress from '../EthereumAddress';
-import Identicon from '../Identicon';
 import AssetSwapButton from '../Swaps/components/AssetSwapButton';
+import Identicon from '../Identicon';
 
 const trackEvent = (event) => {
   InteractionManager.runAfterInteractions(() => {
@@ -77,7 +76,6 @@ const createStyles = (colors) =>
     },
     data: {
       textAlign: 'center',
-      paddingTop: 7,
     },
     label: {
       fontSize: 24,
@@ -124,10 +122,11 @@ const createStyles = (colors) =>
       letterSpacing: 0.8,
     },
     amountFiat: {
-      fontSize: 12,
+      fontSize: 14,
       paddingTop: 5,
       color: colors.text.alternative,
       ...fontStyles.normal,
+      marginBottom: 25,
     },
     identiconBorder: {
       borderRadius: 80,
@@ -153,6 +152,12 @@ const createStyles = (colors) =>
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+
+    textBalance: {
+      fontSize: 26,
+      ...fontStyles.normal,
+      marginTop: 8,
     },
   });
 
@@ -429,7 +434,7 @@ class AccountOverview extends PureComponent {
 
   render() {
     const {
-      account: { address, name },
+      account: { address, name, balance },
       currentCurrency,
       onboardingWizard,
       chainId,
@@ -438,6 +443,10 @@ class AccountOverview extends PureComponent {
     const colors = this.context.colors || mockTheme.colors;
     const themeAppearance = this.context.themeAppearance || 'light';
     const styles = createStyles(colors);
+
+    const accountBalance = `${renderFromWei(balance)} ${getTicker(
+      this.props.ticker,
+    )}`;
 
     const fiatBalance = `${renderFiat(
       Engine.getTotalFiatAccountBalance(),
@@ -534,8 +543,9 @@ class AccountOverview extends PureComponent {
                 </View>
               )}
             </View>
+            <Text style={styles.textBalance}>{accountBalance}</Text>
             <Text style={styles.amountFiat}>{fiatBalance}</Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.addressWrapper}
               onPress={this.copyAccountToClipboard}
             >
@@ -544,7 +554,7 @@ class AccountOverview extends PureComponent {
                 style={styles.address}
                 type={'short'}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <View style={styles.actions}>
               <AssetActionButton

@@ -9,9 +9,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
-import AntIcon from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,7 +18,7 @@ import URL from 'url-parse';
 import { strings } from '../../../../locales/i18n';
 import {
   NAV_ANDROID_BACK_BUTTON,
-  NETWORK_BACK_ARROW_BUTTON_ID
+  NETWORK_BACK_ARROW_BUTTON_ID,
 } from '../../../../wdio/features/testIDs/Screens/NetworksScreen.testids';
 import { WALLET_VIEW_BURGER_ICON_ID } from '../../../../wdio/features/testIDs/Screens/WalletView.testIds';
 import generateTestId from '../../../../wdio/utils/generateTestId';
@@ -64,6 +63,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 10,
+    borderRadius: 20,
   },
   backIconIOS: {
     marginHorizontal: 4,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 });
 
 const metamask_name = require('../../../images/metamask-name.png'); // eslint-disable-line
-const metamask_fox = require('../../../images/fox.png'); // eslint-disable-line
+const metamask_fox = require('../../../images/logo.png'); // eslint-disable-line
 /**
  * Function that returns the navigation options
  * This is used by views that will show our custom navbar
@@ -707,7 +707,7 @@ export function getOnboardingNavbarOptions(
           style={innerStyles.metamaskName}
           resizeMethod={'auto'}
         /> */}
-        <Text style={styles.title}>Twendee Wallet</Text>
+        <Text style={styles.title}>Tween Wallet</Text>
       </View>
     ),
     headerBackTitle: strings('navigation.back'),
@@ -743,7 +743,7 @@ export function getTransparentOnboardingNavbarOptions(themeColors) {
           style={innerStyles.metamaskName}
           resizeMethod={'auto'}
         /> */}
-        <Text style={styles.title}>Twendee Wallet</Text>
+        <Text style={styles.title}>Tween Wallet</Text>
       </View>
     ),
     headerLeft: () => <View />,
@@ -778,7 +778,7 @@ export function getTransparentBackOnboardingNavbarOptions(themeColors) {
           style={innerStyles.metamaskName}
           resizeMethod={'auto'}
         /> */}
-        <Text style={styles.title}>Twendee Wallet</Text>
+        <Text style={styles.title}>Tween Wallet</Text>
       </View>
     ),
     headerBackTitle: strings('navigation.back'),
@@ -827,7 +827,7 @@ export function getOptinMetricsNavbarOptions(themeColors) {
             style={innerStyles.metamaskName}
             resizeMethod={'auto'}
           /> */}
-          <Text style={styles.title}>Twendee Wallet</Text>
+          <Text style={styles.title}>Tween Wallet</Text>
         </View>
       </View>
     ),
@@ -873,27 +873,29 @@ export function getClosableNavigationOptions(
     title,
     headerTitleStyle: innerStyles.headerTitleStyle,
     headerLeft: () =>
-      Device.isIos() ? (
-        <TouchableOpacity
-          onPress={navigationPop}
-          style={styles.closeButton}
-          testID={'nav-ios-back'}
-        >
-          <Text style={innerStyles.headerButtonText}>{backButtonText}</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          onPress={navigationPop}
-          style={styles.backButton}
-          {...generateTestId(Platform, NAV_ANDROID_BACK_BUTTON)}
-        >
-          <IonicIcon
-            name={'md-arrow-back'}
-            size={24}
-            style={innerStyles.headerIcon}
-          />
-        </TouchableOpacity>
-      ),
+      backButtonText ? (
+        Device.isIos() ? (
+          <TouchableOpacity
+            onPress={navigationPop}
+            style={styles.closeButton}
+            testID={'nav-ios-back'}
+          >
+            <Text style={innerStyles.headerButtonText}>{backButtonText}</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={navigationPop}
+            style={styles.backButton}
+            {...generateTestId(Platform, NAV_ANDROID_BACK_BUTTON)}
+          >
+            <IonicIcon
+              name={'md-arrow-back'}
+              size={24}
+              style={innerStyles.headerIcon}
+            />
+          </TouchableOpacity>
+        )
+      ) : null,
     headerStyle: innerStyles.headerStyle,
     headerTintColor: themeColors.primary.default,
   };

@@ -1,41 +1,40 @@
 import React, {
+  useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
-  useCallback,
-  useContext,
 } from 'react';
 import {
+  ActivityIndicator,
+  InteractionManager,
   RefreshControl,
   ScrollView,
-  InteractionManager,
-  ActivityIndicator,
   StyleSheet,
   View,
-  Text,
 } from 'react-native';
-import { useSelector } from 'react-redux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
-import { fontStyles, baseStyles } from '../../../styles/common';
-import AccountOverview from '../../UI/AccountOverview';
-import Tokens from '../../UI/Tokens';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { useSelector } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
-import { renderFromWei, weiToFiat, hexToBN } from '../../../util/number';
-import Engine from '../../../core/Engine';
-import CollectibleContracts from '../../UI/CollectibleContracts';
-import Analytics from '../../../core/Analytics/Analytics';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import { getTicker } from '../../../util/transactions';
-import OnboardingWizard from '../../UI/OnboardingWizard';
-import ErrorBoundary from '../ErrorBoundary';
-import { DrawerContext } from '../../Nav/Main/MainNavigator';
-import { useTheme } from '../../../util/theme';
-import { shouldShowWhatsNewModal } from '../../../util/onboarding';
-import Logger from '../../../util/Logger';
-import Routes from '../../../constants/navigation/Routes';
 import generateTestId from '../../../../wdio/utils/generateTestId';
+import Routes from '../../../constants/navigation/Routes';
+import Analytics from '../../../core/Analytics/Analytics';
+import Engine from '../../../core/Engine';
+import { baseStyles, fontStyles } from '../../../styles/common';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import Logger from '../../../util/Logger';
+import { hexToBN, renderFromWei, weiToFiat } from '../../../util/number';
+import { shouldShowWhatsNewModal } from '../../../util/onboarding';
+import { useTheme } from '../../../util/theme';
+import { getTicker } from '../../../util/transactions';
+import { DrawerContext } from '../../Nav/Main/MainNavigator';
+import AccountOverview from '../../UI/AccountOverview';
+import CollectibleContracts from '../../UI/CollectibleContracts';
+import { getWalletNavbarOptions } from '../../UI/Navbar';
+import OnboardingWizard from '../../UI/OnboardingWizard';
+import Tokens from '../../UI/Tokens';
+import ErrorBoundary from '../ErrorBoundary';
 
 const createStyles = (colors: any) =>
   StyleSheet.create({

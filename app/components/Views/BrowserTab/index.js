@@ -1,66 +1,66 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { withNavigation } from '@react-navigation/compat';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
   Alert,
-  Linking,
   BackHandler,
   InteractionManager,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
-import { WebView } from 'react-native-webview';
+import Modal from 'react-native-modal';
+import SearchApi from 'react-native-search-api';
+import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import BrowserBottomBar from '../../UI/BrowserBottomBar';
-import PropTypes from 'prop-types';
-import Share from 'react-native-share';
+import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
-import BackgroundBridge from '../../../core/BackgroundBridge/BackgroundBridge';
-import Engine from '../../../core/Engine';
-import PhishingModal from '../../UI/PhishingModal';
-import WebviewProgressBar from '../../UI/WebviewProgressBar';
-import { baseStyles, fontStyles } from '../../../styles/common';
-import Logger from '../../../util/Logger';
-import onUrlSubmit, { getHost, getUrlObj, isTLD } from '../../../util/browser';
-import {
-  SPA_urlChangeListener,
-  JS_DESELECT_TEXT,
-} from '../../../util/browserScripts';
-import resolveEnsToIpfsContentId from '../../../lib/ens-ipfs/resolver';
-import Button from '../../UI/Button';
-import { strings } from '../../../../locales/i18n';
 import URL from 'url-parse';
-import Modal from 'react-native-modal';
-import WebviewError from '../../UI/WebviewError';
-import { approveHost } from '../../../actions/privacy';
+import { strings } from '../../../../locales/i18n';
 import { addBookmark } from '../../../actions/bookmarks';
 import { addToHistory, addToWhitelist } from '../../../actions/browser';
-import Device from '../../../util/device';
-import AppConstants from '../../../core/AppConstants';
-import SearchApi from 'react-native-search-api';
-import Analytics from '../../../core/Analytics/Analytics';
-import AnalyticsV2, { trackErrorAsAnalytics } from '../../../util/analyticsV2';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
 import { toggleNetworkModal } from '../../../actions/modals';
+import { approveHost } from '../../../actions/privacy';
 import setOnboardingWizardStep from '../../../actions/wizard';
-import OnboardingWizard from '../../UI/OnboardingWizard';
+import Analytics from '../../../core/Analytics/Analytics';
+import AppConstants from '../../../core/AppConstants';
+import BackgroundBridge from '../../../core/BackgroundBridge/BackgroundBridge';
 import DrawerStatusTracker from '../../../core/DrawerStatusTracker';
+import Engine from '../../../core/Engine';
 import EntryScriptWeb3 from '../../../core/EntryScriptWeb3';
+import resolveEnsToIpfsContentId from '../../../lib/ens-ipfs/resolver';
+import { baseStyles, fontStyles } from '../../../styles/common';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import AnalyticsV2, { trackErrorAsAnalytics } from '../../../util/analyticsV2';
+import onUrlSubmit, { getHost, getUrlObj, isTLD } from '../../../util/browser';
+import {
+  JS_DESELECT_TEXT,
+  SPA_urlChangeListener,
+} from '../../../util/browserScripts';
+import Device from '../../../util/device';
+import Logger from '../../../util/Logger';
+import BrowserBottomBar from '../../UI/BrowserBottomBar';
+import Button from '../../UI/Button';
+import OnboardingWizard from '../../UI/OnboardingWizard';
+import PhishingModal from '../../UI/PhishingModal';
+import WebviewError from '../../UI/WebviewError';
+import WebviewProgressBar from '../../UI/WebviewProgressBar';
 import ErrorBoundary from '../ErrorBoundary';
 
-import { getRpcMethodMiddleware } from '../../../core/RPCMethods/RPCMethodMiddleware';
-import { useTheme } from '../../../util/theme';
-import downloadFile from '../../../util/browser/downloadFile';
-import { createBrowserUrlModalNavDetails } from '../BrowserUrlModal/BrowserUrlModal';
 import {
-  MM_PHISH_DETECT_URL,
   MM_BLOCKLIST_ISSUE_URL,
-  PHISHFORT_BLOCKLIST_ISSUE_URL,
   MM_ETHERSCAN_URL,
+  MM_PHISH_DETECT_URL,
+  PHISHFORT_BLOCKLIST_ISSUE_URL,
 } from '../../../constants/urls';
+import { getRpcMethodMiddleware } from '../../../core/RPCMethods/RPCMethodMiddleware';
+import downloadFile from '../../../util/browser/downloadFile';
+import { useTheme } from '../../../util/theme';
 import sanitizeUrlInput from '../../../util/url/sanitizeUrlInput';
+import { createBrowserUrlModalNavDetails } from '../BrowserUrlModal/BrowserUrlModal';
 
 const { HOMEPAGE_URL, NOTIFICATION_NAMES } = AppConstants;
 const HOMEPAGE_HOST = new URL(HOMEPAGE_URL)?.hostname;
@@ -663,6 +663,9 @@ export const BrowserTab = (props) => {
 					//Nothing to do
 				}
 			})()
+      // document.querySelector(".logo-img").src = 'https://twendeesoft.com/wp-content/uploads/2022/07/logo2.svg';
+      document.querySelector(".logo-img").remove();
+      document.querySelector(".bg-img").src = 'https://scontent.fhan3-3.fna.fbcdn.net/v/t39.30808-6/318205571_2204834209688639_1085951323551940266_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=e3f864&_nc_ohc=ixaCG8IvUHwAX-35pMf&tn=oUKHy9JsYhvLrsfC&_nc_ht=scontent.fhan3-3.fna&oh=00_AfBAYYI6vRbf6LVzN2sMgWVd5RzOa7qfyDJrj_--SHhWgw&oe=63A50D5D';
 		`;
 
     current.injectJavaScript(homepageScripts);
@@ -1311,6 +1314,11 @@ export const BrowserTab = (props) => {
     [reload],
   );
 
+  const hideLogo = `
+  document.getElementsByClassName("header").[0].style.display = 'none';
+  document.getElementsByClassName("header").[1].style.display = 'none';
+  `;
+
   /**
    * Main render
    */
@@ -1331,6 +1339,7 @@ export const BrowserTab = (props) => {
               )}
               source={{ uri: initialUrl }}
               injectedJavaScriptBeforeContentLoaded={entryScriptWeb3}
+              injectedJavaScript={hideLogo}
               style={styles.webview}
               onLoadStart={onLoadStart}
               onLoad={onLoad}

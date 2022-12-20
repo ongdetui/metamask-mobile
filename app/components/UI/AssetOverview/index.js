@@ -1,46 +1,49 @@
+import { swapsUtils } from '@metamask/swaps-controller';
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
+  Alert,
   InteractionManager,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import { swapsUtils } from '@metamask/swaps-controller';
-import AssetActionButton from '../AssetActionButton';
-import AppConstants from '../../../core/AppConstants';
-import TokenImage from '../../UI/TokenImage';
-import { fontStyles } from '../../../styles/common';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+import { connect } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
 import { toggleReceiveModal } from '../../../actions/modals';
-import { connect } from 'react-redux';
-import {
-  renderFromTokenMinimalUnit,
-  balanceToFiat,
-  renderFromWei,
-  weiToFiat,
-  hexToBN,
-} from '../../../util/number';
-import { safeToChecksumAddress } from '../../../util/address';
-import { getEther } from '../../../util/transactions';
 import { newAssetTransaction } from '../../../actions/transaction';
-import { isSwapsAllowed } from '../Swaps/utils';
+import Routes from '../../../constants/navigation/Routes';
+import Analytics from '../../../core/Analytics/Analytics';
+import AppConstants from '../../../core/AppConstants';
+import DeeplinkManager from '../../../core/DeeplinkManager';
+import Engine from '../../../core/Engine';
 import {
   swapsLivenessSelector,
   swapsTokensObjectSelector,
 } from '../../../reducers/swaps';
 import { getTokenList } from '../../../reducers/tokens';
-import Engine from '../../../core/Engine';
-import Logger from '../../../util/Logger';
-import Analytics from '../../../core/Analytics/Analytics';
+import { fontStyles } from '../../../styles/common';
+import {
+  importAccountFromPrivateKey,
+  safeToChecksumAddress,
+} from '../../../util/address';
 import AnalyticsV2 from '../../../util/analyticsV2';
-import { allowedToBuy } from '../FiatOrders';
-import AssetSwapButton from '../Swaps/components/AssetSwapButton';
-import NetworkMainAssetLogo from '../NetworkMainAssetLogo';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import Routes from '../../../constants/navigation/Routes';
+import Logger from '../../../util/Logger';
 import { isTestNet } from '../../../util/networks';
+import {
+  balanceToFiat,
+  hexToBN,
+  renderFromTokenMinimalUnit,
+  renderFromWei,
+  weiToFiat,
+} from '../../../util/number';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import { getEther } from '../../../util/transactions';
+import TokenImage from '../../UI/TokenImage';
+import AssetActionButton from '../AssetActionButton';
+import NetworkMainAssetLogo from '../NetworkMainAssetLogo';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -106,6 +109,12 @@ const createStyles = (colors) =>
     warningLinks: {
       color: colors.primary.default,
     },
+
+    btnScan: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   });
 
 /**
@@ -166,11 +175,11 @@ class AssetOverview extends PureComponent {
     /**
      * Wether Swaps feature is live or not
      */
-    swapsIsLive: PropTypes.bool,
+    // swapsIsLive: PropTypes.bool,
     /**
      * Object that contains swaps tokens addresses as key
      */
-    swapsTokens: PropTypes.object,
+    // swapsTokens: PropTypes.object,
     /**
      * Network ticker
      */
@@ -279,6 +288,58 @@ class AssetOverview extends PureComponent {
     );
   };
 
+  onScanSuccess = (data, content) => {
+    const { navigation } = this.props;
+    if (data.private_key) {
+      Alert.alert(
+        strings('wallet.private_key_detected'),
+        strings('wallet.do_you_want_to_import_this_account'),
+        [
+          {
+            text: strings('wallet.cancel'),
+            onPress: () => false,
+            style: 'cancel',
+          },
+          {
+            text: strings('wallet.yes'),
+            onPress: async () => {
+              try {
+                await importAccountFromPrivateKey(data.private_key);
+                navigation.navigate('ImportPrivateKeyView', {
+                  screen: 'ImportPrivateKeySuccess',
+                });
+              } catch (e) {
+                Alert.alert(
+                  strings('import_private_key.error_title'),
+                  strings('import_private_key.error_message'),
+                );
+              }
+            },
+          },
+        ],
+        { cancelable: false },
+      );
+    } else if (data.seed) {
+      Alert.alert(
+        strings('wallet.error'),
+        strings('wallet.logout_to_import_seed'),
+      );
+    } else {
+      setTimeout(() => {
+        DeeplinkManager.parse(content, {
+          origin: AppConstants.DEEPLINKS.ORIGIN_QR_CODE,
+        });
+      }, 500);
+    }
+  };
+
+  openQRScanner = () => {
+    const { navigation } = this.props;
+    navigation.navigate('QRScanner', {
+      onScanSuccess: this.onScanSuccess,
+    });
+  };
+
   render() {
     const {
       accounts,
@@ -296,8 +357,8 @@ class AssetOverview extends PureComponent {
       conversionRate,
       currentCurrency,
       chainId,
-      swapsIsLive,
-      swapsTokens,
+      // swapsIsLive,
+      // swapsTokens,
     } = this.props;
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
@@ -363,32 +424,46 @@ class AssetOverview extends PureComponent {
 
         {!balanceError && (
           <View style={styles.actions}>
-            <AssetActionButton
-              icon="receive"
-              onPress={this.onReceive}
-              label={strings('asset_overview.receive_button')}
-            />
-            {isETH && allowedToBuy(chainId) && (
+            {/* {isETH && allowedToBuy(chainId) && (
               <AssetActionButton
                 icon="buy"
                 onPress={this.onBuy}
                 label={strings('asset_overview.buy_button')}
               />
-            )}
+            )} */}
             <AssetActionButton
               testID={'token-send-button'}
               icon="send"
               onPress={this.onSend}
               label={strings('asset_overview.send_button')}
             />
-            {AppConstants.SWAPS.ACTIVE && (
+            <AssetActionButton
+              icon="receive"
+              onPress={this.onReceive}
+              label={strings('asset_overview.receive_button')}
+            />
+            <AssetActionButton
+              testID={'token-send-button'}
+              icon={
+                <View style={styles.btnScan}>
+                  <AntIcon
+                    name="scan1"
+                    size={20}
+                    color={colors.primary.inverse}
+                  />
+                </View>
+              }
+              onPress={this.openQRScanner}
+              label={'Scan'}
+            />
+            {/* {AppConstants.SWAPS.ACTIVE && (
               <AssetSwapButton
                 isFeatureLive={swapsIsLive}
                 isNetworkAllowed={isSwapsAllowed(chainId)}
                 isAssetAllowed={isETH || address?.toLowerCase() in swapsTokens}
                 onPress={this.goToSwaps}
               />
-            )}
+            )} */}
           </View>
         )}
       </View>

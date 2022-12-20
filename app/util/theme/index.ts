@@ -1,16 +1,28 @@
+import { darkTheme, lightTheme } from '@metamask/design-tokens';
 import React, { useContext } from 'react';
-import { useColorScheme, StatusBar, ColorSchemeName } from 'react-native';
-import { AppThemeKey, Theme } from './models';
+import { ColorSchemeName, StatusBar, useColorScheme } from 'react-native';
 import { useSelector } from 'react-redux';
-import { lightTheme, darkTheme } from '@metamask/design-tokens';
 import Device from '../device';
+import { AppThemeKey, Theme } from './models';
 
 /**
  * This is needed to make our unit tests pass since Enzyme doesn't support contextType
  * TODO: Convert classes into functional components and remove contextType
  */
 export const mockTheme = {
-  colors: lightTheme.colors,
+  colors: {
+    ...lightTheme.colors,
+    primary: {
+      ...lightTheme.colors.primary,
+      default: '#004868',
+      alternative: '#004868',
+    },
+    info: {
+      ...lightTheme.colors.info,
+      alternative: '#004868',
+      default: '#004868',
+    },
+  },
   themeAppearance: 'light',
   typography: lightTheme.typography,
   shadows: lightTheme.shadows,
@@ -86,7 +98,7 @@ export const useAppTheme = (): Theme => {
         shadows = lightTheme.shadows;
         setLightStatusBar();
         break;
-      } else if (osThemeName === AppThemeKey.dark) {
+      } else if (osThemeName === AppThemeKey.dark && false) {
         colors = darkTheme.colors;
         typography = darkTheme.typography;
         shadows = darkTheme.shadows;
@@ -107,10 +119,14 @@ export const useAppTheme = (): Theme => {
       setLightStatusBar();
       break;
     case AppThemeKey.dark:
-      colors = darkTheme.colors;
-      typography = darkTheme.typography;
-      shadows = darkTheme.shadows;
-      setDarkStatusBar();
+      colors = lightTheme.colors;
+      typography = lightTheme.typography;
+      shadows = lightTheme.shadows;
+      setLightStatusBar();
+      // colors = darkTheme.colors;
+      // typography = darkTheme.typography;
+      // shadows = darkTheme.shadows;
+      // setDarkStatusBar();
       break;
     default:
       // Default uses light theme
@@ -129,8 +145,25 @@ export const useAppThemeFromContext = (): Theme => {
 };
 
 export const useTheme = (): Theme => {
-  const theme = useAppThemeFromContext() || mockTheme;
-  return theme;
+  const theme: any = useAppThemeFromContext() || mockTheme;
+  return theme.themeAppearance === 'light'
+    ? {
+        ...theme,
+        colors: {
+          ...theme.colors,
+          primary: {
+            ...theme.colors.primary,
+            default: '#004868',
+            alternative: '#004868',
+          },
+          info: {
+            ...theme.colors.info,
+            alternative: '#004868',
+            default: '#004868',
+          },
+        },
+      }
+    : theme;
 };
 
 /**

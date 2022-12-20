@@ -1,8 +1,8 @@
 import { AppState } from 'react-native';
-import SecureKeychain from './SecureKeychain';
 import BackgroundTimer from 'react-native-background-timer';
 import Engine from '../core/Engine';
 import Logger from '../util/Logger';
+import SecureKeychain from './SecureKeychain';
 
 export default class LockManager {
   constructor(navigation, lockTime) {
@@ -50,8 +50,9 @@ export default class LockManager {
   };
 
   gotoLockScreen = () => {
-    this.navigation.navigate('LockScreen', { backgroundMode: true });
     this.locked = true;
+    this.navigation &&
+      this.navigation.navigate('Login', { backgroundMode: true });
   };
 
   lockApp = async () => {

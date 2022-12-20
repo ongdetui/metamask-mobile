@@ -75,6 +75,8 @@ const createStyles = (colors: {
     closeButton: {
       marginVertical: 20,
       borderColor: colors.border.muted,
+      borderRadius: 8,
+      backgroundColor: `#004868`,
     },
     rpcUrl: {
       ...fontStyles.normal,

@@ -1,5 +1,5 @@
-import { fontStyles } from '../../../../styles/common';
 import { StyleSheet } from 'react-native';
+import { fontStyles } from '../../../../styles/common';
 
 const createStyles = (colors: any) =>
   StyleSheet.create({
@@ -18,7 +18,7 @@ const createStyles = (colors: any) =>
       margin: 24,
     },
     textAmountLabel: {
-      ...fontStyles.normal,
+      ...fontStyles.bold,
       fontSize: 14,
       textAlign: 'center',
       color: colors.text.alternative,
@@ -26,15 +26,17 @@ const createStyles = (colors: any) =>
       marginVertical: 3,
     },
     textAmount: {
-      ...fontStyles.light,
+      ...fontStyles.bold,
       color: colors.text.default,
-      fontSize: 44,
+      fontSize: 34,
       textAlign: 'center',
+      marginTop: 10,
     },
     buttonNext: {
       flex: 1,
       marginHorizontal: 24,
       alignSelf: 'flex-end',
+      borderRadius: 8,
     },
     buttonNextWrapper: {
       flexDirection: 'row',
@@ -142,6 +144,28 @@ const createStyles = (colors: any) =>
     text: {
       lineHeight: 20,
       color: colors.text.default,
+    },
+
+    infoSend: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginTop: 20,
+    },
+    labelText: {
+      ...fontStyles.normal,
+      color: colors.text.default,
+      fontSize: 15,
+    },
+
+    flexSendTo: {
+      alignItems: 'flex-end',
+    },
+
+    textAddress: {
+      ...fontStyles.normal,
+      color: colors.text.default,
+      fontSize: 14,
     },
   });
 

@@ -70,7 +70,7 @@ const createStyles = (colors) =>
       marginTop: 24,
       borderColor: colors.primary.default,
       borderWidth: 1,
-      borderRadius: 50,
+      borderRadius: 8,
       padding: 12,
       paddingHorizontal: 34,
     },

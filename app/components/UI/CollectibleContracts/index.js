@@ -235,7 +235,7 @@ const CollectibleContracts = ({
 
   const renderEmpty = () => (
     <View style={styles.emptyView}>
-      <View style={styles.emptyContainer}>
+      {/* <View style={styles.emptyContainer}>
         <Image
           style={styles.emptyImageContainer}
           source={require('../../../images/no-nfts-placeholder.png')}
@@ -247,13 +247,13 @@ const CollectibleContracts = ({
         <Text center big link onPress={goToLearnMore}>
           {strings('wallet.learn_more')}
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 
   return (
     <View style={styles.wrapper} testID={'collectible-contracts'}>
-      {isMainNet(chainId) &&
+      {/* {isMainNet(chainId) &&
         !nftDetectionDismissed &&
         !useCollectibleDetection && (
           <View style={styles.emptyView}>
@@ -262,7 +262,7 @@ const CollectibleContracts = ({
               navigation={navigation}
             />
           </View>
-        )}
+        )} */}
       {collectibleContracts.length > 0 ? renderList() : renderEmpty()}
       {renderFooter()}
     </View>

@@ -11,7 +11,7 @@ import AnalyticsV2 from '../../../util/analyticsV2';
 import Device from '../../../util/device';
 import { ThemeContext, mockTheme } from '../../../util/theme';
 
-const HOME_INDICATOR_HEIGHT = 18;
+// const HOME_INDICATOR_HEIGHT = 18;
 const defaultBottomBarPadding = 0;
 
 const createStyles = (colors) =>
@@ -21,7 +21,7 @@ const createStyles = (colors) =>
       flexDirection: 'row',
       paddingBottom:
         Device.isIphoneX() && Device.isIos()
-          ? defaultBottomBarPadding + HOME_INDICATOR_HEIGHT
+          ? defaultBottomBarPadding
           : defaultBottomBarPadding,
       flex: 0,
       borderTopWidth: Device.isAndroid() ? 0 : StyleSheet.hairlineWidth,

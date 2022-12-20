@@ -1,57 +1,55 @@
-import React, { PureComponent } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
-  Alert,
   ActivityIndicator,
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
+  Alert,
+  BackHandler,
   Image,
   InteractionManager,
-  BackHandler,
   Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'react-native-button';
-import Engine from '../../../core/Engine';
-import StyledButton from '../../UI/StyledButton';
-import { fontStyles } from '../../../styles/common';
-import { strings } from '../../../../locales/i18n';
-import SecureKeychain from '../../../core/SecureKeychain';
-import FadeOutOverlay from '../../UI/FadeOutOverlay';
-import setOnboardingWizardStep from '../../../actions/wizard';
-import { logIn, logOut, checkedAuth } from '../../../actions/user';
-import { setAllowLoginWithRememberMe } from '../../../actions/security';
-import { connect } from 'react-redux';
-import Device from '../../../util/device';
+import DefaultPreference from 'react-native-default-preference';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { OutlinedTextField } from 'react-native-material-textfield';
-import BiometryButton from '../../UI/BiometryButton';
-import { recreateVaultWithSamePassword } from '../../../core/Vault';
-import Logger from '../../../util/Logger';
+import { connect } from 'react-redux';
+import { strings } from '../../../../locales/i18n';
+import generateTestId from '../../../../wdio/utils/generateTestId';
+import { setAllowLoginWithRememberMe } from '../../../actions/security';
+import { checkedAuth, logIn, logOut } from '../../../actions/user';
+import setOnboardingWizardStep from '../../../actions/wizard';
+import Routes from '../../../constants/navigation/Routes';
 import {
   BIOMETRY_CHOICE_DISABLED,
-  ONBOARDING_WIZARD,
   ENCRYPTION_LIB,
-  TRUE,
-  ORIGINAL,
   EXISTING_USER,
+  ONBOARDING_WIZARD,
+  ORIGINAL,
+  TRUE,
 } from '../../../constants/storage';
-import Routes from '../../../constants/navigation/Routes';
-import { passwordRequirementsMet } from '../../../util/password';
-import ErrorBoundary from '../ErrorBoundary';
-import { trackErrorAsAnalytics } from '../../../util/analyticsV2';
-import { toLowerCaseEquals } from '../../../util/general';
-import DefaultPreference from 'react-native-default-preference';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import AnimatedFox from 'react-native-animated-fox';
 import {
   LOGIN_PASSWORD_ERROR,
   RESET_WALLET_ID,
 } from '../../../constants/test-ids';
+import Engine from '../../../core/Engine';
+import SecureKeychain from '../../../core/SecureKeychain';
+import { recreateVaultWithSamePassword } from '../../../core/Vault';
+import { fontStyles } from '../../../styles/common';
+import { trackErrorAsAnalytics } from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import { toLowerCaseEquals } from '../../../util/general';
+import Logger from '../../../util/Logger';
+import { passwordRequirementsMet } from '../../../util/password';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import BiometryButton from '../../UI/BiometryButton';
 import { LoginOptionsSwitch } from '../../UI/LoginOptionsSwitch';
-import generateTestId from '../../../../wdio/utils/generateTestId';
+import StyledButton from '../../UI/StyledButton';
+import ErrorBoundary from '../ErrorBoundary';
 
 const deviceHeight = Device.getDeviceHeight();
 const breakPoint = deviceHeight < 700;
@@ -75,8 +73,9 @@ const createStyles = (colors) =>
     },
     image: {
       alignSelf: 'center',
-      width: Device.isIos() ? 130 : 100,
-      height: Device.isIos() ? 130 : 100,
+      width: Device.isIos() ? 150 : 120,
+      height: Device.isIos() ? 150 : 120,
+      borderRadius: 12,
     },
     title: {
       fontSize: Device.isAndroid() ? 30 : 35,
@@ -111,7 +110,7 @@ const createStyles = (colors) =>
     },
     goBack: {
       marginVertical: 14,
-      color: colors.primary.default,
+      color: `#004868`,
       ...fontStyles.normal,
     },
     biometrics: {
@@ -189,6 +188,22 @@ const createStyles = (colors) =>
       marginTop: 10,
       color: colors.error.default,
     },
+
+    btnLogin: {
+      borderRadius: 8,
+      backgroundColor: `#004868`,
+    },
+
+    containerOverlay: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: `rgba(0,0,0,0.2)`,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   });
 
 const PASSCODE_NOT_SET_ERROR = 'Error: Passcode not set.';
@@ -245,11 +260,13 @@ class Login extends PureComponent {
     deleteText: '',
     showDeleteWarning: false,
     hasBiometricCredentials: false,
+    loadingApp: false,
   };
 
   fieldRef = React.createRef();
 
   async componentDidMount() {
+    this.setState({ loadingApp: true });
     const { initialScreen } = this.props;
     const { KeyringController } = Engine.context;
     const shouldHandleInitialAuth = initialScreen !== 'onboarding';
@@ -275,7 +292,7 @@ class Login extends PureComponent {
       if (shouldHandleInitialAuth) {
         try {
           if (enabled && !previouslyDisabled) {
-            await this.tryBiometric();
+            // await this.tryBiometric();
           }
         } catch (e) {
           console.warn(e);
@@ -287,7 +304,9 @@ class Login extends PureComponent {
     } else {
       shouldHandleInitialAuth && (await this.checkIfRememberMeEnabled());
     }
-
+    setTimeout(() => {
+      this.setState({ loadingApp: false });
+    }, 500);
     this.props.checkedAuth();
   }
 
@@ -501,7 +520,7 @@ class Login extends PureComponent {
       this.setState({ hasBiometricCredentials: true });
       Logger.log(error);
     }
-    field.blur();
+    // field.blur();
   };
 
   render = () => {
@@ -520,12 +539,17 @@ class Login extends PureComponent {
               <View style={styles.foxWrapper}>
                 {Device.isAndroid() ? (
                   <Image
-                    source={require('../../../images/fox.png')}
+                    source={require('../../../images/logo.png')}
                     style={styles.image}
                     resizeMethod={'auto'}
                   />
                 ) : (
-                  <AnimatedFox bgColor={colors.background.default} />
+                  <Image
+                    source={require('../../../images/logo.png')}
+                    style={styles.image}
+                    resizeMethod={'auto'}
+                  />
+                  // <AnimatedFox bgColor={colors.background.default} />
                 )}
               </View>
               <Text style={styles.title}>{strings('login.title')}</Text>
@@ -550,9 +574,9 @@ class Login extends PureComponent {
                       onPress={this.tryBiometric}
                       hidden={
                         !(
-                          this.state.biometryChoice &&
-                          this.state.biometryType &&
-                          this.state.hasBiometricCredentials
+                          // this.state.biometryChoice &&
+                          this.state.biometryType
+                          // this.state.hasBiometricCredentials
                         )
                       }
                       type={this.state.biometryType}
@@ -570,7 +594,11 @@ class Login extends PureComponent {
                 </Text>
               )}
               <View style={styles.ctaWrapper} testID={'log-in-button'}>
-                <StyledButton type={'confirm'} onPress={this.triggerLogIn}>
+                <StyledButton
+                  containerStyle={styles.btnLogin}
+                  type={'confirm'}
+                  onPress={this.triggerLogIn}
+                >
                   {this.state.loading ? (
                     <ActivityIndicator
                       size="small"
@@ -595,7 +623,14 @@ class Login extends PureComponent {
               </View>
             </View>
           </KeyboardAwareScrollView>
-          <FadeOutOverlay />
+          {/* <FadeOutOverlay /> */}
+          {this.state.loadingApp && (
+            <ActivityIndicator
+              size={'large'}
+              style={styles.containerOverlay}
+              color={colors.primary.default}
+            />
+          )}
         </SafeAreaView>
       </ErrorBoundary>
     );

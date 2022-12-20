@@ -118,7 +118,7 @@ class NavbarTitle extends PureComponent {
       >
         {title ? (
           <Text numberOfLines={1} style={styles.title}>
-            {'Twendee'}
+            {'Tween Wallet'}
           </Text>
         ) : null}
         <View style={styles.network}>

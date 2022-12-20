@@ -1,21 +1,21 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { TouchableOpacity, View, Linking } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Linking, TouchableOpacity, View } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { strings } from '../../../../../locales/i18n';
+import AppConstants from '../../../../core/AppConstants';
+import { useGasTransaction } from '../../../../core/GasPolling/GasPolling';
+import Device from '../../../../util/device';
+import { isMainnetByChainId } from '../../../../util/networks';
+import { mockTheme, useAppThemeFromContext } from '../../../../util/theme';
+import useModalHandler from '../../../Base/hooks/useModalHandler';
 import Summary from '../../../Base/Summary';
 import Text from '../../../Base/Text';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { isMainnetByChainId } from '../../../../util/networks';
-import InfoModal from '../../Swaps/components/InfoModal';
 import FadeAnimationView from '../../FadeAnimationView';
-import { strings } from '../../../../../locales/i18n';
+import InfoModal from '../../Swaps/components/InfoModal';
 import TimeEstimateInfoModal from '../../TimeEstimateInfoModal';
-import useModalHandler from '../../../Base/hooks/useModalHandler';
-import AppConstants from '../../../../core/AppConstants';
-import Device from '../../../../util/device';
-import { useAppThemeFromContext, mockTheme } from '../../../../util/theme';
-import { useGasTransaction } from '../../../../core/GasPolling/GasPolling';
+import SkeletonComponent from './skeletonComponent';
 import createStyles from './styles';
 import { TransactionEIP1559UpdateProps } from './types';
-import SkeletonComponent from './skeletonComponent';
 
 const TransactionReviewEIP1559Update = ({
   primaryCurrency,

@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { StyleSheet, ScrollView, InteractionManager } from 'react-native';
-import SettingsDrawer from '../../UI/SettingsDrawer';
-import { getClosableNavigationOptions } from '../../UI/Navbar';
+import { InteractionManager, ScrollView, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
 import Analytics from '../../../core/Analytics/Analytics';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import { connect } from 'react-redux';
-import { ThemeContext, mockTheme } from '../../../util/theme';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import { getClosableNavigationOptions } from '../../UI/Navbar';
+import SettingsDrawer from '../../UI/SettingsDrawer';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -41,7 +41,7 @@ class Settings extends PureComponent {
     navigation.setOptions(
       getClosableNavigationOptions(
         strings('app_settings.title'),
-        strings('navigation.close'),
+        null,
         navigation,
         colors,
       ),
@@ -132,15 +132,15 @@ class Settings extends PureComponent {
           description={strings('app_settings.networks_desc')}
           onPress={this.onPressNetworks}
         />
-        <SettingsDrawer
+        {/* <SettingsDrawer
           title={strings('app_settings.experimental_title')}
           description={strings('app_settings.experimental_desc')}
           onPress={this.onPressExperimental}
-        />
-        <SettingsDrawer
+        /> */}
+        {/* <SettingsDrawer
           title={strings('app_settings.info_title')}
           onPress={this.onPressInfo}
-        />
+        /> */}
       </ScrollView>
     );
   };

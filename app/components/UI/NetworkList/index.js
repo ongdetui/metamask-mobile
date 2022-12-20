@@ -1,36 +1,34 @@
-import React, { PureComponent } from 'react';
-import Engine from '../../../core/Engine';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { PureComponent } from 'react';
 import {
+  SafeAreaView,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
-  SafeAreaView,
 } from 'react-native';
-import { fontStyles } from '../../../styles/common';
-import { strings } from '../../../../locales/i18n';
-import Networks, {
-  getAllNetworks,
-  isSafeChainId,
-} from '../../../util/networks';
-import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import StyledButton from '../StyledButton';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import { MAINNET, RPC, PRIVATENETWORK } from '../../../constants/network';
-import { ETH } from '../../../util/custom-gas';
-import sanitizeUrl from '../../../util/sanitizeUrl';
-import getImage from '../../../util/getImage';
+import { connect } from 'react-redux';
+import { strings } from '../../../../locales/i18n';
+import { MAINNET, PRIVATENETWORK, RPC } from '../../../constants/network';
 import {
   NETWORK_LIST_MODAL_CONTAINER_ID,
   NETWORK_SCROLL_ID,
 } from '../../../constants/test-ids';
+import Engine from '../../../core/Engine';
+import { fontStyles } from '../../../styles/common';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import { ETH } from '../../../util/custom-gas';
+import getImage from '../../../util/getImage';
+import Networks, {
+  getAllNetworks,
+  isSafeChainId,
+} from '../../../util/networks';
+import sanitizeUrl from '../../../util/sanitizeUrl';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 import ImageIcon from '../ImageIcon';
-import { ADD_NETWORK_BUTTON } from '../../../../wdio/features/testIDs/Screens/NetworksScreen.testids';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -93,6 +91,8 @@ const createStyles = (colors) =>
       alignItems: 'center',
       justifyContent: 'center',
       marginHorizontal: 20,
+      borderRadius: 8,
+      backgroundColor: `#004868`,
     },
     networkIcon: {
       width: 20,
@@ -395,9 +395,9 @@ export class NetworkList extends PureComponent {
         <ScrollView style={styles.networksWrapper} testID={NETWORK_SCROLL_ID}>
           {this.renderMainnet()}
           {this.renderRpcNetworks()}
-          {this.renderOtherNetworks()}
+          {/* {this.renderOtherNetworks()} */}
         </ScrollView>
-        <View style={styles.footer}>
+        {/* <View style={styles.footer}>
           <StyledButton
             type="confirm"
             onPress={this.goToNetworkSettings}
@@ -406,7 +406,7 @@ export class NetworkList extends PureComponent {
           >
             {strings('app_settings.add_network_title')}
           </StyledButton>
-        </View>
+        </View> */}
       </SafeAreaView>
     );
   };

@@ -104,7 +104,7 @@ const Main = (props) => {
       const { isConnected } = state;
       // Show the modal once the status changes to offline
       if (connected && isConnected === false) {
-        props.navigation.navigate('OfflineModeView');
+        // props.navigation.navigate('OfflineModeView');
       }
       if (connected !== isConnected && isConnected !== null) {
         setConnected(isConnected);
@@ -121,7 +121,7 @@ const Main = (props) => {
         props.setInfuraAvailabilityNotBlocked();
       } catch (e) {
         if (e.message === AppConstants.ERRORS.INFURA_BLOCKED_MESSAGE) {
-          props.navigation.navigate('OfflineModeView');
+          // props.navigation.navigate('OfflineModeView');
           props.setInfuraAvailabilityBlocked();
         }
       }

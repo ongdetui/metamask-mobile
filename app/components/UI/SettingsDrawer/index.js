@@ -1,11 +1,11 @@
-import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { fontStyles } from '../../../styles/common';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SettingsNotification from '../SettingsNotification';
 import { strings } from '../../../../locales/i18n';
+import { fontStyles } from '../../../styles/common';
 import { useTheme } from '../../../util/theme';
+import SettingsNotification from '../SettingsNotification';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -36,6 +36,7 @@ const createStyles = (colors) =>
     action: {
       flex: 0,
       paddingHorizontal: 16,
+      justifyContent: 'center',
     },
     icon: {
       bottom: 8,
@@ -54,6 +55,11 @@ const createStyles = (colors) =>
       color: colors.text.default,
       fontSize: 12,
       ...fontStyles.normal,
+    },
+
+    itemSetting: {
+      alignItems: 'center',
+      flexDirection: 'row',
     },
   });
 
@@ -86,7 +92,7 @@ const SettingsDrawer = ({ title, description, noBorder, onPress, warning }) => {
   const styles = createStyles(colors);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={styles.itemSetting}>
       <View style={noBorder ? [styles.root, styles.noBorder] : styles.root}>
         <View style={styles.content}>
           <Text style={styles.title}>{title}</Text>

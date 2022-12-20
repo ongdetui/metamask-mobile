@@ -1,95 +1,96 @@
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { baseStyles } from '../../../../styles/common';
 import {
-  InteractionManager,
-  View,
+  ActivityIndicator,
   Alert,
+  InteractionManager,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
+  View,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
-import { getSendFlowTitle } from '../../../UI/Navbar';
-import { AddressFrom, AddressTo } from '../AddressInputs';
-import PropTypes from 'prop-types';
+import { baseStyles } from '../../../../styles/common';
 import {
-  renderFromWei,
-  renderFromTokenMinimalUnit,
-  weiToFiat,
   balanceToFiat,
-  isDecimal,
   fromWei,
+  isDecimal,
+  renderFromTokenMinimalUnit,
+  renderFromWei,
+  weiToFiat,
 } from '../../../../util/number';
+import { getSendFlowTitle } from '../../../UI/Navbar';
+import { AddressTo } from '../AddressInputs';
 
 import {
-  getTicker,
-  decodeTransferData,
-  getNormalizedTxState,
-} from '../../../../util/transactions';
-import StyledButton from '../../../UI/StyledButton';
-import {
+  GAS_ESTIMATE_TYPES,
+  NetworksChainId,
   util,
   WalletDevice,
-  NetworksChainId,
-  GAS_ESTIMATE_TYPES,
 } from '@metamask/controllers';
+import { addHexPrefix, toChecksumAddress } from 'ethereumjs-util';
+import Modal from 'react-native-modal';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import IonicIcon from 'react-native-vector-icons/Ionicons';
+import { strings } from '../../../../../locales/i18n';
+import { showAlert } from '../../../../actions/alert';
+import { removeFavoriteCollectible } from '../../../../actions/collectibles';
 import {
   prepareTransaction,
   resetTransaction,
   setNonce,
   setProposedNonce,
 } from '../../../../actions/transaction';
-import { getGasLimit } from '../../../../util/custom-gas';
-import Engine from '../../../../core/Engine';
-import Logger from '../../../../util/Logger';
-import AccountList from '../../../UI/AccountList';
-import CustomNonceModal from '../../../UI/CustomNonceModal';
-import { doENSReverseLookup } from '../../../../util/ENSUtils';
-import NotificationManager from '../../../../core/NotificationManager';
-import { strings } from '../../../../../locales/i18n';
-import collectiblesTransferInformation from '../../../../util/collectibles-transfer';
-import CollectibleMedia from '../../../UI/CollectibleMedia';
-import Modal from 'react-native-modal';
-import IonicIcon from 'react-native-vector-icons/Ionicons';
-import TransactionTypes from '../../../../core/TransactionTypes';
-import Analytics from '../../../../core/Analytics/Analytics';
-import { ANALYTICS_EVENT_OPTS } from '../../../../util/analytics';
-import { shallowEqual, renderShortText } from '../../../../util/general';
-import {
-  isTestNet,
-  getNetworkNonce,
-  isMainnetByChainId,
-} from '../../../../util/networks';
-import Text from '../../../Base/Text';
-import AnalyticsV2 from '../../../../util/analyticsV2';
-import { collectConfusables } from '../../../../util/confusables';
-import InfoModal from '../../../UI/Swaps/components/InfoModal';
-import { addHexPrefix, toChecksumAddress } from 'ethereumjs-util';
-import { removeFavoriteCollectible } from '../../../../actions/collectibles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import TransactionReview from '../../../UI/TransactionReview/TransactionReviewEIP1559Update';
-import EditGasFee1559 from '../../../UI/EditGasFee1559Update';
-import EditGasFeeLegacy from '../../../UI/EditGasFeeLegacyUpdate';
-import CustomNonce from '../../../UI/CustomNonce';
-import AppConstants from '../../../../core/AppConstants';
-import {
-  getAddressAccountType,
-  isQRHardwareAccount,
-} from '../../../../util/address';
 import { KEYSTONE_TX_CANCELED } from '../../../../constants/error';
-import { ThemeContext, mockTheme } from '../../../../util/theme';
 import Routes from '../../../../constants/navigation/Routes';
-import WarningMessage from '../WarningMessage';
-import { showAlert } from '../../../../actions/alert';
+import Analytics from '../../../../core/Analytics/Analytics';
+import AppConstants from '../../../../core/AppConstants';
 import ClipboardManager from '../../../../core/ClipboardManager';
-import GlobalAlert from '../../../UI/GlobalAlert';
-import { allowedToBuy } from '../../../UI/FiatOrders';
-import createStyles from './styles';
+import Engine from '../../../../core/Engine';
 import {
   startGasPolling,
   stopGasPolling,
 } from '../../../../core/GasPolling/GasPolling';
+import NotificationManager from '../../../../core/NotificationManager';
+import TransactionTypes from '../../../../core/TransactionTypes';
+import {
+  getAddressAccountType,
+  isQRHardwareAccount,
+  renderShortAddress,
+} from '../../../../util/address';
+import { ANALYTICS_EVENT_OPTS } from '../../../../util/analytics';
+import AnalyticsV2 from '../../../../util/analyticsV2';
+import collectiblesTransferInformation from '../../../../util/collectibles-transfer';
+import { collectConfusables } from '../../../../util/confusables';
+import { getGasLimit } from '../../../../util/custom-gas';
+import { doENSReverseLookup } from '../../../../util/ENSUtils';
+import { renderShortText, shallowEqual } from '../../../../util/general';
+import Logger from '../../../../util/Logger';
+import {
+  getNetworkNonce,
+  isMainnetByChainId,
+  isTestNet,
+} from '../../../../util/networks';
+import { mockTheme, ThemeContext } from '../../../../util/theme';
+import {
+  decodeTransferData,
+  getNormalizedTxState,
+  getTicker,
+} from '../../../../util/transactions';
+import Text from '../../../Base/Text';
+import AccountList from '../../../UI/AccountList';
+import CollectibleMedia from '../../../UI/CollectibleMedia';
+import CustomNonce from '../../../UI/CustomNonce';
+import CustomNonceModal from '../../../UI/CustomNonceModal';
+import EditGasFee1559 from '../../../UI/EditGasFee1559Update';
+import EditGasFeeLegacy from '../../../UI/EditGasFeeLegacyUpdate';
+import { allowedToBuy } from '../../../UI/FiatOrders';
+import GlobalAlert from '../../../UI/GlobalAlert';
+import StyledButton from '../../../UI/StyledButton';
+import InfoModal from '../../../UI/Swaps/components/InfoModal';
+import TransactionReview from '../../../UI/TransactionReview/TransactionReviewEIP1559Update';
+import WarningMessage from '../WarningMessage';
+import createStyles from './styles';
 
 const EDIT = 'edit';
 const EDIT_NONCE = 'edit_nonce';
@@ -1124,8 +1125,7 @@ class Confirm extends PureComponent {
   };
 
   render = () => {
-    const { transactionToName, selectedAsset, paymentRequest } =
-      this.props.transactionState;
+    const { transactionToName, selectedAsset } = this.props.transactionState;
     const {
       addressBook,
       showHexData,
@@ -1138,8 +1138,6 @@ class Confirm extends PureComponent {
     const { nonce } = this.props.transaction;
     const {
       gasEstimationReady,
-      fromAccountBalance,
-      fromAccountName,
       fromSelectedAddress,
       transactionValue = '',
       transactionValueFiat = '',
@@ -1182,15 +1180,6 @@ class Confirm extends PureComponent {
       />
     );
 
-    const AdressToComponentWrap = () =>
-      !existingContact && confusableCollection.length ? (
-        <TouchableOpacity onPress={this.toggleWarningModal}>
-          <AdressToComponent />
-        </TouchableOpacity>
-      ) : (
-        <AdressToComponent />
-      );
-
     const isTestNetwork = isTestNet(network);
 
     const errorPress = isTestNetwork ? this.goToFaucet : this.buyEth;
@@ -1204,16 +1193,6 @@ class Confirm extends PureComponent {
         style={styles.wrapper}
         testID={'txn-confirm-screen'}
       >
-        <View style={styles.inputWrapper}>
-          <AddressFrom
-            onPressIcon={!paymentRequest ? null : this.toggleFromAccountModal}
-            fromAccountAddress={fromSelectedAddress}
-            fromAccountName={fromAccountName}
-            fromAccountBalance={fromAccountBalance}
-          />
-          <AdressToComponentWrap />
-        </View>
-
         <InfoModal
           isVisible={warningModalVisible}
           toggleModal={this.toggleWarningModal}
@@ -1231,9 +1210,24 @@ class Confirm extends PureComponent {
               <Text style={styles.textAmountLabel}>
                 {strings('transaction.amount')}
               </Text>
+
               <Text style={styles.textAmount} testID={'confirm-txn-amount'}>
                 {transactionValue}
               </Text>
+              <View style={styles.infoSend}>
+                <View>
+                  <Text style={styles.labelText}>From</Text>
+                  <Text style={styles.textAddress}>
+                    {renderShortAddress(fromSelectedAddress)}
+                  </Text>
+                </View>
+                <View style={styles.flexSendTo}>
+                  <Text style={styles.labelText}>To</Text>
+                  <Text style={styles.textAddress}>
+                    {renderShortAddress(transactionTo)}
+                  </Text>
+                </View>
+              </View>
               {isMainnetByChainId(chainId) && (
                 <Text style={styles.textAmountLabel}>
                   {transactionValueFiat}

@@ -1,31 +1,31 @@
-import React, { PureComponent } from 'react';
+import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, StyleSheet, View } from 'react-native';
-import { fontStyles } from '../../../../styles/common';
-import { strings } from '../../../../../locales/i18n';
-import {
-  getNetworkTypeById,
-  findBlockExplorerForRpc,
-  getBlockExplorerName,
-  isMainNet,
-} from '../../../../util/networks';
-import {
-  getEtherscanTransactionUrl,
-  getEtherscanBaseUrl,
-} from '../../../../util/etherscan';
-import Logger from '../../../../util/Logger';
+import React, { PureComponent } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import URL from 'url-parse';
-import EthereumAddress from '../../EthereumAddress';
-import TransactionSummary from '../../../Views/TransactionSummary';
+import { strings } from '../../../../../locales/i18n';
+import { NO_RPC_BLOCK_EXPLORER, RPC } from '../../../../constants/network';
+import { fontStyles } from '../../../../styles/common';
 import { toDateFormat } from '../../../../util/date';
-import StyledButton from '../../StyledButton';
+import {
+  getEtherscanBaseUrl,
+  getEtherscanTransactionUrl,
+} from '../../../../util/etherscan';
+import Logger from '../../../../util/Logger';
+import {
+  findBlockExplorerForRpc,
+  getBlockExplorerName,
+  getNetworkTypeById,
+  isMainNet,
+} from '../../../../util/networks';
+import { mockTheme, ThemeContext } from '../../../../util/theme';
+import DetailsModal from '../../../Base/DetailsModal';
 import StatusText from '../../../Base/StatusText';
 import Text from '../../../Base/Text';
-import DetailsModal from '../../../Base/DetailsModal';
-import { RPC, NO_RPC_BLOCK_EXPLORER } from '../../../../constants/network';
-import { withNavigation } from '@react-navigation/compat';
-import { ThemeContext, mockTheme } from '../../../../util/theme';
+import TransactionSummary from '../../../Views/TransactionSummary';
+import EthereumAddress from '../../EthereumAddress';
+import StyledButton from '../../StyledButton';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -59,6 +59,8 @@ const createStyles = (colors) =>
       flexDirection: 'row',
       paddingTop: 10,
     },
+
+    modalDetail: {},
   });
 
 /**
@@ -232,7 +234,7 @@ class TransactionDetails extends PureComponent {
     const { rpcBlockExplorer } = this.state;
 
     return transactionDetails ? (
-      <DetailsModal.Body>
+      <DetailsModal.Body style={styles.modalDetail}>
         <DetailsModal.Section borderBottom>
           <DetailsModal.Column>
             <DetailsModal.SectionTitle>

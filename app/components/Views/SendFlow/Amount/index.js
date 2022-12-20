@@ -94,6 +94,8 @@ const createStyles = (colors) =>
     buttonNext: {
       flex: 1,
       marginHorizontal: 24,
+      borderRadius: 8,
+      backgroundColor: `#004868`,
     },
     inputWrapper: {
       flex: 1,
@@ -115,7 +117,7 @@ const createStyles = (colors) =>
       backgroundColor: colors.primary.default,
       paddingHorizontal: 16,
       paddingVertical: 2,
-      borderRadius: 100,
+      borderRadius: 4,
       flexDirection: 'row',
       alignItems: 'center',
     },

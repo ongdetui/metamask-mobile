@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions, NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import React, {
   useCallback,
   useContext,
@@ -5,59 +8,56 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { Animated, Linking } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Login from '../../Views/Login';
-import QRScanner from '../../Views/QRScanner';
-import Onboarding from '../../Views/Onboarding';
-import OnboardingCarousel from '../../Views/OnboardingCarousel';
-import ChoosePassword from '../../Views/ChoosePassword';
-import ExtensionSync from '../../Views/ExtensionSync';
-import AccountBackupStep1 from '../../Views/AccountBackupStep1';
-import AccountBackupStep1B from '../../Views/AccountBackupStep1B';
-import ManualBackupStep1 from '../../Views/ManualBackupStep1';
-import ManualBackupStep2 from '../../Views/ManualBackupStep2';
-import ManualBackupStep3 from '../../Views/ManualBackupStep3';
-import ImportFromSeed from '../../Views/ImportFromSeed';
-import SyncWithExtensionSuccess from '../../Views/SyncWithExtensionSuccess';
-import DeleteWalletModal from '../../../components/UI/DeleteWalletModal';
-import WhatsNewModal from '../../UI/WhatsNewModal/WhatsNewModal';
-import Main from '../Main';
-import OptinMetrics from '../../UI/OptinMetrics';
-import MetaMaskAnimation from '../../UI/MetaMaskAnimation';
-import SimpleWebview from '../../Views/SimpleWebview';
-import SharedDeeplinkManager from '../../../core/DeeplinkManager';
-import Engine from '../../../core/Engine';
 import branch from 'react-native-branch';
-import AppConstants from '../../../core/AppConstants';
-import Logger from '../../../util/Logger';
-import { trackErrorAsAnalytics } from '../../../util/analyticsV2';
-import { routingInstrumentation } from '../../../util/sentryUtils';
-import Analytics from '../../../core/Analytics/Analytics';
-import { connect, useSelector, useDispatch } from 'react-redux';
-import {
-  EXISTING_USER,
-  CURRENT_APP_VERSION,
-  LAST_APP_VERSION,
-} from '../../../constants/storage';
 import { getVersion } from 'react-native-device-info';
-import { checkedAuth } from '../../../actions/user';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { setCurrentRoute } from '../../../actions/navigation';
-import { findRouteNameFromNavigatorState } from '../../../util/general';
-import { useTheme } from '../../../util/theme';
-import Device from '../../../util/device';
-import SDKConnect from '../../../core/SDKConnect';
-import { colors as importedColors } from '../../../styles/common';
-import Routes from '../../../constants/navigation/Routes';
+import { checkedAuth } from '../../../actions/user';
 import ModalConfirmation from '../../../component-library/components/Modals/ModalConfirmation';
 import Toast, {
   ToastContext,
 } from '../../../component-library/components/Toast';
+import DeleteWalletModal from '../../../components/UI/DeleteWalletModal';
+import { EnableAutomaticSecurityChecksModal } from '../../../components/UI/EnableAutomaticSecurityChecksModal';
 import { TurnOffRememberMeModal } from '../../../components/UI/TurnOffRememberMeModal';
 import { UpdateNeeded } from '../../../components/UI/UpdateNeeded';
-import { EnableAutomaticSecurityChecksModal } from '../../../components/UI/EnableAutomaticSecurityChecksModal';
+import Routes from '../../../constants/navigation/Routes';
+import {
+  CURRENT_APP_VERSION,
+  EXISTING_USER,
+  LAST_APP_VERSION,
+} from '../../../constants/storage';
+import Analytics from '../../../core/Analytics/Analytics';
+import AppConstants from '../../../core/AppConstants';
+import SharedDeeplinkManager from '../../../core/DeeplinkManager';
+import Engine from '../../../core/Engine';
+import SDKConnect from '../../../core/SDKConnect';
+import { colors as importedColors } from '../../../styles/common';
+import { trackErrorAsAnalytics } from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import { findRouteNameFromNavigatorState } from '../../../util/general';
+import Logger from '../../../util/Logger';
+import { routingInstrumentation } from '../../../util/sentryUtils';
+import { useTheme } from '../../../util/theme';
+import MetaMaskAnimation from '../../UI/MetaMaskAnimation';
+import OptinMetrics from '../../UI/OptinMetrics';
+import WhatsNewModal from '../../UI/WhatsNewModal/WhatsNewModal';
+import AccountBackupStep1 from '../../Views/AccountBackupStep1';
+import AccountBackupStep1B from '../../Views/AccountBackupStep1B';
+import ChoosePassword from '../../Views/ChoosePassword';
+import ExtensionSync from '../../Views/ExtensionSync';
+import ImportFromSeed from '../../Views/ImportFromSeed';
+import Login from '../../Views/Login';
+import ManualBackupStep1 from '../../Views/ManualBackupStep1';
+import ManualBackupStep2 from '../../Views/ManualBackupStep2';
+import ManualBackupStep3 from '../../Views/ManualBackupStep3';
+import Onboarding from '../../Views/Onboarding';
+import OnboardingCarousel from '../../Views/OnboardingCarousel';
+import QRScanner from '../../Views/QRScanner';
+import SimpleWebview from '../../Views/SimpleWebview';
+import SyncWithExtensionSuccess from '../../Views/SyncWithExtensionSuccess';
+import Main from '../Main';
 
 const Stack = createStackNavigator();
 /**

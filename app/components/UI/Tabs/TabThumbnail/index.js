@@ -115,7 +115,7 @@ const createStyles = (colors) =>
   });
 
 const { HOMEPAGE_URL } = AppConstants;
-const METAMASK_FOX = require('../../../../images/fox.png'); // eslint-disable-line import/no-commonjs
+const METAMASK_FOX = require('../../../../images/logo.png'); // eslint-disable-line import/no-commonjs
 
 /**
  * PureComponent that renders an a thumbnail

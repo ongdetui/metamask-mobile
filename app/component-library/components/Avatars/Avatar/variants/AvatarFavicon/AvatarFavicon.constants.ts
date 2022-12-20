@@ -17,7 +17,7 @@ export const TEST_REMOTE_IMAGE_SOURCE: ImageSourcePropType = {
 };
 
 /* eslint-disable-next-line */
-export const TEST_LOCAL_IMAGE_SOURCE: ImageSourcePropType = require('../../../../../../images/fox.png');
+export const TEST_LOCAL_IMAGE_SOURCE: ImageSourcePropType = require('../../../../../../images/logo.png');
 
 export const FAVICON_AVATAR_IMAGE_ID = 'favicon-avatar-image';
 

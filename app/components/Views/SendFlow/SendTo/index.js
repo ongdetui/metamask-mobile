@@ -1,68 +1,68 @@
+import { util } from '@metamask/controllers';
+import { toChecksumAddress } from 'ethereumjs-util';
+import PropTypes from 'prop-types';
 import React, { Fragment, PureComponent } from 'react';
 import {
-  View,
-  TouchableOpacity,
-  TextInput,
+  Alert,
   InteractionManager,
   ScrollView,
-  Alert,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toChecksumAddress } from 'ethereumjs-util';
-import { util } from '@metamask/controllers';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Engine from '../../../../core/Engine';
-import Analytics from '../../../../core/Analytics/Analytics';
-import AddressList from './../AddressList';
-import { createQRScannerNavDetails } from '../../QRScanner';
-import Text from '../../../Base/Text';
-import { AddressFrom, AddressTo } from './../AddressInputs';
-import WarningMessage from '../WarningMessage';
-import { getSendFlowTitle } from '../../../UI/Navbar';
-import AccountList from '../../../UI/AccountList';
-import ActionModal from '../../../UI/ActionModal';
-import StyledButton from '../../../UI/StyledButton';
-import { allowedToBuy } from '../../../UI/FiatOrders';
-import AnalyticsV2 from '../../../../util/analyticsV2';
-import { ANALYTICS_EVENT_OPTS } from '../../../../util/analytics';
-import { doENSReverseLookup } from '../../../../util/ENSUtils';
-import { handleNetworkSwitch } from '../../../../util/networks';
-import { renderFromWei } from '../../../../util/number';
-import {
-  isENS,
-  isValidHexAddress,
-  validateAddressOrENS,
-} from '../../../../util/address';
-import { getTicker, getEther } from '../../../../util/transactions';
-import {
-  getConfusablesExplanations,
-  hasZeroWidthPoints,
-} from '../../../../util/confusables';
-import { ThemeContext, mockTheme } from '../../../../util/theme';
+import { connect } from 'react-redux';
+import { strings } from '../../../../../locales/i18n';
 import { showAlert } from '../../../../actions/alert';
 import addRecent from '../../../../actions/recents';
 import {
-  setSelectedAsset,
-  setRecipient,
   newAssetTransaction,
+  setRecipient,
+  setSelectedAsset,
 } from '../../../../actions/transaction';
-import ErrorMessage from '../ErrorMessage';
-import { strings } from '../../../../../locales/i18n';
+import {
+  CONTACT_ALREADY_SAVED,
+  NetworkSwitchErrorType,
+  SYMBOL_ERROR,
+} from '../../../../constants/error';
+import Routes from '../../../../constants/navigation/Routes';
 import {
   ADDRESS_BOOK_NEXT_BUTTON,
   ADD_ADDRESS_MODAL_CONTAINER_ID,
   ENTER_ALIAS_INPUT_BOX_ID,
 } from '../../../../constants/test-ids';
-import Routes from '../../../../constants/navigation/Routes';
-import {
-  CONTACT_ALREADY_SAVED,
-  SYMBOL_ERROR,
-  NetworkSwitchErrorType,
-} from '../../../../constants/error';
+import Analytics from '../../../../core/Analytics/Analytics';
+import Engine from '../../../../core/Engine';
 import { baseStyles } from '../../../../styles/common';
+import {
+  isENS,
+  isValidHexAddress,
+  validateAddressOrENS,
+} from '../../../../util/address';
+import { ANALYTICS_EVENT_OPTS } from '../../../../util/analytics';
+import AnalyticsV2 from '../../../../util/analyticsV2';
+import {
+  getConfusablesExplanations,
+  hasZeroWidthPoints,
+} from '../../../../util/confusables';
+import { doENSReverseLookup } from '../../../../util/ENSUtils';
+import { handleNetworkSwitch } from '../../../../util/networks';
+import { renderFromWei } from '../../../../util/number';
+import { mockTheme, ThemeContext } from '../../../../util/theme';
+import { getEther, getTicker } from '../../../../util/transactions';
+import Text from '../../../Base/Text';
+import AccountList from '../../../UI/AccountList';
+import ActionModal from '../../../UI/ActionModal';
+import { allowedToBuy } from '../../../UI/FiatOrders';
+import { getSendFlowTitle } from '../../../UI/Navbar';
+import StyledButton from '../../../UI/StyledButton';
+import { createQRScannerNavDetails } from '../../QRScanner';
+import ErrorMessage from '../ErrorMessage';
+import WarningMessage from '../WarningMessage';
+import { AddressFrom, AddressTo } from './../AddressInputs';
+import AddressList from './../AddressList';
 import createStyles from './styles';
 
 const { hexToBN } = util;

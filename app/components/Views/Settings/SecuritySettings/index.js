@@ -674,7 +674,7 @@ class Settings extends PureComponent {
           </Text>
         </Text>
 
-        <SeedPhraseVideo onClose={this.onBack} />
+        {/* <SeedPhraseVideo onClose={this.onBack} /> */}
 
         <Text style={styles.desc}>
           {strings(

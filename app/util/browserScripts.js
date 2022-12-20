@@ -20,6 +20,8 @@ export const SPA_urlChangeListener = `(function () {
   var __mmHistory = window.history;
   var __mmPushState = __mmHistory.pushState;
   var __mmReplaceState = __mmHistory.replaceState;
+
+  
   function __mm__updateUrl(){
     const siteName = document.querySelector('head > meta[property="og:site_name"]');
     const title = siteName || document.querySelector('head > meta[name="title"]') || document.title;
@@ -64,6 +66,7 @@ export const SPA_urlChangeListener = `(function () {
   window.onpopstate = function(event) {
     __mm__updateUrl();
   };
+  
   })();
 `;
 

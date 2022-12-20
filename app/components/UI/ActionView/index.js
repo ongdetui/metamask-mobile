@@ -1,17 +1,18 @@
-import React from 'react';
-import StyledButton from '../StyledButton';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {
+  ActivityIndicator,
   Keyboard,
   StyleSheet,
-  View,
-  ActivityIndicator,
+  Text,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import { baseStyles } from '../../../styles/common';
-import { strings } from '../../../../locales/i18n';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { strings } from '../../../../locales/i18n';
+import { baseStyles, fontStyles } from '../../../styles/common';
 import { useTheme } from '../../../util/theme';
+import StyledButton from '../StyledButton';
 
 const styles = StyleSheet.create({
   actionContainer: {
@@ -28,6 +29,15 @@ const styles = StyleSheet.create({
   },
   confirm: {
     marginLeft: 8,
+    borderRadius: 8,
+    backgroundColor: `#004868`,
+  },
+
+  textConfirm: {
+    color: `#FFFFFF`,
+    fontSize: 14,
+    alignSelf: 'center',
+    ...fontStyles.bold,
   },
 });
 
@@ -99,7 +109,7 @@ export default function ActionView({
                   color={colors.primary.inverse}
                 />
               ) : (
-                confirmText
+                <Text style={styles.textConfirm}>{confirmText}</Text>
               )}
             </StyledButton>
           )}

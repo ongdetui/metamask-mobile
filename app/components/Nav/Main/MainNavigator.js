@@ -1,74 +1,75 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import React, { useRef } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Browser from '../../Views/Browser';
-import AddBookmark from '../../Views/AddBookmark';
-import SimpleWebview from '../../Views/SimpleWebview';
-import Settings from '../../Views/Settings';
-import GeneralSettings from '../../Views/Settings/GeneralSettings';
-import AdvancedSettings from '../../Views/Settings/AdvancedSettings';
-import SecuritySettings from '../../Views/Settings/SecuritySettings';
-import ExperimentalSettings from '../../Views/Settings/ExperimentalSettings';
-import NetworksSettings from '../../Views/Settings/NetworksSettings';
-import NetworkSettings from '../../Views/Settings/NetworksSettings/NetworkSettings';
-import AppInformation from '../../Views/Settings/AppInformation';
-import Contacts from '../../Views/Settings/Contacts';
-import Wallet from '../../Views/Wallet';
-import Asset from '../../Views/Asset';
-import AssetOptions from '../../Views/AssetOptions';
-import AssetDetails from '../../Views/AssetDetails';
-import AddAsset from '../../Views/AddAsset';
-import AssetHideConfirmation from '../../Views/AssetHideConfirmation';
-import DetectedTokens from '../../Views/DetectedTokens';
-import DetectedTokensConfirmation from '../../Views/DetectedTokensConfirmation';
-import Collectible from '../../Views/Collectible';
-import Send from '../../Views/Send';
-import SendTo from '../../Views/SendFlow/SendTo';
-import RevealPrivateCredential from '../../Views/RevealPrivateCredential';
-import WalletConnectSessions from '../../Views/WalletConnectSessions';
-import OfflineMode from '../../Views/OfflineMode';
-import QrScanner from '../../Views/QRScanner';
-import ConnectQRHardware from '../../Views/ConnectQRHardware';
-import LockScreen from '../../Views/LockScreen';
-import EnterPasswordSimple from '../../Views/EnterPasswordSimple';
-import ChoosePassword from '../../Views/ChoosePassword';
-import ResetPassword from '../../Views/ResetPassword';
+import AmountToBuy from '../../../components/UI/FiatOnRampAggregator/Views/AmountToBuy';
+import GetQuotes from '../../../components/UI/FiatOnRampAggregator/Views/GetQuotes';
+import GetStarted from '../../../components/UI/FiatOnRampAggregator/Views/GetStarted';
+import Routes from '../../../constants/navigation/Routes';
+import { colors as importedColors, fontStyles } from '../../../styles/common';
+import Device from '../../../util/device';
+import CollectiblesDetails from '../../UI/CollectibleModal';
+import Drawer from '../../UI/Drawer';
+import { FiatOnRampSDKProvider } from '../../UI/FiatOnRampAggregator/sdk';
+import CheckoutWebView from '../../UI/FiatOnRampAggregator/Views/Checkout';
+import OrderDetails from '../../UI/FiatOnRampAggregator/Views/OrderDetails';
+import PaymentMethods from '../../UI/FiatOnRampAggregator/Views/PaymentMethods';
+import Region from '../../UI/FiatOnRampAggregator/Views/Region';
+import MoonPayWebView from '../../UI/FiatOrders/MoonPayWebView';
+import PaymentMethodApplePay from '../../UI/FiatOrders/PaymentMethodApplePay';
+import PaymentMethodSelector from '../../UI/FiatOrders/PaymentMethodSelector';
+import TransakWebView from '../../UI/FiatOrders/TransakWebView';
+import OptinMetrics from '../../UI/OptinMetrics';
+import PaymentRequest from '../../UI/PaymentRequest';
+import PaymentRequestSuccess from '../../UI/PaymentRequestSuccess';
+import SwapsAmountView from '../../UI/Swaps';
+import SwapsQuotesView from '../../UI/Swaps/QuotesView';
 import AccountBackupStep1 from '../../Views/AccountBackupStep1';
 import AccountBackupStep1B from '../../Views/AccountBackupStep1B';
+import ActivityView from '../../Views/ActivityView';
+import AddAsset from '../../Views/AddAsset';
+import AddBookmark from '../../Views/AddBookmark';
+import Asset from '../../Views/Asset';
+import AssetDetails from '../../Views/AssetDetails';
+import AssetHideConfirmation from '../../Views/AssetHideConfirmation';
+import AssetOptions from '../../Views/AssetOptions';
+import Browser from '../../Views/Browser';
+import BrowserUrlModal from '../../Views/BrowserUrlModal';
+import ChoosePassword from '../../Views/ChoosePassword';
+import Collectible from '../../Views/Collectible';
+import ConnectQRHardware from '../../Views/ConnectQRHardware';
+import DetectedTokens from '../../Views/DetectedTokens';
+import DetectedTokensConfirmation from '../../Views/DetectedTokensConfirmation';
+import EnterPasswordSimple from '../../Views/EnterPasswordSimple';
+import GasEducationCarousel from '../../Views/GasEducationCarousel';
+import ImportPrivateKey from '../../Views/ImportPrivateKey';
+import ImportPrivateKeySuccess from '../../Views/ImportPrivateKeySuccess';
+import LockScreen from '../../Views/LockScreen';
 import ManualBackupStep1 from '../../Views/ManualBackupStep1';
 import ManualBackupStep2 from '../../Views/ManualBackupStep2';
 import ManualBackupStep3 from '../../Views/ManualBackupStep3';
-import ImportPrivateKey from '../../Views/ImportPrivateKey';
-import ImportPrivateKeySuccess from '../../Views/ImportPrivateKeySuccess';
-import PaymentRequest from '../../UI/PaymentRequest';
-import PaymentRequestSuccess from '../../UI/PaymentRequestSuccess';
+import QrScanner from '../../Views/QRScanner';
+import ResetPassword from '../../Views/ResetPassword';
+import RevealPrivateCredential from '../../Views/RevealPrivateCredential';
+import Send from '../../Views/Send';
 import Amount from '../../Views/SendFlow/Amount';
 import Confirm from '../../Views/SendFlow/Confirm';
+import SendTo from '../../Views/SendFlow/SendTo';
+import Settings from '../../Views/Settings';
+import AdvancedSettings from '../../Views/Settings/AdvancedSettings';
+import AppInformation from '../../Views/Settings/AppInformation';
+import Contacts from '../../Views/Settings/Contacts';
 import ContactForm from '../../Views/Settings/Contacts/ContactForm';
-import PaymentMethodSelector from '../../UI/FiatOrders/PaymentMethodSelector';
-import PaymentMethodApplePay from '../../UI/FiatOrders/PaymentMethodApplePay';
-import TransakWebView from '../../UI/FiatOrders/TransakWebView';
-import MoonPayWebView from '../../UI/FiatOrders/MoonPayWebView';
-import ActivityView from '../../Views/ActivityView';
-import SwapsAmountView from '../../UI/Swaps';
-import SwapsQuotesView from '../../UI/Swaps/QuotesView';
-import GasEducationCarousel from '../../Views/GasEducationCarousel';
-import CollectiblesDetails from '../../UI/CollectibleModal';
-import OptinMetrics from '../../UI/OptinMetrics';
-import Drawer from '../../UI/Drawer';
-import { FiatOnRampSDKProvider } from '../../UI/FiatOnRampAggregator/sdk';
-import GetStarted from '../../../components/UI/FiatOnRampAggregator/Views/GetStarted';
-import PaymentMethods from '../../UI/FiatOnRampAggregator/Views/PaymentMethods';
-import AmountToBuy from '../../../components/UI/FiatOnRampAggregator/Views/AmountToBuy';
-import GetQuotes from '../../../components/UI/FiatOnRampAggregator/Views/GetQuotes';
-import CheckoutWebView from '../../UI/FiatOnRampAggregator/Views/Checkout';
-import Region from '../../UI/FiatOnRampAggregator/Views/Region';
+import ExperimentalSettings from '../../Views/Settings/ExperimentalSettings';
+import GeneralSettings from '../../Views/Settings/GeneralSettings';
+import NetworksSettings from '../../Views/Settings/NetworksSettings';
+import NetworkSettings from '../../Views/Settings/NetworksSettings/NetworkSettings';
+import SecuritySettings from '../../Views/Settings/SecuritySettings';
+import SimpleWebview from '../../Views/SimpleWebview';
 import ThemeSettings from '../../Views/ThemeSettings';
-import { colors as importedColors } from '../../../styles/common';
-import OrderDetails from '../../UI/FiatOnRampAggregator/Views/OrderDetails';
-import BrowserUrlModal from '../../Views/BrowserUrlModal';
-import Routes from '../../../constants/navigation/Routes';
+import Wallet from '../../Views/Wallet';
+import WalletConnectSessions from '../../Views/WalletConnectSessions';
+import CustomTabNavigation from './CustomTabNavigation';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,6 +81,28 @@ const styles = StyleSheet.create({
   },
   hidden: {
     opacity: 0,
+  },
+  tabBar: {
+    height: 70 + (Device.isIphoneX() ? 15 : 0),
+    paddingTop: 20,
+    paddingBottom: Device.isIphoneX() ? 15 : 5,
+    // borderTopLeftRadius: 20,
+  },
+
+  tabBarLabelStyle: {
+    fontSize: 13,
+    marginBottom: 10,
+  },
+
+  menuItemIconImage: {
+    width: 22,
+    height: 22,
+    tintColor: `#004868`,
+  },
+
+  textTitleTab: {
+    fontSize: 13,
+    ...fontStyles.normal,
   },
 });
 
@@ -224,51 +247,6 @@ const TransactionsHome = () => (
   </Stack.Navigator>
 );
 
-export const DrawerContext = React.createContext({ drawerRef: null });
-
-const HomeTabs = () => {
-  const drawerRef = useRef(null);
-
-  return (
-    <DrawerContext.Provider value={{ drawerRef }}>
-      <Drawer ref={drawerRef}>
-        <Tab.Navigator
-          initialRouteName={'WalletTabHome'}
-          tabBarOptions={{ style: styles.hidden }}
-          screenOptions={{ tabBarVisible: false }}
-        >
-          <Tab.Screen
-            name="WalletTabHome"
-            component={WalletTabModalFlow}
-            options={{ tabBarVisible: false }}
-          />
-          <Tab.Screen
-            name={Routes.BROWSER_TAB_HOME}
-            component={BrowserFlow}
-            options={{ tabBarVisible: false }}
-          />
-          <Tab.Screen
-            name="TransactionsHome"
-            component={TransactionsHome}
-            options={{ tabBarVisible: false }}
-          />
-        </Tab.Navigator>
-      </Drawer>
-    </DrawerContext.Provider>
-  );
-};
-
-const Webview = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="SimpleWebview"
-      component={SimpleWebview}
-      mode={'modal'}
-      options={SimpleWebview.navigationOptions}
-    />
-  </Stack.Navigator>
-);
-
 const SettingsFlow = () => (
   <Stack.Navigator initialRouteName={'Settings'}>
     <Stack.Screen
@@ -363,7 +341,7 @@ const SettingsFlow = () => (
 const SettingsModalStack = () => (
   <Stack.Navigator
     initialRouteName={'SettingsFlow'}
-    mode={'modal'}
+    // mode={'modal'}
     screenOptions={{
       headerShown: false,
       cardStyle: { backgroundColor: importedColors.transparent },
@@ -374,6 +352,55 @@ const SettingsModalStack = () => (
       name={'ThemeSettings'}
       component={ThemeSettings}
       options={{ animationEnabled: false }}
+    />
+  </Stack.Navigator>
+);
+
+const HomeTab = createBottomTabNavigator();
+const HomeTabNavigation = () => (
+  <HomeTab.Navigator tabBar={(props) => <CustomTabNavigation {...props} />}>
+    <HomeTab.Screen name="WalletTabHome" component={WalletTabModalFlow} />
+    <HomeTab.Screen name={Routes.BROWSER_TAB_HOME} component={BrowserFlow} />
+    <HomeTab.Screen name={'SettingsView'} component={SettingsModalStack} />
+  </HomeTab.Navigator>
+);
+
+export const DrawerContext = React.createContext({ drawerRef: null });
+
+const HomeTabs = () => {
+  const drawerRef = useRef(null);
+
+  return (
+    <DrawerContext.Provider value={{ drawerRef }}>
+      <Drawer ref={drawerRef}>
+        <Tab.Navigator
+          initialRouteName={'HomeTabNavigation'}
+          tabBarOptions={{ style: styles.hidden }}
+          screenOptions={{ tabBarVisible: false }}
+        >
+          <Tab.Screen
+            name="HomeTabNavigation"
+            component={HomeTabNavigation}
+            options={{ tabBarVisible: false }}
+          />
+          <Tab.Screen
+            name="TransactionsHome"
+            component={TransactionsHome}
+            options={{ tabBarVisible: false }}
+          />
+        </Tab.Navigator>
+      </Drawer>
+    </DrawerContext.Provider>
+  );
+};
+
+const Webview = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="SimpleWebview"
+      component={SimpleWebview}
+      // mode={'modal'}
+      options={SimpleWebview.navigationOptions}
     />
   </Stack.Navigator>
 );
@@ -432,15 +459,15 @@ const AddBookmarkView = () => (
   </Stack.Navigator>
 );
 
-const OfflineModeView = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="OfflineMode"
-      component={OfflineMode}
-      options={OfflineMode.navigationOptions}
-    />
-  </Stack.Navigator>
-);
+// const OfflineModeView = () => (
+//   <Stack.Navigator>
+//     <Stack.Screen
+//       name="OfflineMode"
+//       component={OfflineMode}
+//       options={OfflineMode.navigationOptions}
+//     />
+//   </Stack.Navigator>
+// );
 
 const PaymentRequestView = () => (
   <Stack.Navigator>
@@ -617,8 +644,13 @@ const MainNavigator = () => (
       }}
     />
     <Stack.Screen name="Home" tabBarVisible={false} component={HomeTabs} />
+    {/* <Stack.Screen
+      name="HomeMain"
+      tabBarVisible={false}
+      component={HomeTabNavigation}
+    /> */}
     <Stack.Screen name="Webview" component={Webview} />
-    <Stack.Screen name="SettingsView" component={SettingsModalStack} />
+    {/* <Stack.Screen name="SettingsView" component={SettingsModalStack} /> */}
     <Stack.Screen
       name="ImportPrivateKeyView"
       component={ImportPrivateKeyView}
@@ -630,7 +662,7 @@ const MainNavigator = () => (
     <Stack.Screen name="SendView" component={SendView} />
     <Stack.Screen name="SendFlowView" component={SendFlowView} />
     <Stack.Screen name="AddBookmarkView" component={AddBookmarkView} />
-    <Stack.Screen name="OfflineModeView" component={OfflineModeView} />
+    {/* <Stack.Screen name="OfflineModeView" component={OfflineModeView} /> */}
     <Stack.Screen name={Routes.QR_SCANNER} component={QrScanner} />
     <Stack.Screen name="LockScreen" component={LockScreen} />
     <Stack.Screen name="PaymentRequestView" component={PaymentRequestView} />

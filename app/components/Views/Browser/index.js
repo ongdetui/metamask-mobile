@@ -1,24 +1,24 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { View, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Dimensions, View } from 'react-native';
+import { captureScreen } from 'react-native-view-shot';
+import { connect } from 'react-redux';
 import {
-  createNewTab,
   closeAllTabs,
   closeTab,
+  createNewTab,
   setActiveTab,
   updateTab,
 } from '../../../actions/browser';
-import Tabs from '../../UI/Tabs';
-import { getBrowserViewNavbarOptions } from '../../UI/Navbar';
-import { captureScreen } from 'react-native-view-shot';
-import Logger from '../../../util/Logger';
-import Device from '../../../util/device';
-import BrowserTab from '../BrowserTab';
 import AppConstants from '../../../core/AppConstants';
 import { baseStyles } from '../../../styles/common';
-import { DrawerContext } from '../../Nav/Main/MainNavigator';
+import Device from '../../../util/device';
+import Logger from '../../../util/Logger';
 import { useTheme } from '../../../util/theme';
+import { DrawerContext } from '../../Nav/Main/MainNavigator';
+import { getBrowserViewNavbarOptions } from '../../UI/Navbar';
+import Tabs from '../../UI/Tabs';
+import BrowserTab from '../BrowserTab';
 
 const margin = 16;
 const THUMB_WIDTH = Dimensions.get('window').width / 2 - margin * 2;

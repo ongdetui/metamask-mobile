@@ -1,86 +1,86 @@
+import { KeyringTypes } from '@metamask/controllers';
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   Alert,
-  TouchableOpacity,
-  View,
   Image,
-  StyleSheet,
-  Text,
   InteractionManager,
   Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Share from 'react-native-share';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { fontStyles } from '../../../styles/common';
-import {
-  hasBlockExplorer,
-  findBlockExplorerForRpc,
-  getBlockExplorerName,
-} from '../../../util/networks';
-import Identicon from '../Identicon';
-import StyledButton from '../StyledButton';
-import AccountList from '../AccountList';
-import NetworkList from '../NetworkList';
-import { renderFromWei, renderFiat } from '../../../util/number';
-import { strings } from '../../../../locales/i18n';
-import Modal from 'react-native-modal';
-import SecureKeychain from '../../../core/SecureKeychain';
-import {
-  toggleNetworkModal,
-  toggleAccountsModal,
-  toggleReceiveModal,
-} from '../../../actions/modals';
-import { showAlert } from '../../../actions/alert';
-import {
-  getEtherscanAddressUrl,
-  getEtherscanBaseUrl,
-} from '../../../util/etherscan';
-import Engine from '../../../core/Engine';
-import Logger from '../../../util/Logger';
-import Device from '../../../util/device';
-import OnboardingWizard from '../OnboardingWizard';
-import ReceiveRequest from '../ReceiveRequest';
-import Analytics from '../../../core/Analytics/Analytics';
-import AppConstants from '../../../core/AppConstants';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import URL from 'url-parse';
-import EthereumAddress from '../EthereumAddress';
-import { getEther } from '../../../util/transactions';
-import { newAssetTransaction } from '../../../actions/transaction';
-import { logOut, protectWalletModalVisible } from '../../../actions/user';
-import DeeplinkManager from '../../../core/DeeplinkManager';
-import SettingsNotification from '../SettingsNotification';
-import InvalidCustomNetworkAlert from '../InvalidCustomNetworkAlert';
-import { RPC } from '../../../constants/network';
-import { findRouteNameFromNavigatorState } from '../../../util/general';
-import AnalyticsV2, { ANALYTICS_EVENTS_V2 } from '../../../util/analyticsV2';
-import {
-  isDefaultAccountName,
-  doENSReverseLookup,
-} from '../../../util/ENSUtils';
-import ClipboardManager from '../../../core/ClipboardManager';
-import { collectiblesSelector } from '../../../reducers/collectibles';
-import { getCurrentRoute } from '../../../reducers/navigation';
 import { ScrollView } from 'react-native-gesture-handler';
-import { isZero } from '../../../util/lodash';
-import { KeyringTypes } from '@metamask/controllers';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import NetworkInfo from '../NetworkInfo';
-import sanitizeUrl from '../../../util/sanitizeUrl';
-import {
-  onboardNetworkAction,
-  networkSwitched,
-} from '../../../actions/onboardNetwork';
-import Routes from '../../../constants/navigation/Routes';
-import generateTestId from '../../../../wdio/utils/generateTestId';
+import Modal from 'react-native-modal';
+import Share from 'react-native-share';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { connect } from 'react-redux';
+import URL from 'url-parse';
+import { strings } from '../../../../locales/i18n';
 import {
   DRAWER_VIEW_LOCK_TEXT_ID,
   DRAWER_VIEW_SETTINGS_TEXT_ID,
 } from '../../../../wdio/features/testIDs/Screens/DrawerView.testIds';
+import generateTestId from '../../../../wdio/utils/generateTestId';
+import { showAlert } from '../../../actions/alert';
+import {
+  toggleAccountsModal,
+  toggleNetworkModal,
+  toggleReceiveModal,
+} from '../../../actions/modals';
+import {
+  networkSwitched,
+  onboardNetworkAction,
+} from '../../../actions/onboardNetwork';
+import { newAssetTransaction } from '../../../actions/transaction';
+import { logOut, protectWalletModalVisible } from '../../../actions/user';
+import Routes from '../../../constants/navigation/Routes';
+import { RPC } from '../../../constants/network';
+import Analytics from '../../../core/Analytics/Analytics';
+import AppConstants from '../../../core/AppConstants';
+import ClipboardManager from '../../../core/ClipboardManager';
+import DeeplinkManager from '../../../core/DeeplinkManager';
+import Engine from '../../../core/Engine';
+import SecureKeychain from '../../../core/SecureKeychain';
+import { collectiblesSelector } from '../../../reducers/collectibles';
+import { getCurrentRoute } from '../../../reducers/navigation';
+import { fontStyles } from '../../../styles/common';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import AnalyticsV2, { ANALYTICS_EVENTS_V2 } from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import {
+  doENSReverseLookup,
+  isDefaultAccountName,
+} from '../../../util/ENSUtils';
+import {
+  getEtherscanAddressUrl,
+  getEtherscanBaseUrl,
+} from '../../../util/etherscan';
+import { findRouteNameFromNavigatorState } from '../../../util/general';
+import { isZero } from '../../../util/lodash';
+import Logger from '../../../util/Logger';
+import {
+  findBlockExplorerForRpc,
+  getBlockExplorerName,
+  hasBlockExplorer,
+} from '../../../util/networks';
+import { renderFiat, renderFromWei } from '../../../util/number';
+import sanitizeUrl from '../../../util/sanitizeUrl';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import { getEther } from '../../../util/transactions';
+import AccountList from '../AccountList';
+import EthereumAddress from '../EthereumAddress';
+import Identicon from '../Identicon';
+import InvalidCustomNetworkAlert from '../InvalidCustomNetworkAlert';
+import NetworkInfo from '../NetworkInfo';
+import NetworkList from '../NetworkList';
+import OnboardingWizard from '../OnboardingWizard';
+import ReceiveRequest from '../ReceiveRequest';
+import SettingsNotification from '../SettingsNotification';
+import StyledButton from '../StyledButton';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -107,6 +107,7 @@ const createStyles = (colors) =>
       height: 27,
       width: 27,
       marginRight: 15,
+      borderRadius: 10,
     },
     metamaskName: {
       marginTop: 4,
@@ -122,6 +123,7 @@ const createStyles = (colors) =>
       borderBottomColor: colors.border.muted,
       borderBottomWidth: 1,
       padding: 17,
+      flexDirection: 'row',
     },
     identiconWrapper: {
       marginBottom: 12,
@@ -315,10 +317,15 @@ const createStyles = (colors) =>
       ...fontStyles.bold,
       color: colors.text.default,
     },
+
+    accountInfo: {
+      marginLeft: 10,
+      flex: 1,
+    },
   });
 
 const metamask_name = require('../../../images/metamask-name.png'); // eslint-disable-line
-const metamask_fox = require('../../../images/fox.png'); // eslint-disable-line
+const metamask_fox = require('../../../images/logo.png'); // eslint-disable-line
 const ICON_IMAGES = {
   wallet: require('../../../images/wallet-icon.png'), // eslint-disable-line
   'selected-wallet': require('../../../images/selected-wallet-icon.png'), // eslint-disable-line
@@ -923,21 +930,20 @@ class DrawerView extends PureComponent {
   }
 
   getSelectedIcon(name, size) {
-    const colors = this.context.colors || mockTheme.colors;
+    // const colors = this.context.colors || mockTheme.colors;
 
-    return (
-      <Icon name={name} size={size || 24} color={colors.primary.default} />
-    );
+    return <Icon name={name} size={size || 24} color={'#004868'} />;
   }
 
   getSelectedFeatherIcon(name, size) {
-    const colors = this.context.colors || mockTheme.colors;
+    // const colors = this.context.colors || mockTheme.colors;
 
     return (
       <FeatherIcon
         name={name}
         size={size || 24}
-        color={colors.primary.default}
+        // color={colors.primary.default}
+        color={'#004868'}
       />
     );
   }
@@ -955,7 +961,7 @@ class DrawerView extends PureComponent {
   }
 
   getSelectedImageIcon(name) {
-    const colors = this.context.colors || mockTheme.colors;
+    const colors = mockTheme.colors;
     const styles = createStyles(colors);
 
     return (
@@ -981,13 +987,6 @@ class DrawerView extends PureComponent {
     return [
       [
         {
-          name: strings('drawer.browser'),
-          icon: this.getIcon('globe'),
-          selectedIcon: this.getSelectedIcon('globe'),
-          action: this.goToBrowser,
-          routeNames: ['BrowserView', 'AddBookmark'],
-        },
-        {
           name: strings('drawer.wallet'),
           icon: this.getImageIcon('wallet'),
           selectedIcon: this.getSelectedImageIcon('wallet'),
@@ -1001,29 +1000,19 @@ class DrawerView extends PureComponent {
           ],
         },
         {
-          name: strings('drawer.transaction_activity'),
-          icon: this.getFeatherIcon('list'),
-          selectedIcon: this.getSelectedFeatherIcon('list'),
-          action: this.goToTransactionHistory,
-          routeNames: ['TransactionsView'],
+          name: strings('drawer.browser'),
+          icon: this.getIcon('globe'),
+          selectedIcon: this.getSelectedIcon('globe'),
+          action: this.goToBrowser,
+          routeNames: ['BrowserView', 'AddBookmark'],
         },
-      ],
-      [
-        {
-          name: strings('drawer.share_address'),
-          icon: this.getMaterialIcon('share-variant'),
-          action: this.onShare,
-        },
-        {
-          name:
-            (blockExplorer &&
-              `${strings('drawer.view_in')} ${blockExplorerName}`) ||
-            strings('drawer.view_in_etherscan'),
-          icon: this.getIcon('eye'),
-          action: this.viewInEtherscan,
-        },
-      ],
-      [
+        // {
+        //   name: strings('drawer.transaction_activity'),
+        //   icon: this.getFeatherIcon('list'),
+        //   selectedIcon: this.getSelectedFeatherIcon('list'),
+        //   action: this.goToTransactionHistory,
+        //   routeNames: ['TransactionsView'],
+        // },
         {
           name: strings('drawer.settings'),
           icon: this.getFeatherIcon('settings'),
@@ -1031,16 +1020,28 @@ class DrawerView extends PureComponent {
           action: this.showSettings,
           testID: DRAWER_VIEW_SETTINGS_TEXT_ID,
         },
-        {
-          name: strings('drawer.help'),
-          icon: this.getIcon('comments'),
-          action: this.showHelp,
-        },
-        {
-          name: strings('drawer.request_feature'),
-          icon: this.getFeatherIcon('message-square'),
-          action: this.submitFeedback,
-        },
+      ],
+      [
+        // {
+        //   name: strings('drawer.share_address'),
+        //   icon: this.getMaterialIcon('share-variant'),
+        //   action: this.onShare,
+        // },
+        // {
+        //   name:
+        //     (blockExplorer &&
+        //       `${strings('drawer.view_in')} ${blockExplorerName}`) ||
+        //     strings('drawer.view_in_etherscan'),
+        //   icon: this.getIcon('eye'),
+        //   action: this.viewInEtherscan,
+        // },
+        // {
+        //   name: strings('drawer.settings'),
+        //   icon: this.getFeatherIcon('settings'),
+        //   warning: strings('drawer.settings_warning_short'),
+        //   action: this.showSettings,
+        //   testID: DRAWER_VIEW_SETTINGS_TEXT_ID,
+        // },
         {
           name: strings('drawer.lock'),
           icon: this.getFeatherIcon('log-out'),
@@ -1049,6 +1050,32 @@ class DrawerView extends PureComponent {
           testID: DRAWER_VIEW_LOCK_TEXT_ID,
         },
       ],
+      // [
+      //   {
+      //     name: strings('drawer.settings'),
+      //     icon: this.getFeatherIcon('settings'),
+      //     warning: strings('drawer.settings_warning_short'),
+      //     action: this.showSettings,
+      //     testID: DRAWER_VIEW_SETTINGS_TEXT_ID,
+      //   },
+      //   {
+      //     name: strings('drawer.help'),
+      //     icon: this.getIcon('comments'),
+      //     action: this.showHelp,
+      //   },
+      //   {
+      //     name: strings('drawer.request_feature'),
+      //     icon: this.getFeatherIcon('message-square'),
+      //     action: this.submitFeedback,
+      //   },
+      //   {
+      //     name: strings('drawer.lock'),
+      //     icon: this.getFeatherIcon('log-out'),
+      //     action: this.logout,
+      //     // ...generateTestId(Platform, DRAWER_VIEW_LOCK_ICON_ID),
+      //     testID: DRAWER_VIEW_LOCK_TEXT_ID,
+      //   },
+      // ],
     ];
   };
 
@@ -1185,7 +1212,10 @@ class DrawerView extends PureComponent {
       networkModalVisible,
     } = this.props;
     const colors = this.context.colors || mockTheme.colors;
-    const styles = createStyles(colors);
+    const styles = createStyles({
+      ...colors,
+      primary: { ...colors.primary, default: '#004868' },
+    });
 
     const {
       invalidCustomNetwork,
@@ -1242,7 +1272,7 @@ class DrawerView extends PureComponent {
                 style={styles.metamaskName}
                 resizeMethod={'auto'}
               /> */}
-              <Text style={styles.title}>Twendee Wallet</Text>
+              <Text style={styles.title}>Tween Wallet</Text>
             </View>
           </View>
           <View style={styles.account}>
@@ -1273,47 +1303,9 @@ class DrawerView extends PureComponent {
                   style={styles.accountAddress}
                   type={'short'}
                 />
-                {this.renderTag()}
+                {/* {this.renderTag()} */}
               </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.buttons}>
-            <StyledButton
-              type={'rounded-normal'}
-              onPress={this.onSend}
-              containerStyle={[styles.button, styles.leftButton]}
-              testID={'drawer-send-button'}
-            >
-              <View style={styles.buttonContent}>
-                <MaterialIcon
-                  name={'arrow-top-right'}
-                  size={22}
-                  color={colors.primary.default}
-                  style={styles.buttonIcon}
-                />
-                <Text style={styles.buttonText}>
-                  {strings('drawer.send_button')}
-                </Text>
-              </View>
-            </StyledButton>
-            <StyledButton
-              type={'rounded-normal'}
-              onPress={this.onReceive}
-              containerStyle={[styles.button, styles.rightButton]}
-              testID={'drawer-receive-button'}
-            >
-              <View style={styles.buttonContent}>
-                <MaterialIcon
-                  name={'keyboard-tab'}
-                  size={22}
-                  color={colors.primary.default}
-                  style={[styles.buttonIcon, styles.buttonReceive]}
-                />
-                <Text style={styles.buttonText}>
-                  {strings('drawer.receive_button')}
-                </Text>
-              </View>
-            </StyledButton>
           </View>
           <View style={styles.menu}>
             {this.getSections().map(

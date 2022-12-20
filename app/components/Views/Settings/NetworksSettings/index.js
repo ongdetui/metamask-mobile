@@ -1,29 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
-  ScrollView,
   TouchableOpacity,
   View,
-  TextInput,
 } from 'react-native';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import ActionSheet from 'react-native-actionsheet';
-import { fontStyles } from '../../../../styles/common';
-import CustomText from '../../../../components/Base/Text';
-import { getNavigationOptionsTitle } from '../../../UI/Navbar';
-import { strings } from '../../../../../locales/i18n';
-import Networks, { getAllNetworks } from '../../../../util/networks';
-import StyledButton from '../../../UI/StyledButton';
-import Engine from '../../../../core/Engine';
-import getImage from '../../../../util/getImage';
-import { MAINNET, RPC } from '../../../../constants/network';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ThemeContext, mockTheme } from '../../../../util/theme';
+import { connect } from 'react-redux';
+import { strings } from '../../../../../locales/i18n';
+import CustomText from '../../../../components/Base/Text';
+import { MAINNET, RPC } from '../../../../constants/network';
+import Engine from '../../../../core/Engine';
+import { fontStyles } from '../../../../styles/common';
+import getImage from '../../../../util/getImage';
+import Networks, { getAllNetworks } from '../../../../util/networks';
+import { mockTheme, ThemeContext } from '../../../../util/theme';
 import ImageIcons from '../../../UI/ImageIcon';
-import { ADD_NETWORK_BUTTON } from '../../../../../wdio/features/testIDs/Screens/NetworksScreen.testids';
+import { getNavigationOptionsTitle } from '../../../UI/Navbar';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -349,7 +345,7 @@ class NetworksSettings extends PureComponent {
 
     return (
       <View style={styles.wrapper} testID={'networks-screen'}>
-        <View style={styles.inputWrapper}>
+        {/* <View style={styles.inputWrapper}>
           <Icon name="ios-search" size={20} color={colors.icon.default} />
           <TextInput
             style={styles.input}
@@ -366,7 +362,7 @@ class NetworksSettings extends PureComponent {
               onPress={this.clearSearchInput}
             />
           )}
-        </View>
+        </View> */}
         <ScrollView style={styles.networksWrapper}>
           {this.state.searchString.length > 0 ? (
             this.filteredResult()
@@ -377,21 +373,21 @@ class NetworksSettings extends PureComponent {
               </Text>
               {this.renderMainnet()}
               {this.renderRpcNetworksView()}
-              <Text style={styles.sectionLabel}>
+              {/* <Text style={styles.sectionLabel}>
                 {strings('app_settings.test_network_name')}
               </Text>
-              {this.renderOtherNetworks()}
+              {this.renderOtherNetworks()} */}
             </>
           )}
         </ScrollView>
-        <StyledButton
+        {/* <StyledButton
           type="confirm"
           onPress={this.onAddNetwork}
           containerStyle={styles.syncConfirm}
           testID={ADD_NETWORK_BUTTON}
         >
           {strings('app_settings.network_add_network')}
-        </StyledButton>
+        </StyledButton> */}
         <ActionSheet
           ref={this.createActionSheetRef}
           title={strings('app_settings.remove_network_title')}

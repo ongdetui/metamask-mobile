@@ -54,7 +54,7 @@ const createStyles = (colors) =>
       flex: 1,
     },
     footer: {
-      height: Device.isIphoneX() ? 200 : 170,
+      height: Device.isIphoneX() ? 150 : 120,
       paddingBottom: Device.isIphoneX() ? 30 : 0,
       justifyContent: 'center',
       flexDirection: 'column',
@@ -449,7 +449,7 @@ class AccountList extends PureComponent {
                 {strings('accounts.import_account')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={this.connectHardware}
               style={styles.footerButton}
               testID={'connect-hardware'}
@@ -457,7 +457,7 @@ class AccountList extends PureComponent {
               <Text style={styles.btnText}>
                 {strings('accounts.connect_hardware')}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         )}
       </SafeAreaView>

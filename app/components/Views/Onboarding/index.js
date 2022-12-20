@@ -13,7 +13,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import AnimatedFox from 'react-native-animated-fox';
 import Button from 'react-native-button';
 import DefaultPreference from 'react-native-default-preference';
 import ElevatedView from 'react-native-elevated-view';
@@ -50,7 +49,6 @@ import {
   getTransparentOnboardingNavbarOptions,
 } from '../../UI/Navbar';
 import BaseNotification from '../../UI/Notification/BaseNotification';
-import OnboardingScreenWithBg from '../../UI/OnboardingScreenWithBg';
 import StyledButton from '../../UI/StyledButton';
 import WarningExistingUserModal from '../../UI/WarningExistingUserModal';
 
@@ -75,7 +73,15 @@ const createStyles = (colors) =>
       alignSelf: 'center',
       width: Device.isIos() ? 90 : 45,
       height: Device.isIos() ? 90 : 45,
+      borderRadius: 10,
     },
+
+    setupWallet: {
+      width: Device.getDeviceWidth() * 0.6,
+      height: Device.getDeviceWidth() * 0.6,
+      alignSelf: 'center',
+    },
+
     termsAndConditions: {
       paddingBottom: 30,
     },
@@ -300,22 +306,24 @@ class Onboarding extends PureComponent {
 
   onPressCreate = () => {
     const action = async () => {
-      const metricsOptIn = await DefaultPreference.get(METRICS_OPT_IN);
-      if (metricsOptIn) {
-        this.props.navigation.navigate('ChoosePassword', {
-          [PREVIOUS_SCREEN]: ONBOARDING,
-        });
-        this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SETUP_STARTED);
-      } else {
-        this.props.navigation.navigate('OptinMetrics', {
-          onContinue: () => {
-            this.props.navigation.replace('ChoosePassword', {
-              [PREVIOUS_SCREEN]: ONBOARDING,
-            });
-            this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SETUP_STARTED);
-          },
-        });
-      }
+      // const metricsOptIn = await DefaultPreference.get(METRICS_OPT_IN);
+      this.props.navigation.navigate('ChoosePassword', {
+        [PREVIOUS_SCREEN]: ONBOARDING,
+      });
+      this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SETUP_STARTED);
+      // } else {
+      //   this.props.navigation.replace('ChoosePassword', {
+      //     [PREVIOUS_SCREEN]: ONBOARDING,
+      //   });
+      //   this.props.navigation.navigate('OptinMetrics', {
+      //     onContinue: () => {
+      //       this.props.navigation.replace('ChoosePassword', {
+      //         [PREVIOUS_SCREEN]: ONBOARDING,
+      //       });
+      //       this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SETUP_STARTED);
+      //     },
+      //   });
+      // }
     };
     this.handleExistingUser(action);
   };
@@ -330,40 +338,40 @@ class Onboarding extends PureComponent {
       return false;
     }
     const action = async () => {
-      const metricsOptIn = await DefaultPreference.get(METRICS_OPT_IN);
-      if (metricsOptIn) {
-        this.props.navigation.navigate('ExtensionSync', {
-          [PREVIOUS_SCREEN]: ONBOARDING,
-        });
-        this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SYNC_STARTED);
-      } else {
-        this.props.navigation.navigate('OptinMetrics', {
-          onContinue: () => {
-            this.props.navigation.replace('ExtensionSync', {
-              [PREVIOUS_SCREEN]: ONBOARDING,
-            });
-            this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SYNC_STARTED);
-          },
-        });
-      }
+      // const metricsOptIn = await DefaultPreference.get(METRICS_OPT_IN);
+      // if (metricsOptIn) {
+      this.props.navigation.navigate('ExtensionSync', {
+        [PREVIOUS_SCREEN]: ONBOARDING,
+      });
+      this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SYNC_STARTED);
+      // } else {
+      //   this.props.navigation.navigate('OptinMetrics', {
+      //     onContinue: () => {
+      //       this.props.navigation.replace('ExtensionSync', {
+      //         [PREVIOUS_SCREEN]: ONBOARDING,
+      //       });
+      //       this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_SYNC_STARTED);
+      //     },
+      //   });
+      // }
     };
     this.handleExistingUser(action);
   };
 
   onPressImport = () => {
     const action = async () => {
-      const metricsOptIn = await DefaultPreference.get(METRICS_OPT_IN);
-      if (metricsOptIn) {
-        this.props.navigation.push('ImportFromSeed');
-        this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_IMPORT_STARTED);
-      } else {
-        this.props.navigation.navigate('OptinMetrics', {
-          onContinue: () => {
-            this.props.navigation.replace('ImportFromSeed');
-            this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_IMPORT_STARTED);
-          },
-        });
-      }
+      // const metricsOptIn = await DefaultPreference.get(METRICS_OPT_IN);
+      // if (metricsOptIn) {
+      this.props.navigation.push('ImportFromSeed');
+      this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_IMPORT_STARTED);
+      // } else {
+      //   this.props.navigation.navigate('OptinMetrics', {
+      //     onContinue: () => {
+      //       this.props.navigation.replace('ImportFromSeed');
+      //       this.track(AnalyticsV2.ANALYTICS_EVENTS.WALLET_IMPORT_STARTED);
+      //     },
+      //   });
+      // }
     };
     this.handleExistingUser(action);
   };
@@ -428,6 +436,11 @@ class Onboarding extends PureComponent {
             {strings('onboarding.import')}
           </Text>
         </View>
+        <Image
+          source={require('../../../images/setupWallet.png')}
+          style={styles.setupWallet}
+          resizeMethod={'auto'}
+        />
         <View style={styles.createWrapper}>
           <View style={styles.buttonWrapper}>
             <StyledButton
@@ -486,36 +499,41 @@ class Onboarding extends PureComponent {
 
     return (
       <View style={baseStyles.flexGrow} testID={'onboarding-screen'}>
-        <OnboardingScreenWithBg screen={'c'}>
-          <ScrollView
-            style={baseStyles.flexGrow}
-            contentContainerStyle={styles.scroll}
-          >
-            <View style={styles.wrapper}>
-              {loading && (
-                <View style={styles.foxWrapper}>
-                  {Device.isAndroid() ? (
+        {/* <OnboardingScreenWithBg screen={'c'}> */}
+        <ScrollView
+          style={baseStyles.flexGrow}
+          contentContainerStyle={styles.scroll}
+        >
+          <View style={styles.wrapper}>
+            {loading && (
+              <View style={styles.foxWrapper}>
+                <Image
+                  source={require('../../../images/logo.png')}
+                  style={styles.image}
+                  resizeMethod={'auto'}
+                />
+                {/* {Device.isAndroid() ? (
                     <Image
-                      source={require('../../../images/fox.png')}
+                      source={require('../../../images/logo.png')}
                       style={styles.image}
                       resizeMethod={'auto'}
                     />
                   ) : (
                     <AnimatedFox bgColor={colors.background.default} />
-                  )}
-                </View>
-              )}
-              {loading ? this.renderLoader() : this.renderContent()}
-            </View>
-            {existingUser && !loading && (
-              <View style={styles.footer}>
-                <Button style={styles.login} onPress={this.onLogin}>
-                  {strings('onboarding.unlock')}
-                </Button>
+                  )} */}
               </View>
             )}
-          </ScrollView>
-        </OnboardingScreenWithBg>
+            {loading ? this.renderLoader() : this.renderContent()}
+          </View>
+          {existingUser && !loading && (
+            <View style={styles.footer}>
+              <Button style={styles.login} onPress={this.onLogin}>
+                {strings('onboarding.unlock')}
+              </Button>
+            </View>
+          )}
+        </ScrollView>
+        {/* </OnboardingScreenWithBg> */}
         <FadeOutOverlay />
 
         <View>{this.handleSimpleNotification()}</View>

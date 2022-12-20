@@ -77,6 +77,8 @@ const createStyles = (colors: any) =>
     buttonNext: {
       flex: 1,
       marginHorizontal: 24,
+      borderRadius: 8,
+      backgroundColor: `#004868`,
     },
     addressErrorWrapper: {
       margin: 16,

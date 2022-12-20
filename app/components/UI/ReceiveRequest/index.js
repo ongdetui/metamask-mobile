@@ -344,7 +344,7 @@ class ReceiveRequest extends PureComponent {
               />
             </TouchableOpacity>
           </TouchableOpacity>
-          <View style={styles.actionRow}>
+          {/* <View style={styles.actionRow}>
             {allowedToBuy(this.props.network) && (
               <StyledButton
                 type={'blue'}
@@ -356,15 +356,15 @@ class ReceiveRequest extends PureComponent {
                 })}
               </StyledButton>
             )}
-            {/* <StyledButton
+            <StyledButton
               type={'normal'}
               onPress={this.onReceive}
               containerStyle={styles.actionButton}
               testID={'request-payment-button'}
             >
               {strings('receive_request.request_payment')}
-            </StyledButton> */}
-          </View>
+            </StyledButton>
+          </View> */}
         </View>
 
         <GlobalAlert />
