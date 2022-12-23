@@ -1,6 +1,5 @@
-![MetaMask logo](logo.png?raw=true)
 
-# MetaMask
+# Tween Wallet
 
 [![CI](https://github.com/MetaMask/metamask-mobile/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/MetaMask/metamask-mobile/actions/workflows/ci.yml) [![CLA](https://github.com/MetaMask/metamask-mobile/actions/workflows/cla.yml/badge.svg?branch=main)](https://github.com/MetaMask/metamask-mobile/actions/workflows/cla.yml)
 
@@ -9,9 +8,6 @@ MetaMask is a mobile wallet that provides easy access to websites that use the [
 For up to the minute news, follow our [Twitter](https://twitter.com/metamask) or [Medium](https://medium.com/metamask) pages.
 
 To learn how to develop MetaMask-compatible applications, visit our [Developer Docs](https://docs.metamask.io).
-
-## MetaMask Mobile
-
 
 ### Environment Setup
 
