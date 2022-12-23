@@ -23,6 +23,7 @@ import Analytics from '../../../core/Analytics/Analytics';
 import Engine from '../../../core/Engine';
 import { baseStyles, fontStyles } from '../../../styles/common';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import Device from '../../../util/device';
 import Logger from '../../../util/Logger';
 import { hexToBN, renderFromWei, weiToFiat } from '../../../util/number';
 import { shouldShowWhatsNewModal } from '../../../util/onboarding';
@@ -171,12 +172,16 @@ const Wallet = ({ navigation }: any) => {
 
   useEffect(() => {
     navigation.setOptions(
-      getWalletNavbarOptions(
-        'wallet.title',
-        navigation,
-        drawerRef,
-        themeColors,
-      ),
+      Device.isIos()
+        ? getWalletNavbarOptions(
+            'wallet.title',
+            navigation,
+            drawerRef,
+            themeColors,
+          )
+        : {
+            headerShown: false,
+          },
     );
     /* eslint-disable-next-line */
   }, [navigation, themeColors]);
@@ -263,6 +268,15 @@ const Wallet = ({ navigation }: any) => {
 
     return (
       <View style={styles.wrapper}>
+        {Device.isAndroid() &&
+          (
+            getWalletNavbarOptions(
+              'wallet.title',
+              navigation,
+              drawerRef,
+              themeColors,
+            ) as any
+          ).headerTitle()}
         <AccountOverview
           account={account}
           navigation={navigation}

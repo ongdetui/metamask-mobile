@@ -1,68 +1,67 @@
-import React, { PureComponent } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import CheckBox from '@react-native-community/checkbox';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  Text,
-  View,
-  TextInput,
-  SafeAreaView,
-  StyleSheet,
   Image,
   InteractionManager,
   Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
+import zxcvbn from 'zxcvbn';
+import { strings } from '../../../../locales/i18n';
+import { setLockTime } from '../../../actions/settings';
 import {
   logIn,
   passwordSet,
   passwordUnset,
   seedphraseNotBackedUp,
 } from '../../../actions/user';
-import { setLockTime } from '../../../actions/settings';
-import StyledButton from '../../UI/StyledButton';
-import Engine from '../../../core/Engine';
-import Device from '../../../util/device';
-import { fontStyles } from '../../../styles/common';
-import { strings } from '../../../../locales/i18n';
-import { getOnboardingNavbarOptions } from '../../UI/Navbar';
-import SecureKeychain from '../../../core/SecureKeychain';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import AppConstants from '../../../core/AppConstants';
-import OnboardingProgress from '../../UI/OnboardingProgress';
-import zxcvbn from 'zxcvbn';
-import Logger from '../../../util/Logger';
 import { ONBOARDING, PREVIOUS_SCREEN } from '../../../constants/navigation';
 import {
+  BIOMETRY_CHOICE_DISABLED,
   EXISTING_USER,
   NEXT_MAKER_REMINDER,
-  TRUE,
   SEED_PHRASE_HINTS,
-  BIOMETRY_CHOICE_DISABLED,
+  TRUE,
 } from '../../../constants/storage';
+import AppConstants from '../../../core/AppConstants';
+import Engine from '../../../core/Engine';
+import SecureKeychain from '../../../core/SecureKeychain';
+import { fontStyles } from '../../../styles/common';
+import Device from '../../../util/device';
+import Logger from '../../../util/Logger';
 import {
   getPasswordStrengthWord,
-  passwordRequirementsMet,
   MIN_PASSWORD_LENGTH,
+  passwordRequirementsMet,
 } from '../../../util/password';
+import { getOnboardingNavbarOptions } from '../../UI/Navbar';
+import OnboardingProgress from '../../UI/OnboardingProgress';
+import StyledButton from '../../UI/StyledButton';
 
 import { CHOOSE_PASSWORD_STEPS } from '../../../constants/onboarding';
 import AnalyticsV2 from '../../../util/analyticsV2';
-import { ThemeContext, mockTheme } from '../../../util/theme';
-import AnimatedFox from 'react-native-animated-fox';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 
+import generateTestId from '../../../../wdio/utils/generateTestId';
 import {
+  ANDROID_I_UNDERSTAND_BUTTON_ID,
+  CONFIRM_PASSWORD_INPUT_BOX_ID,
   CREATE_PASSWORD_CONTAINER_ID,
   CREATE_PASSWORD_INPUT_BOX_ID,
-  CONFIRM_PASSWORD_INPUT_BOX_ID,
   IOS_I_UNDERSTAND_BUTTON_ID,
-  ANDROID_I_UNDERSTAND_BUTTON_ID,
 } from '../../../constants/test-ids';
 import { LoginOptionsSwitch } from '../../UI/LoginOptionsSwitch';
-import generateTestId from '../../../../wdio/utils/generateTestId';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -376,7 +375,7 @@ class ChoosePassword extends PureComponent {
 
       // Set state in app as it was with password
       await SecureKeychain.resetGenericPassword();
-      if (this.state.biometryType && this.state.biometryChoice) {
+      if (this.state.biometryType && this.state.biometryChoice) { 
         try {
           await SecureKeychain.setGenericPassword(
             password,
@@ -635,7 +634,12 @@ class ChoosePassword extends PureComponent {
                   resizeMethod={'auto'}
                 />
               ) : (
-                <AnimatedFox bgColor={colors.background.default} />
+                <Image
+                  source={require('../../../images/logo.png')}
+                  style={styles.image}
+                  resizeMethod={'auto'}
+                />
+                // <AnimatedFox bgColor={colors.background.default} />
               )}
             </View>
             <ActivityIndicator size="large" color={colors.text.default} />
@@ -760,9 +764,9 @@ class ChoosePassword extends PureComponent {
                     testID={ANDROID_I_UNDERSTAND_BUTTON_ID}
                   >
                     {strings('choose_password.i_understand')}{' '}
-                    <Text onPress={this.learnMore} style={styles.learnMore}>
+                    {/* <Text onPress={this.learnMore} style={styles.learnMore}>
                       {strings('choose_password.learn_more')}
-                    </Text>
+                    </Text> */}
                   </Text>
                 </View>
 

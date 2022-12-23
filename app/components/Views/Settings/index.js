@@ -1,9 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { InteractionManager, ScrollView, StyleSheet } from 'react-native';
+import {
+  Alert,
+  InteractionManager,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
+import { logOut } from '../../../actions/user';
+import Routes from '../../../constants/navigation/Routes';
 import Analytics from '../../../core/Analytics/Analytics';
+import Engine from '../../../core/Engine';
+import SecureKeychain from '../../../core/SecureKeychain';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
 import { mockTheme, ThemeContext } from '../../../util/theme';
 import { getClosableNavigationOptions } from '../../UI/Navbar';
@@ -33,6 +42,8 @@ class Settings extends PureComponent {
      * completed the seed phrase backup flow
      */
     seedphraseBackedUp: PropTypes.bool,
+    passwordSet: PropTypes.bool,
+    logOut: PropTypes.func,
   };
 
   updateNavBar = () => {
@@ -99,6 +110,52 @@ class Settings extends PureComponent {
     this.props.navigation.navigate('ContactsSettings');
   };
 
+  logOut = () => {
+    this.props.navigation.navigate(Routes.ONBOARDING.LOGIN);
+    this.props.logOut();
+  };
+
+  onPress = async () => {
+    const { passwordSet } = this.props;
+    const { KeyringController } = Engine.context;
+    await SecureKeychain.resetGenericPassword();
+    await KeyringController.setLocked();
+    if (!passwordSet) {
+      this.props.navigation.navigate('OnboardingRootNav', {
+        screen: Routes.ONBOARDING.NAV,
+        params: { screen: 'Onboarding' },
+      });
+    } else {
+      this.logOut();
+    }
+  };
+
+  trackEvent = (event) => {
+    InteractionManager.runAfterInteractions(() => {
+      Analytics.trackEvent(event);
+    });
+  };
+
+  logout = () => {
+    Alert.alert(
+      strings('drawer.lock_title'),
+      '',
+      [
+        {
+          text: strings('drawer.lock_cancel'),
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: strings('drawer.lock_ok'),
+          onPress: this.onPress,
+        },
+      ],
+      { cancelable: false },
+    );
+    this.trackEvent(ANALYTICS_EVENT_OPTS.NAVIGATION_TAPS_LOGOUT);
+  };
+
   render = () => {
     const { seedphraseBackedUp } = this.props;
     const colors = this.context.colors || mockTheme.colors;
@@ -117,11 +174,11 @@ class Settings extends PureComponent {
           title={strings('app_settings.security_title')}
           warning={!seedphraseBackedUp}
         />
-        <SettingsDrawer
+        {/* <SettingsDrawer
           description={strings('app_settings.advanced_desc')}
           onPress={this.onPressAdvanced}
           title={strings('app_settings.advanced_title')}
-        />
+        /> */}
         <SettingsDrawer
           description={strings('app_settings.contacts_desc')}
           onPress={this.onPressContacts}
@@ -131,6 +188,11 @@ class Settings extends PureComponent {
           title={strings('app_settings.networks_title')}
           description={strings('app_settings.networks_desc')}
           onPress={this.onPressNetworks}
+        />
+        <SettingsDrawer
+          title={strings('drawer.lock')}
+          description={'Lock wallet'}
+          onPress={this.logout}
         />
         {/* <SettingsDrawer
           title={strings('app_settings.experimental_title')}
@@ -150,6 +212,11 @@ Settings.contextType = ThemeContext;
 
 const mapStateToProps = (state) => ({
   seedphraseBackedUp: state.user.seedphraseBackedUp,
+  passwordSet: state.user.passwordSet,
 });
 
-export default connect(mapStateToProps)(Settings);
+const mapDispatchToProps = (dispatch) => ({
+  logOut: () => dispatch(logOut()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

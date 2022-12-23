@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { strings } from '../../../../locales/i18n';
 import { fontStyles } from '../../../styles/common';
 import Device from '../../../util/device';
@@ -33,7 +32,11 @@ const styles = StyleSheet.create({
   menuItemIconImage: {
     width: 22,
     height: 22,
-    tintColor: `#004868`,
+  },
+
+  imageLogoIcon: {
+    width: 34,
+    height: 34,
   },
   textTitleTab: {
     fontSize: 13,
@@ -88,11 +91,11 @@ const CustomTabNavigation = ({ state, descriptors, navigation }: any) => (
                 },
               ]}
             />
-          ) : label === 'BrowserTabHome' ? (
-            <Icon
-              name={'globe'}
-              size={24}
-              color={isFocused ? `#004868` : `#33333390`}
+          ) : label === 'AboutUsView' ? (
+            <Image
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
+              source={require('../../../images/logo.png')}
+              style={[styles.imageLogoIcon]}
             />
           ) : (
             <FeatherIcon
@@ -107,13 +110,13 @@ const CustomTabNavigation = ({ state, descriptors, navigation }: any) => (
               { color: isFocused ? `#004868` : `#33333390` },
             ]}
           >
-            {strings(
-              label === 'WalletTabHome'
-                ? 'bottom_tab_bar.wallet'
-                : label === 'BrowserTabHome'
-                ? 'drawer.browser'
-                : 'drawer.settings',
-            )}
+            {label === 'AboutUsView'
+              ? 'About Us'
+              : strings(
+                  label === 'WalletTabHome'
+                    ? 'bottom_tab_bar.wallet'
+                    : 'drawer.settings',
+                )}
           </Text>
         </TouchableOpacity>
       );

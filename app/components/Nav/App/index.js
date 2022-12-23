@@ -22,6 +22,7 @@ import DeleteWalletModal from '../../../components/UI/DeleteWalletModal';
 import { EnableAutomaticSecurityChecksModal } from '../../../components/UI/EnableAutomaticSecurityChecksModal';
 import { TurnOffRememberMeModal } from '../../../components/UI/TurnOffRememberMeModal';
 import { UpdateNeeded } from '../../../components/UI/UpdateNeeded';
+import ImportPrivateKey from '../../../components/Views/ImportPrivateKey';
 import Routes from '../../../constants/navigation/Routes';
 import {
   CURRENT_APP_VERSION,
@@ -116,6 +117,11 @@ const OnboardingNav = () => (
       name="OptinMetrics"
       component={OptinMetrics}
       options={OptinMetrics.navigationOptions}
+    />
+    <Stack.Screen
+      name="ImportPrivateKey"
+      component={ImportPrivateKey}
+      options={{ headerShown: false }}
     />
   </Stack.Navigator>
 );

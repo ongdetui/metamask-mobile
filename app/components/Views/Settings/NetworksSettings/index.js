@@ -228,7 +228,7 @@ class NetworksSettings extends PureComponent {
   }
 
   renderOtherNetworks() {
-    return this.getOtherNetworks().map((network, i) => {
+    return [this.getOtherNetworks()[0]].map((network, i) => {
       const { color, name } = Networks[network];
       return this.networkElement(name, color, i, network, false);
     });
@@ -377,6 +377,7 @@ class NetworksSettings extends PureComponent {
                 {strings('app_settings.test_network_name')}
               </Text>
               {this.renderOtherNetworks()} */}
+              {this.renderOtherNetworks()}
             </>
           )}
         </ScrollView>

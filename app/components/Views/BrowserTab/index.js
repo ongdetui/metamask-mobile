@@ -665,7 +665,8 @@ export const BrowserTab = (props) => {
 			})()
       // document.querySelector(".logo-img").src = 'https://twendeesoft.com/wp-content/uploads/2022/07/logo2.svg';
       document.querySelector(".logo-img").remove();
-      document.querySelector(".bg-img").src = 'https://scontent.fhan3-3.fna.fbcdn.net/v/t39.30808-6/318205571_2204834209688639_1085951323551940266_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=e3f864&_nc_ohc=ixaCG8IvUHwAX-35pMf&tn=oUKHy9JsYhvLrsfC&_nc_ht=scontent.fhan3-3.fna&oh=00_AfBAYYI6vRbf6LVzN2sMgWVd5RzOa7qfyDJrj_--SHhWgw&oe=63A50D5D';
+      document.querySelector(".take-a-tour-wrapper").remove();
+      // document.querySelector(".bg-img").src = 'https://scontent.fhan3-3.fna.fbcdn.net/v/t39.30808-6/318205571_2204834209688639_1085951323551940266_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=e3f864&_nc_ohc=ixaCG8IvUHwAX-35pMf&tn=oUKHy9JsYhvLrsfC&_nc_ht=scontent.fhan3-3.fna&oh=00_AfBAYYI6vRbf6LVzN2sMgWVd5RzOa7qfyDJrj_--SHhWgw&oe=63A50D5D';
 		`;
 
     current.injectJavaScript(homepageScripts);
@@ -1314,11 +1315,6 @@ export const BrowserTab = (props) => {
     [reload],
   );
 
-  const hideLogo = `
-  document.getElementsByClassName("header").[0].style.display = 'none';
-  document.getElementsByClassName("header").[1].style.display = 'none';
-  `;
-
   /**
    * Main render
    */
@@ -1339,7 +1335,6 @@ export const BrowserTab = (props) => {
               )}
               source={{ uri: initialUrl }}
               injectedJavaScriptBeforeContentLoaded={entryScriptWeb3}
-              injectedJavaScript={hideLogo}
               style={styles.webview}
               onLoadStart={onLoadStart}
               onLoad={onLoad}

@@ -20,7 +20,6 @@ import {
   NAV_ANDROID_BACK_BUTTON,
   NETWORK_BACK_ARROW_BUTTON_ID,
 } from '../../../../wdio/features/testIDs/Screens/NetworksScreen.testids';
-import { WALLET_VIEW_BURGER_ICON_ID } from '../../../../wdio/features/testIDs/Screens/WalletView.testIds';
 import generateTestId from '../../../../wdio/utils/generateTestId';
 import Analytics from '../../../core/Analytics/Analytics';
 import AppConstants from '../../../core/AppConstants';
@@ -623,17 +622,18 @@ export function getBrowserViewNavbarOptions(
   return {
     gestureEnabled: false,
     headerLeft: () => (
-      <TouchableOpacity
-        onPress={onPress}
-        style={styles.hamburgerButton}
-        testID={'hamburger-menu-button-browser'}
-      >
-        <IonicIcon
-          name={Device.isAndroid() ? 'md-menu' : 'ios-menu'}
-          size={Device.isAndroid() ? 24 : 28}
-          style={innerStyles.headerIcon}
-        />
-      </TouchableOpacity>
+      // <TouchableOpacity
+      //   onPress={onPress}
+      //   style={styles.hamburgerButton}
+      //   testID={'hamburger-menu-button-browser'}
+      // >
+      //   <IonicIcon
+      //     name={Device.isAndroid() ? 'md-menu' : 'ios-menu'}
+      //     size={Device.isAndroid() ? 24 : 28}
+      //     style={innerStyles.headerIcon}
+      //   />
+      // </TouchableOpacity>
+      <View />
     ),
     headerTitle: () => (
       <NavbarBrowserTitle
@@ -993,29 +993,31 @@ export function getWalletNavbarOptions(
   }
 
   return {
-    headerTitle: () => <NavbarTitle title={title} />,
+    headerTitle: () => <NavbarTitle navMain title={title} />,
     headerLeft: () => (
-      <TouchableOpacity
-        onPress={openDrawer}
-        style={styles.backButton}
-        testID={'hamburger-menu-button-wallet'}
-      >
-        <IonicIcon
-          {...generateTestId(Platform, WALLET_VIEW_BURGER_ICON_ID)}
-          name={Device.isAndroid() ? 'md-menu' : 'ios-menu'}
-          size={Device.isAndroid() ? 24 : 28}
-          style={innerStyles.headerIcon}
-        />
-      </TouchableOpacity>
+      // <TouchableOpacity
+      //   onPress={openDrawer}
+      //   style={styles.backButton}
+      //   testID={'hamburger-menu-button-wallet'}
+      // >
+      //   <IonicIcon
+      //     {...generateTestId(Platform, WALLET_VIEW_BURGER_ICON_ID)}
+      //     name={Device.isAndroid() ? 'md-menu' : 'ios-menu'}
+      //     size={Device.isAndroid() ? 24 : 28}
+      //     style={innerStyles.headerIcon}
+      //   />
+      // </TouchableOpacity>
+      <View />
     ),
     headerRight: () => (
-      <TouchableOpacity
-        style={styles.infoButton}
-        // eslint-disable-next-line
-        // onPress={openQRScanner}
-      >
-        {/* <AntIcon name="scan1" size={28} style={innerStyles.headerIcon} /> */}
-      </TouchableOpacity>
+      // <TouchableOpacity
+      //   style={styles.infoButton}
+      //   // eslint-disable-next-line
+      //   onPress={openQRScanner}
+      // >
+      //   <AntIcon name="scan1" size={28} style={innerStyles.headerIcon} />
+      // </TouchableOpacity>
+      <View />
     ),
     headerStyle: innerStyles.headerStyle,
     headerTintColor: themeColors.primary.default,

@@ -376,6 +376,10 @@ class Onboarding extends PureComponent {
     this.handleExistingUser(action);
   };
 
+  onPressImportPrivateKey = () => {
+    this.props.navigation.push('ImportPrivateKey', { create: true });
+  };
+
   track = (...eventArgs) => {
     InteractionManager.runAfterInteractions(async () => {
       if (Analytics.checkEnabled()) {
@@ -449,6 +453,16 @@ class Onboarding extends PureComponent {
               testID={WALLET_SETUP_SCREEN_IMPORT_FROM_SEED_BUTTON_ID}
             >
               {strings('import_wallet.import_from_seed_button')}
+            </StyledButton>
+          </View>
+          <View style={styles.buttonWrapper}>
+            <StyledButton
+              type={'normal'}
+              onPress={this.onPressImportPrivateKey}
+              testID={WALLET_SETUP_SCREEN_IMPORT_FROM_SEED_BUTTON_ID}
+            >
+              {/* {strings('import_private_key.title')} */}
+              Import using Private key
             </StyledButton>
           </View>
           <View style={styles.buttonWrapper}>

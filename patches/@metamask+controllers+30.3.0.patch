@@ -1,5 +1,5 @@
 diff --git a/node_modules/@metamask/controllers/dist/keyring/KeyringController.js b/node_modules/@metamask/controllers/dist/keyring/KeyringController.js
-index 8b9d1ba..d78f8b7 100644
+index 8b9d1ba..eae4007 100644
 --- a/node_modules/@metamask/controllers/dist/keyring/KeyringController.js
 +++ b/node_modules/@metamask/controllers/dist/keyring/KeyringController.js
 @@ -119,6 +119,7 @@ class KeyringController extends BaseController_1.BaseController {
@@ -26,12 +26,23 @@ index 8b9d1ba..d78f8b7 100644
          });
      }
      /**
-@@ -307,8 +309,8 @@ class KeyringController extends BaseController_1.BaseController {
+@@ -264,7 +266,7 @@ class KeyringController extends BaseController_1.BaseController {
+      * @throws Will throw when passed an unrecognized strategy.
+      * @returns Promise resolving to current state when the import is complete.
+      */
+-    importAccountWithStrategy(strategy, args) {
++    importAccountWithStrategy(strategy, args, all=true) {
+         return __awaiter(this, void 0, void 0, function* () {
+             let privateKey;
+             switch (strategy) {
+@@ -306,9 +308,9 @@ class KeyringController extends BaseController_1.BaseController {
+             ]);
              const accounts = yield newKeyring.getAccounts();
              const allAccounts = yield __classPrivateFieldGet(this, _KeyringController_keyring, "f").getAccounts();
-             this.updateIdentities(allAccounts);
+-            this.updateIdentities(allAccounts);
 -            this.setSelectedAddress(accounts[0]);
 -            return this.fullUpdate();
++            this.updateIdentities(all ? allAccounts : accounts);
 +            const importedAccountAddress = accounts[0];
 +            return { importedAccountAddress, keyringState: this.fullUpdate() };
          });

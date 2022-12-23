@@ -26,7 +26,6 @@ import AppConstants from '../../../core/AppConstants';
 import Engine from '../../../core/Engine';
 import LockManager from '../../../core/LockManager';
 import Device from '../../../util/device';
-import BackupAlert from '../../UI/BackupAlert';
 import FadeOutOverlay from '../../UI/FadeOutOverlay';
 import FiatOrders from '../../UI/FiatOrders';
 import GlobalAlert from '../../UI/GlobalAlert';
@@ -299,10 +298,10 @@ const Main = (props) => {
         <Notification navigation={props.navigation} />
         <FiatOrders />
         <SwapsLiveness />
-        <BackupAlert
+        {/* <BackupAlert
           onDismiss={toggleRemindLater}
           navigation={props.navigation}
-        />
+        /> */}
         {renderDeprecatedNetworkAlert(
           props.network,
           props.backUpSeedphraseVisible,

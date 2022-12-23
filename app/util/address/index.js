@@ -1,25 +1,25 @@
-import {
-  toChecksumAddress,
-  isValidAddress,
-  isHexString,
-  addHexPrefix,
-  isValidChecksumAddress,
-  isHexPrefixed,
-} from 'ethereumjs-util';
-import URL from 'url-parse';
-import punycode from 'punycode/punycode';
 import { KeyringTypes } from '@metamask/controllers';
-import Engine from '../../core/Engine';
-import { strings } from '../../../locales/i18n';
-import { tlc } from '../general';
-import { doENSLookup, doENSReverseLookup } from '../../util/ENSUtils';
-import NetworkList from '../../util/networks';
-import { collectConfusables } from '../../util/confusables';
+import {
+  addHexPrefix,
+  isHexPrefixed,
+  isHexString,
+  isValidAddress,
+  isValidChecksumAddress,
+  toChecksumAddress,
+} from 'ethereumjs-util';
+import punycode from 'punycode/punycode';
+import URL from 'url-parse';
 import {
   CONTACT_ALREADY_SAVED,
   SYMBOL_ERROR,
 } from '../../../app/constants/error';
+import { strings } from '../../../locales/i18n';
 import { PROTOCOLS } from '../../constants/deeplinks';
+import Engine from '../../core/Engine';
+import { collectConfusables } from '../../util/confusables';
+import { doENSLookup, doENSReverseLookup } from '../../util/ENSUtils';
+import NetworkList from '../../util/networks';
+import { tlc } from '../general';
 
 /**
  * Returns full checksummed address
@@ -118,7 +118,11 @@ export async function importAccountFromPrivateKey(private_key) {
     pkey = pkey.substr(2);
   }
   const { importedAccountAddress } =
-    await KeyringController.importAccountWithStrategy('privateKey', [pkey]);
+    await KeyringController.importAccountWithStrategy(
+      'privateKey',
+      [pkey],
+      false,
+    );
   const checksummedAddress = safeToChecksumAddress(importedAccountAddress);
   return PreferencesController.setSelectedAddress(checksummedAddress);
 }

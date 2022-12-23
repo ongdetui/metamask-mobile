@@ -285,7 +285,7 @@ export class NetworkList extends PureComponent {
     const { provider } = this.props;
     const colors = this.context.colors || mockTheme.colors;
 
-    return this.getOtherNetworks().map((network, i) => {
+    return [this.getOtherNetworks()[0]].map((network, i) => {
       const { color, name } = Networks[network];
       const isCustomRpc = false;
       const selected =
@@ -395,14 +395,13 @@ export class NetworkList extends PureComponent {
         <ScrollView style={styles.networksWrapper} testID={NETWORK_SCROLL_ID}>
           {this.renderMainnet()}
           {this.renderRpcNetworks()}
-          {/* {this.renderOtherNetworks()} */}
+          {this.renderOtherNetworks()}
         </ScrollView>
         {/* <View style={styles.footer}>
           <StyledButton
             type="confirm"
             onPress={this.goToNetworkSettings}
             containerStyle={styles.footerButton}
-            testID={ADD_NETWORK_BUTTON}
           >
             {strings('app_settings.add_network_title')}
           </StyledButton>

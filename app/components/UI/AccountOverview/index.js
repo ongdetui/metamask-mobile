@@ -50,7 +50,6 @@ import { baseStyles, fontStyles } from '../../../styles/common';
 import { mockTheme, ThemeContext } from '../../../util/theme';
 import AssetActionButton from '../AssetActionButton';
 import AssetSwapButton from '../Swaps/components/AssetSwapButton';
-import Identicon from '../Identicon';
 
 const trackEvent = (event) => {
   InteractionManager.runAfterInteractions(() => {
@@ -472,7 +471,7 @@ class AccountOverview extends PureComponent {
           testID={'account-overview'}
         >
           <View style={styles.info} ref={this.mainView}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.identiconBorder}
               disabled={onboardingWizard}
               onPress={this.toggleAccountsModal}
@@ -480,10 +479,10 @@ class AccountOverview extends PureComponent {
             >
               <Identicon
                 address={address}
-                diameter={38}
+                diameter={38} 
                 noFadeIn={onboardingWizard}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <View
               ref={this.editableLabelRef}
               style={styles.data}

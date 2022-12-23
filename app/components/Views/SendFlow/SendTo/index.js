@@ -756,7 +756,7 @@ class SendFlow extends PureComponent {
                   </Text>
                 </TouchableOpacity>
               )}
-              {balanceIsZero && (
+              {/* {balanceIsZero && (
                 <View style={styles.warningContainer}>
                   <WarningMessage
                     warningMessage={
@@ -770,7 +770,7 @@ class SendFlow extends PureComponent {
                     }
                   />
                 </View>
-              )}
+              )} */}
             </ScrollView>
           </View>
         )}

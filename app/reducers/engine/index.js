@@ -31,6 +31,24 @@ const engineReducer = (state = initialState, action) => {
                   blockExplorerUrl: 'https://bscscan.com',
                 },
               },
+              {
+                rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+                chainId: '97',
+                ticker: 'BNB',
+                nickname: 'BNB Smart Chain - Testnet',
+                rpcPrefs: {
+                  blockExplorerUrl: 'https://testnet.bscscan.com',
+                },
+              },
+              {
+                rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
+                chainId: '80001',
+                ticker: 'MATIC',
+                nickname: 'Mumbai Testnet',
+                rpcPrefs: {
+                  blockExplorerUrl: 'https://polygonscan.com/',
+                },
+              },
             ],
           },
         },
@@ -57,6 +75,24 @@ const engineReducer = (state = initialState, action) => {
             nickname: 'BNB Smart Chain',
             rpcPrefs: {
               blockExplorerUrl: 'https://bscscan.com',
+            },
+          },
+          {
+            rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+            chainId: '97',
+            ticker: 'BNB',
+            nickname: 'BNB Smart Chain - Testnet',
+            rpcPrefs: {
+              blockExplorerUrl: 'https://testnet.bscscan.com',
+            },
+          },
+          {
+            rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
+            chainId: '80001',
+            ticker: 'MATIC',
+            nickname: 'Mumbai Testnet',
+            rpcPrefs: {
+              blockExplorerUrl: 'https://polygonscan.com/',
             },
           },
         ],

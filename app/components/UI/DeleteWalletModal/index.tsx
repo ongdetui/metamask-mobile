@@ -1,35 +1,35 @@
-import React, { useState, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
 import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
   InteractionManager,
-  UIManager,
+  Keyboard,
   LayoutAnimation,
   Platform,
+  Text,
+  TouchableWithoutFeedback,
+  UIManager,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { OutlinedTextField } from 'react-native-material-textfield';
-import { createStyles } from './styles';
-import ReusableModal, { ReusableModalRef } from '../ReusableModal';
-import WarningExistingUserModal from '../WarningExistingUserModal';
-import { useDeleteWallet } from '../../hooks/DeleteWallet';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { strings } from '../../../../locales/i18n';
+import {
+  DELETE_MODAL_CANCEL_BUTTON,
+  DELETE_MODAL_UNDERSTAND_CONTINUE_ID,
+} from '../../../../wdio/features/testIDs/Components/DeleteWalletModal.testIds';
+import generateTestId from '../../../../wdio/utils/generateTestId';
+import Routes from '../../../constants/navigation/Routes';
 import {
   DELETE_WALLET_CONTAINER_ID,
   DELETE_WALLET_INPUT_BOX_ID,
 } from '../../../constants/test-ids';
+import Device from '../../../util/device';
 import { tlc } from '../../../util/general';
 import { useTheme } from '../../../util/theme';
-import Device from '../../../util/device';
-import Routes from '../../../constants/navigation/Routes';
-import {
-  DELETE_MODAL_UNDERSTAND_CONTINUE_ID,
-  DELETE_MODAL_CANCEL_BUTTON,
-} from '../../../../wdio/features/testIDs/Components/DeleteWalletModal.testIds';
-import generateTestId from '../../../../wdio/utils/generateTestId';
+import { useDeleteWallet } from '../../hooks/DeleteWallet';
+import ReusableModal, { ReusableModalRef } from '../ReusableModal';
+import WarningExistingUserModal from '../WarningExistingUserModal';
+import { createStyles } from './styles';
 
 const DELETE_KEYWORD = 'delete';
 

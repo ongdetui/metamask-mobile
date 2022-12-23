@@ -1,45 +1,45 @@
 /* eslint-disable */
+import { useNavigation } from '@react-navigation/native';
 import React, {
-  useEffect,
-  ReactNode,
   forwardRef,
+  ReactNode,
+  useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
-  useCallback,
-  useRef,
+  useRef
 } from 'react';
 import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  ViewStyle,
   Dimensions,
   StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import Animated, {
-  call,
-  eq,
-  EasingNode,
-  not,
   block,
-  cond,
+  call,
   clockRunning,
-  Value,
+  cond,
+  EasingNode,
+  eq,
   interpolateNode,
-  useCode,
+  not,
   set,
+  useCode,
+  Value
 } from 'react-native-reanimated';
 import {
-  onGestureEvent,
-  withSpring,
   clamp,
+  onGestureEvent,
   timing,
+  withSpring
 } from 'react-native-redash/src/v1';
-import createStyles from './styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../util/theme';
+import createStyles from './styles';
 const screenHeight = Dimensions.get('window').height;
 
 type DismissModalCallback = () => void;
@@ -215,8 +215,8 @@ const ReusableModal = forwardRef<ReusableModalRef, Props>((props, ref) => {
   // Expose actions for external components
   useImperativeHandle(ref, () => ({
     dismissModal: (callback) => {
-      trigger.current = callback;
-      dismissOverlay();
+        trigger.current = callback;
+        dismissOverlay();
     },
   }));
 

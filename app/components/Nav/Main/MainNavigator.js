@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useRef } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import AboutUsScreen from '../../../components/UI/AboutUs';
 import AmountToBuy from '../../../components/UI/FiatOnRampAggregator/Views/AmountToBuy';
 import GetQuotes from '../../../components/UI/FiatOnRampAggregator/Views/GetQuotes';
 import GetStarted from '../../../components/UI/FiatOnRampAggregator/Views/GetStarted';
@@ -358,10 +359,13 @@ const SettingsModalStack = () => (
 
 const HomeTab = createBottomTabNavigator();
 const HomeTabNavigation = () => (
-  <HomeTab.Navigator tabBar={(props) => <CustomTabNavigation {...props} />}>
-    <HomeTab.Screen name="WalletTabHome" component={WalletTabModalFlow} />
-    <HomeTab.Screen name={Routes.BROWSER_TAB_HOME} component={BrowserFlow} />
+  <HomeTab.Navigator
+    initialRouteName="WalletTabHome"
+    tabBar={(props) => <CustomTabNavigation {...props} />}
+  >
     <HomeTab.Screen name={'SettingsView'} component={SettingsModalStack} />
+    <HomeTab.Screen name="WalletTabHome" component={WalletTabModalFlow} />
+    <HomeTab.Screen name={'AboutUsView'} component={AboutUsScreen} />
   </HomeTab.Navigator>
 );
 
