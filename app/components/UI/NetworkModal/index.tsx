@@ -1,5 +1,5 @@
 import Modal from 'react-native-modal';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Linking, Platform } from 'react-native';
 import StyledButton from '../StyledButton';
 import { fontStyles } from '../../../styles/common';
@@ -124,6 +124,10 @@ const NetworkModals = (props: NetworkProps) => {
       rpcPrefs: { blockExplorerUrl, imageUrl },
     },
   } = props;
+
+  useEffect(() => {
+    console.log('d388383838>>>', props.network);
+  }, []);
 
   const [showDetails, setShowDetails] = React.useState(false);
   const [showInfo, setShowInfo] = React.useState(false);

@@ -403,7 +403,7 @@ class ImportPrivateKey extends PureComponent {
 
     try {
       if (create) {
-        await this.createNewVaultAndKeychain(password);
+        await this.createNewVaultAndKeychain(password, false);
         // await this.recreateVault(password);
         await AsyncStorage.removeItem(NEXT_MAKER_REMINDER);
         await AsyncStorage.setItem(EXISTING_USER, TRUE);
@@ -432,13 +432,14 @@ class ImportPrivateKey extends PureComponent {
 
         await AsyncStorage.setItem(EXISTING_USER, TRUE);
         await AsyncStorage.removeItem(SEED_PHRASE_HINTS);
+        await AsyncStorage.setItem('IMPORT_KEY', TRUE);
 
         this.props.passwordSet();
         this.props.logIn();
         this.props.setLockTime(AppConstants.DEFAULT_LOCK_TIMEOUT);
       }
 
-      await importAccountFromPrivateKey(this.state.privateKey);
+      await importAccountFromPrivateKey(this.state.privateKey, !create);
       create
         ? this.props.navigation.reset({ routes: [{ name: 'HomeNav' }] })
         : this.props.navigation.navigate('ImportPrivateKeySuccess');

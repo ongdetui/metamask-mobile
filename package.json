@@ -487,7 +487,8 @@
       "canvas": false,
       "react-native-webrtc": true,
       "node-hid": false,
-      "usb": false
+      "usb": false,
+      "puppeteer": false
     }
   }
 }

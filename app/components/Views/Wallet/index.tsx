@@ -10,6 +10,7 @@ import {
   InteractionManager,
   RefreshControl,
   ScrollView,
+  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
@@ -23,7 +24,6 @@ import Analytics from '../../../core/Analytics/Analytics';
 import Engine from '../../../core/Engine';
 import { baseStyles, fontStyles } from '../../../styles/common';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import Device from '../../../util/device';
 import Logger from '../../../util/Logger';
 import { hexToBN, renderFromWei, weiToFiat } from '../../../util/number';
 import { shouldShowWhatsNewModal } from '../../../util/onboarding';
@@ -44,25 +44,45 @@ const createStyles = (colors: any) =>
       backgroundColor: colors.background.default,
     },
     tabUnderlineStyle: {
-      height: 2,
       backgroundColor: colors.primary.default,
+      width: 154 / 2,
+      borderRadius: 100,
+      height: 44,
+      bottom: 2,
+      marginLeft: 2,
+      zIndex: 0,
     },
     tabStyle: {
       paddingBottom: 0,
     },
     tabBar: {
-      borderColor: colors.border.muted,
+      width: 168,
+      backgroundColor: `#FFFFFF`,
+      borderWidth: 1,
+      borderRadius: 100,
+      borderColor: `#BDBDBD`,
+      alignSelf: 'center',
+      borderTopWidth: 1,
+      borderLeftWidth: 1,
+      borderRightWidth: 1,
+      marginTop: 24,
+      height: 50,
     },
     textStyle: {
       fontSize: 12,
       letterSpacing: 0.5,
       ...(fontStyles.bold as any),
+      zIndex: 20,
     },
     loader: {
       backgroundColor: colors.background.default,
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+
+    tabBarUnderlineStyle: {
+      width: 168 / 2,
     },
   });
 
@@ -170,21 +190,21 @@ const Wallet = ({ navigation }: any) => {
     [navigation],
   );
 
-  useEffect(() => {
-    navigation.setOptions(
-      Device.isIos()
-        ? getWalletNavbarOptions(
-            'wallet.title',
-            navigation,
-            drawerRef,
-            themeColors,
-          )
-        : {
-            headerShown: false,
-          },
-    );
-    /* eslint-disable-next-line */
-  }, [navigation, themeColors]);
+  // useEffect(() => {
+  //   // navigation.setOptions(
+  //   //   Device.isIos()
+  //   //     ? getWalletNavbarOptions(
+  //   //         'wallet.title',
+  //   //         navigation,
+  //   //         drawerRef,
+  //   //         themeColors,
+  //   //       )
+  //   //     : {
+  //   //         headerShown: false,
+  //   //       },
+  //   // );
+  //   /* eslint-disable-next-line */
+  // }, [navigation, themeColors]);
 
   const onRefresh = useCallback(async () => {
     requestAnimationFrame(async () => {
@@ -212,12 +232,14 @@ const Wallet = ({ navigation }: any) => {
     () => (
       <DefaultTabBar
         underlineStyle={styles.tabUnderlineStyle}
-        activeTextColor={colors.primary.default}
+        activeTextColor={'#FFFFFF'}
         inactiveTextColor={colors.text.alternative}
         backgroundColor={colors.background.default}
         tabStyle={styles.tabStyle}
         textStyle={styles.textStyle}
         style={styles.tabBar}
+        tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+        containerWidth={168}
       />
     ),
     [styles, colors],
@@ -268,15 +290,15 @@ const Wallet = ({ navigation }: any) => {
 
     return (
       <View style={styles.wrapper}>
-        {Device.isAndroid() &&
-          (
-            getWalletNavbarOptions(
-              'wallet.title',
-              navigation,
-              drawerRef,
-              themeColors,
-            ) as any
-          ).headerTitle()}
+        <StatusBar backgroundColor={'#024868'} />
+        {(
+          getWalletNavbarOptions(
+            'wallet.title',
+            navigation,
+            drawerRef,
+            themeColors,
+          ) as any
+        ).headerTitle()}
         <AccountOverview
           account={account}
           navigation={navigation}

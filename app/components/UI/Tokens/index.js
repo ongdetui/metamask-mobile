@@ -35,6 +35,7 @@ const createStyles = (colors) =>
       backgroundColor: colors.background.default,
       flex: 1,
       minHeight: 500,
+      marginTop: 12,
     },
     emptyView: {
       backgroundColor: colors.background.default,
@@ -90,8 +91,8 @@ const createStyles = (colors) =>
       ...fontStyles.normal,
     },
     balanceFiat: {
-      fontSize: 12,
-      color: colors.text.alternative,
+      fontSize: 14,
+      color: `#BDBDBD`,
       ...fontStyles.normal,
       textTransform: 'uppercase',
     },

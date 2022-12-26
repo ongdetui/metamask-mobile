@@ -139,7 +139,7 @@ const WalletModalFlow = () => (
     <Stack.Screen
       name={'Wallet'}
       component={Wallet}
-      options={{ headerShown: true, animationEnabled: false }}
+      options={{ headerShown: false, animationEnabled: false }}
     />
     <Stack.Screen name={'DetectedTokens'} component={DetectedTokensFlow} />
   </Stack.Navigator>
@@ -363,9 +363,9 @@ const HomeTabNavigation = () => (
     initialRouteName="WalletTabHome"
     tabBar={(props) => <CustomTabNavigation {...props} />}
   >
-    <HomeTab.Screen name={'SettingsView'} component={SettingsModalStack} />
     <HomeTab.Screen name="WalletTabHome" component={WalletTabModalFlow} />
-    <HomeTab.Screen name={'AboutUsView'} component={AboutUsScreen} />
+    <HomeTab.Screen name={'SettingsView'} component={SettingsModalStack} />
+    {/* <HomeTab.Screen name={'AboutUsView'} component={AboutUsScreen} /> */}
   </HomeTab.Navigator>
 );
 

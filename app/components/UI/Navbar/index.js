@@ -934,6 +934,16 @@ export function getWalletNavbarOptions(
     headerIcon: {
       color: themeColors.primary.default,
     },
+
+    headerStyleMain: {
+      backgroundColor: `#024868`,
+      shadowColor: importedColors.transparent,
+      elevation: 0,
+      // paddingBottom: 50,
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40,
+      height: 120,
+    },
   });
 
   const onScanSuccess = (data, content) => {
@@ -1019,7 +1029,7 @@ export function getWalletNavbarOptions(
       // </TouchableOpacity>
       <View />
     ),
-    headerStyle: innerStyles.headerStyle,
+    headerStyle: innerStyles.headerStyleMain,
     headerTintColor: themeColors.primary.default,
   };
 }

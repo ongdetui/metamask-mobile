@@ -1,6 +1,6 @@
+import { SettingsIcon, WalletActiveIcon, WalletIcon } from 'images/icon';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import { strings } from '../../../../locales/i18n';
 import { fontStyles } from '../../../styles/common';
 import Device from '../../../util/device';
@@ -81,16 +81,11 @@ const CustomTabNavigation = ({ state, descriptors, navigation }: any) => (
           style={styles.itemTab}
         >
           {label === 'WalletTabHome' ? (
-            <Image
-              // eslint-disable-next-line @typescript-eslint/no-require-imports
-              source={require('../../../images/wallet-icon.png')}
-              style={[
-                styles.menuItemIconImage,
-                {
-                  tintColor: isFocused ? `#004868` : `#33333390`,
-                },
-              ]}
-            />
+            isFocused ? (
+              <WalletActiveIcon />
+            ) : (
+              <WalletIcon />
+            )
           ) : label === 'AboutUsView' ? (
             <Image
               // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -98,11 +93,7 @@ const CustomTabNavigation = ({ state, descriptors, navigation }: any) => (
               style={[styles.imageLogoIcon]}
             />
           ) : (
-            <FeatherIcon
-              name={'settings'}
-              size={24}
-              color={isFocused ? `#004868` : `#33333390`}
-            />
+            <SettingsIcon color={isFocused ? '#024868' : '#757575'} />
           )}
           <Text
             style={[

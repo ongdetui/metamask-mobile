@@ -1,31 +1,33 @@
-import React, { PureComponent } from 'react';
 import { KeyringTypes } from '@metamask/controllers';
-import Engine from '../../../core/Engine';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TRUE } from '../../../constants/storage';
+import { toChecksumAddress } from 'ethereumjs-util';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
-  Alert,
   ActivityIndicator,
-  InteractionManager,
+  Alert,
   FlatList,
-  TouchableOpacity,
+  InteractionManager,
+  SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
-  SafeAreaView,
 } from 'react-native';
-import { fontStyles } from '../../../styles/common';
-import Device from '../../../util/device';
-import { strings } from '../../../../locales/i18n';
-import { toChecksumAddress } from 'ethereumjs-util';
-import Logger from '../../../util/Logger';
-import Analytics from '../../../core/Analytics/Analytics';
-import AnalyticsV2 from '../../../util/analyticsV2';
-import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
-import { doENSReverseLookup } from '../../../util/ENSUtils';
-import AccountElement from './AccountElement';
 import { connect } from 'react-redux';
-import { ThemeContext, mockTheme } from '../../../util/theme';
+import { strings } from '../../../../locales/i18n';
+import Analytics from '../../../core/Analytics/Analytics';
+import Engine from '../../../core/Engine';
+import { fontStyles } from '../../../styles/common';
 import { safeToChecksumAddress } from '../../../util/address';
+import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
+import AnalyticsV2 from '../../../util/analyticsV2';
+import Device from '../../../util/device';
+import { doENSReverseLookup } from '../../../util/ENSUtils';
+import Logger from '../../../util/Logger';
+import { mockTheme, ThemeContext } from '../../../util/theme';
+import AccountElement from './AccountElement';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -229,9 +231,20 @@ class AccountList extends PureComponent {
     const { KeyringController, PreferencesController } = Engine.context;
     requestAnimationFrame(async () => {
       try {
-        const { addedAccountAddress } = await KeyringController.addNewAccount();
-        const checksummedAddress = safeToChecksumAddress(addedAccountAddress);
-        PreferencesController.setSelectedAddress(checksummedAddress);
+        const isImport = await AsyncStorage.getItem('IMPORT_KEY');
+        if (isImport === TRUE) {
+          const data = await KeyringController.updateAccount();
+          const checksummedAddress = safeToChecksumAddress(
+            data.addedAccountAddress,
+          );
+          PreferencesController.setSelectedAddress(checksummedAddress);
+          await AsyncStorage.setItem('IMPORT_KEY', 'false');
+        } else {
+          const { addedAccountAddress } =
+            await KeyringController.addNewAccount();
+          const checksummedAddress = safeToChecksumAddress(addedAccountAddress);
+          PreferencesController.setSelectedAddress(checksummedAddress);
+        }
         setTimeout(() => {
           this.flatList &&
             this.flatList.current &&
@@ -317,7 +330,7 @@ class AccountList extends PureComponent {
     );
   };
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const { ticker } = this.props;
     const { accountsENS } = this.state;
     return (
@@ -327,6 +340,7 @@ class AccountList extends PureComponent {
         item={{ ...item, ens: accountsENS[item.address] }}
         ticker={ticker}
         disabled={Boolean(item.balanceError)}
+        index={index}
       />
     );
   };

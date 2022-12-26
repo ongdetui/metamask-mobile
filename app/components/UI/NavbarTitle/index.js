@@ -46,20 +46,35 @@ const createStyles = (colors) =>
     },
 
     logo: {
-      width: 46,
-      height: 46,
+      width: 90,
+      height: 110,
       marginLeft: 10,
+      position: 'absolute',
+      right: 15,
+      bottom: -30,
     },
 
     container: {
-      flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
       width: Device.getDeviceWidth(),
+      backgroundColor: `#024868`,
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40,
+      top: -20,
+      height: Device.isIphoneX() ? 150 : 140,
+      justifyContent: 'flex-end',
+      paddingBottom: 55,
     },
 
     identiconBorder: {
-      marginRight: 15,
+      position: 'absolute',
+      backgroundColor: `#FFFFFF`,
+      bottom: -35,
+      width: 70,
+      height: 70,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 35,
     },
   });
 
@@ -141,9 +156,10 @@ class NavbarTitle extends PureComponent {
         {navMain && (
           <Image
             style={styles.logo}
-            source={require('../../../images/logo.png')}
+            source={require('../../../images/bg-logo.png')}
           />
         )}
+
         <TouchableOpacity
           onPress={this.openNetworkList}
           style={styles.wrapper}
@@ -164,7 +180,7 @@ class NavbarTitle extends PureComponent {
             />
             <Text
               numberOfLines={1}
-              style={styles.networkName}
+              style={[styles.networkName, navMain && { color: `#fff` }]}
               testID={'navbar-title-network'}
               accessibilityLabel={'navbar-title-network'}
             >
@@ -181,7 +197,7 @@ class NavbarTitle extends PureComponent {
           >
             <Identicon
               address={this.props.address}
-              diameter={34}
+              diameter={60}
               // noFadeIn={onboardingWizard}
             />
           </TouchableOpacity>

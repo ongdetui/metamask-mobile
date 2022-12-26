@@ -1,3 +1,4 @@
+import StyledButton from '../../../../components/UI/StyledButton';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
@@ -20,6 +21,7 @@ import Networks, { getAllNetworks } from '../../../../util/networks';
 import { mockTheme, ThemeContext } from '../../../../util/theme';
 import ImageIcons from '../../../UI/ImageIcon';
 import { getNavigationOptionsTitle } from '../../../UI/Navbar';
+import { ADD_NETWORK_BUTTON } from '../../../../../wdio/features/testIDs/Screens/NetworksScreen.testids';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -247,6 +249,7 @@ class NetworksSettings extends PureComponent {
     const { frequentRpcList } = this.props;
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
+    console.log('frequentRpcList>>',frequentRpcList)
 
     if (frequentRpcList.length > 0) {
       return (
@@ -381,14 +384,14 @@ class NetworksSettings extends PureComponent {
             </>
           )}
         </ScrollView>
-        {/* <StyledButton
+        <StyledButton
           type="confirm"
           onPress={this.onAddNetwork}
           containerStyle={styles.syncConfirm}
           testID={ADD_NETWORK_BUTTON}
         >
           {strings('app_settings.network_add_network')}
-        </StyledButton> */}
+        </StyledButton>
         <ActionSheet
           ref={this.createActionSheetRef}
           title={strings('app_settings.remove_network_title')}

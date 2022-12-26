@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import { RightIcon } from 'images/icon';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, StyleSheet, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { ThemeContext, mockTheme } from '../../../util/theme';
+import React, { PureComponent } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { mockTheme, ThemeContext } from '../../../util/theme';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -11,8 +11,20 @@ const createStyles = (colors) =>
       flexDirection: 'row',
       paddingHorizontal: 15,
       paddingVertical: 10,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: colors.border.muted,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomColor: colors.border.muted,
+      backgroundColor: `#FFFFFF`,
+      alignItems: 'center',
+      marginHorizontal: 16,
+      shadowColor: `rgba(0, 0, 0, 0.2)`,
+      shadowOffset: {
+        width: 1,
+        height: 1,
+      },
+      elevation: 3,
+      shadowOpacity: 1,
+      borderRadius: 12,
+      marginBottom: 12,
     },
     arrow: {
       flex: 1,
@@ -68,14 +80,9 @@ export default class AssetElement extends PureComponent {
         style={styles.itemWrapper}
       >
         {children}
-        <View styles={styles.arrow}>
-          <Icon
-            name="ios-arrow-forward"
-            size={24}
-            color={colors.icon.alternative}
-            style={styles.arrowIcon}
-          />
-        </View>
+        {/* <View styles={styles.arrow}> */}
+        <RightIcon />
+        {/* </View> */}
       </TouchableOpacity>
     );
   };

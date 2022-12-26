@@ -13,14 +13,18 @@ const engineReducer = (state = initialState, action) => {
           PreferencesController: {
             ...Engine.state.PreferencesController,
             frequentRpcList: [
+              // ...Engine.state.PreferencesController.frequentRpcList,
               {
-                rpcUrl: 'https://polygon-mainnet.infura.io/v3/undefined',
+                rpcUrl:
+                  'https://polygon-mainnet.infura.io/v3/258ae281a1a941fc9d5af896b4c5781c',
                 chainId: '137',
                 ticker: 'MATIC',
                 nickname: 'Polygon Mainnet',
                 rpcPrefs: {
                   blockExplorerUrl: 'https://polygonscan.com',
+                  imageUrl: 'MATIC',
                 },
+                formattedRpcUrl: 'https://polygon-mainnet.infura.io/v3',
               },
               {
                 rpcUrl: 'https://bsc-dataseed1.binance.org/',
@@ -41,7 +45,8 @@ const engineReducer = (state = initialState, action) => {
                 },
               },
               {
-                rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
+                rpcUrl:
+                  'https://polygon-mumbai.infura.io/v3/258ae281a1a941fc9d5af896b4c5781c',
                 chainId: '80001',
                 ticker: 'MATIC',
                 nickname: 'Mumbai Testnet',
@@ -59,14 +64,18 @@ const engineReducer = (state = initialState, action) => {
       newState.backgroundState.PreferencesController = {
         ...Engine.state.PreferencesController,
         frequentRpcList: [
+          // ...Engine.state.PreferencesController.frequentRpcList,
           {
-            rpcUrl: 'https://polygon-mainnet.infura.io/v3/undefined',
+            rpcUrl:
+              'https://polygon-mainnet.infura.io/v3/258ae281a1a941fc9d5af896b4c5781c',
             chainId: '137',
             ticker: 'MATIC',
             nickname: 'Polygon Mainnet',
             rpcPrefs: {
               blockExplorerUrl: 'https://polygonscan.com',
+              imageUrl: 'MATIC',
             },
+            formattedRpcUrl: 'https://polygon-mainnet.infura.io/v3',
           },
           {
             rpcUrl: 'https://bsc-dataseed1.binance.org/',
@@ -87,7 +96,8 @@ const engineReducer = (state = initialState, action) => {
             },
           },
           {
-            rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
+            rpcUrl:
+              'https://polygon-mumbai.infura.io/v3/258ae281a1a941fc9d5af896b4c5781c',
             chainId: '80001',
             ticker: 'MATIC',
             nickname: 'Mumbai Testnet',

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
 import {
@@ -90,6 +91,7 @@ const DeleteWalletModal = () => {
 
   const deleteWallet = async () => {
     triggerClose();
+    AsyncStorage.setItem('IMPORT_KEY', 'false');
     await resetWalletState();
     await deleteUser();
     InteractionManager.runAfterInteractions(() => {

@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import AntIcon from 'react-native-vector-icons/AntDesign';
 import { connect } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
 import Analytics from '../../../core/Analytics/Analytics';
@@ -32,6 +31,7 @@ import {
   importAccountFromPrivateKey,
   isQRHardwareAccount,
   renderAccountName,
+  renderShortAddress,
 } from '../../../util/address';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
 import Device from '../../../util/device';
@@ -41,15 +41,13 @@ import {
 } from '../../../util/ENSUtils';
 import { renderFiat, renderFromWei } from '../../../util/number';
 import { getEther, getTicker } from '../../../util/transactions';
-import { isSwapsAllowed } from '../Swaps/utils';
 
+import { ReceivedIcon, ScanIcon, SendIcon } from 'images/icon';
 import Routes from '../../../constants/navigation/Routes';
 import ClipboardManager from '../../../core/ClipboardManager';
 import DeeplinkManager from '../../../core/DeeplinkManager';
 import { baseStyles, fontStyles } from '../../../styles/common';
 import { mockTheme, ThemeContext } from '../../../util/theme';
-import AssetActionButton from '../AssetActionButton';
-import AssetSwapButton from '../Swaps/components/AssetSwapButton';
 
 const trackEvent = (event) => {
   InteractionManager.runAfterInteractions(() => {
@@ -61,9 +59,9 @@ const createStyles = (colors) =>
   StyleSheet.create({
     scrollView: {
       backgroundColor: colors.background.default,
+      marginTop: 10,
     },
     wrapper: {
-      paddingTop: 20,
       paddingHorizontal: 20,
       paddingBottom: 0,
       alignItems: 'center',
@@ -75,6 +73,7 @@ const createStyles = (colors) =>
     },
     data: {
       textAlign: 'center',
+      // borderRadius: 50,
     },
     label: {
       fontSize: 24,
@@ -157,6 +156,42 @@ const createStyles = (colors) =>
       fontSize: 26,
       ...fontStyles.normal,
       marginTop: 8,
+    },
+
+    action: {
+      marginHorizontal: 15,
+      alignItems: 'center',
+    },
+
+    btnAction: {
+      backgroundColor: `#024868`,
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    textAction: {
+      color: `#3A3A3A`,
+      fontSize: 16,
+      ...fontStyles.normal,
+      marginTop: 8,
+    },
+
+    textAddress: {
+      fontSize: 14,
+      ...fontStyles.normal,
+      textAlign: 'center',
+      color: `#555555`,
+    },
+
+    btnAddress: {
+      backgroundColor: `#D1E1FA`,
+      paddingHorizontal: 12,
+      borderRadius: 40,
+      paddingVertical: 5,
+      marginBottom: 15,
     },
   });
 
@@ -333,10 +368,10 @@ class AccountOverview extends PureComponent {
       content: 'clipboard-alert',
       data: { msg: strings('account_details.account_copied_to_clipboard') },
     });
-    setTimeout(() => this.props.protectWalletModalVisible(), 2000);
-    InteractionManager.runAfterInteractions(() => {
-      Analytics.trackEvent(ANALYTICS_EVENT_OPTS.WALLET_COPIED_ADDRESS);
-    });
+    // setTimeout(() => this.props.protectWalletModalVisible(), 2000);
+    // InteractionManager.runAfterInteractions(() => {
+    //   Analytics.trackEvent(ANALYTICS_EVENT_OPTS.WALLET_COPIED_ADDRESS);
+    // });
   };
 
   onReceive = () => this.props.toggleReceiveModal();
@@ -431,6 +466,10 @@ class AccountOverview extends PureComponent {
     trackEvent(ANALYTICS_EVENT_OPTS.WALLET_QR_SCANNER);
   };
 
+  copyAddress = () => {
+    ClipboardManager.setString(this.props.account.address);
+  };
+
   render() {
     const {
       account: { address, name, balance },
@@ -483,6 +522,7 @@ class AccountOverview extends PureComponent {
                 noFadeIn={onboardingWizard}
               />
             </TouchableOpacity> */}
+
             <View
               ref={this.editableLabelRef}
               style={styles.data}
@@ -542,8 +582,19 @@ class AccountOverview extends PureComponent {
                 </View>
               )}
             </View>
+            <TouchableOpacity
+              onPress={this.copyAccountToClipboard}
+              style={styles.btnAddress}
+              activeOpacity={0.5}
+            >
+              <Text style={styles.textAddress}>
+                {renderShortAddress(address, 4)}
+              </Text>
+            </TouchableOpacity>
             <Text style={styles.textBalance}>{accountBalance}</Text>
+
             <Text style={styles.amountFiat}>{fiatBalance}</Text>
+
             {/* <TouchableOpacity
               style={styles.addressWrapper}
               onPress={this.copyAccountToClipboard}
@@ -556,17 +607,31 @@ class AccountOverview extends PureComponent {
             </TouchableOpacity> */}
 
             <View style={styles.actions}>
-              <AssetActionButton
-                testID={'token-send-button'}
-                icon="send"
+              <TouchableOpacity
+                style={styles.action}
                 onPress={this.onSend}
-                label={strings('asset_overview.send_button')}
-              />
-              <AssetActionButton
-                icon="receive"
+                activeOpacity={0.5}
+              >
+                <View style={styles.btnAction}>
+                  <SendIcon />
+                </View>
+                <Text style={styles.textAction}>
+                  {strings('asset_overview.send_button')}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.action}
                 onPress={this.onReceive}
-                label={strings('asset_overview.receive_button')}
-              />
+                activeOpacity={0.5}
+              >
+                <View style={styles.btnAction}>
+                  <ReceivedIcon />
+                </View>
+                <Text style={styles.textAction}>
+                  {strings('asset_overview.receive_button')}
+                </Text>
+              </TouchableOpacity>
               {/* {allowedToBuy(chainId) && (
                 <AssetActionButton
                   icon="buy"
@@ -574,28 +639,25 @@ class AccountOverview extends PureComponent {
                   label={strings('asset_overview.buy_button')}
                 />
               )} */}
-              <AssetActionButton
-                testID={'token-send-button'}
-                icon={
-                  <View style={styles.btnScan}>
-                    <AntIcon
-                      name="scan1"
-                      size={20}
-                      color={colors.primary.inverse}
-                    />
-                  </View>
-                }
+              <TouchableOpacity
+                style={styles.action}
                 onPress={this.openQRScanner}
-                label={'Scan'}
-              />
-              {AppConstants.SWAPS.ACTIVE && false && (
+                activeOpacity={0.5}
+              >
+                <View style={styles.btnAction}>
+                  <ScanIcon />
+                </View>
+                <Text style={styles.textAction}>Scan</Text>
+              </TouchableOpacity>
+
+              {/* {AppConstants.SWAPS.ACTIVE && false && (
                 <AssetSwapButton
                   isFeatureLive={swapsIsLive}
                   isNetworkAllowed={isSwapsAllowed(chainId)}
                   onPress={this.goToSwaps}
                   isAssetAllowed
                 />
-              )}
+              )} */}
             </View>
           </View>
         </ScrollView>

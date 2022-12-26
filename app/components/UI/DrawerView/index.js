@@ -1464,7 +1464,7 @@ class DrawerView extends PureComponent {
             showReceiveModal={this.showReceiveModal}
           />
         </Modal>
-        {this.renderProtectModal()}
+        {/* {this.renderProtectModal()} */}
       </View>
     );
   }

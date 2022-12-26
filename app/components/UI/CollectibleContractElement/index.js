@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { RightIcon } from 'images/icon';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
-import { connect } from 'react-redux';
-import { colors as importedColors, fontStyles } from '../../../styles/common';
-import CollectibleMedia from '../CollectibleMedia';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Device from '../../../util/device';
-import AntIcons from 'react-native-vector-icons/AntDesign';
-import Text from '../../Base/Text';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
+import AntIcons from 'react-native-vector-icons/AntDesign';
+import { connect } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
-import Engine from '../../../core/Engine';
 import { removeFavoriteCollectible } from '../../../actions/collectibles';
+import Engine from '../../../core/Engine';
 import { collectibleContractsSelector } from '../../../reducers/collectibles';
+import { colors as importedColors, fontStyles } from '../../../styles/common';
+import Device from '../../../util/device';
 import { useTheme } from '../../../util/theme';
+import Text from '../../Base/Text';
+import CollectibleMedia from '../CollectibleMedia';
 
 const DEVICE_WIDTH = Device.getDeviceWidth();
 const COLLECTIBLE_WIDTH = (DEVICE_WIDTH - 30 - 16) / 3;
@@ -22,13 +22,27 @@ const createStyles = (colors) =>
   StyleSheet.create({
     itemWrapper: {
       paddingHorizontal: 15,
-      paddingBottom: 16,
+      paddingVertical: 10,
+      backgroundColor: `#FFFFFF`,
+      alignItems: 'center',
+      marginHorizontal: 16,
+      shadowColor: `rgba(0, 0, 0, 0.2)`,
+      shadowOffset: {
+        width: 1,
+        height: 1,
+      },
+      elevation: 3,
+      shadowOpacity: 1,
+      borderRadius: 12,
+      marginBottom: 12,
     },
     collectibleContractIcon: { width: 30, height: 30 },
     collectibleContractIconContainer: { marginHorizontal: 8, borderRadius: 30 },
     titleContainer: {
       flex: 1,
       flexDirection: 'row',
+      alignItems: 'center',
+      height: 48,
     },
     verticalAlignedContainer: {
       flexDirection: 'row',
@@ -47,7 +61,7 @@ const createStyles = (colors) =>
       marginHorizontal: 8,
     },
     collectiblesRowContainer: {
-      flex: 1,
+      // flex: 1,
       flexDirection: 'row',
       marginTop: 15,
     },
@@ -65,6 +79,12 @@ const createStyles = (colors) =>
       width: 32,
       height: 32,
       borderRadius: 16,
+    },
+
+    nftContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
     },
   });
 
@@ -100,7 +120,7 @@ function CollectibleContractElement({
 
   const toggleCollectibles = useCallback(() => {
     setCollectiblesVisible(!collectiblesVisible);
-  }, [collectiblesVisible, setCollectiblesVisible]);
+  }, [collectiblesVisible]);
 
   const onPressCollectible = useCallback(
     (collectible) => {
@@ -200,36 +220,43 @@ function CollectibleContractElement({
         onPress={toggleCollectibles}
         style={styles.titleContainer}
       >
-        <View style={styles.verticalAlignedContainer}>
+        <View style={styles.nftContent}>
+          {/* <View style={styles.verticalAlignedContainer}>
           <Icon
             name={`ios-arrow-${collectiblesVisible ? 'down' : 'forward'}`}
             size={12}
             color={colors.text.default}
             style={styles.arrowIcon}
           />
+        </View> */}
+          <View style={styles.collectibleContractIconContainer}>
+            {!asset.favorites ? (
+              <CollectibleMedia
+                iconStyle={styles.collectibleContractIcon}
+                collectible={{
+                  name: strings('collectible.untitled_collection'),
+                  ...asset,
+                  image: asset.logo,
+                }}
+                tiny
+              />
+            ) : (
+              <View style={styles.favoritesLogoWrapper}>
+                <AntIcons
+                  color={importedColors.white}
+                  name={'star'}
+                  size={24}
+                />
+              </View>
+            )}
+          </View>
+          <View style={styles.verticalAlignedContainer}>
+            <Text numberOfLines={1} style={styles.titleText}>
+              {asset?.name || strings('collectible.untitled_collection')}
+            </Text>
+          </View>
         </View>
-        <View style={styles.collectibleContractIconContainer}>
-          {!asset.favorites ? (
-            <CollectibleMedia
-              iconStyle={styles.collectibleContractIcon}
-              collectible={{
-                name: strings('collectible.untitled_collection'),
-                ...asset,
-                image: asset.logo,
-              }}
-              tiny
-            />
-          ) : (
-            <View style={styles.favoritesLogoWrapper}>
-              <AntIcons color={importedColors.white} name={'star'} size={24} />
-            </View>
-          )}
-        </View>
-        <View style={styles.verticalAlignedContainer}>
-          <Text numberOfLines={1} style={styles.titleText}>
-            {asset?.name || strings('collectible.untitled_collection')}
-          </Text>
-        </View>
+        <RightIcon />
       </TouchableOpacity>
       {collectiblesVisible && (
         <View style={styles.grid}>

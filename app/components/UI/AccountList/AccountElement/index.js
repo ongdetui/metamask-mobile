@@ -1,15 +1,16 @@
-import React, { PureComponent } from 'react';
-import Identicon from '../../Identicon';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
-import { fontStyles } from '../../../../styles/common';
-import { renderFromWei } from '../../../../util/number';
-import { getTicker } from '../../../../util/transactions';
-import { isDefaultAccountName } from '../../../../util/ENSUtils';
-import { strings } from '../../../../../locales/i18n';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
-import { ThemeContext, mockTheme } from '../../../../util/theme';
+import { strings } from '../../../../../locales/i18n';
+import { fontStyles } from '../../../../styles/common';
+import { renderShortAddress } from '../../../../util/address';
+import { isDefaultAccountName } from '../../../../util/ENSUtils';
+import { renderFromWei } from '../../../../util/number';
+import { mockTheme, ThemeContext } from '../../../../util/theme';
+import { getTicker } from '../../../../util/transactions';
+import Identicon from '../../Identicon';
 
 const EMPTY = '0x0';
 const BALANCE_KEY = 'balance';
@@ -105,6 +106,7 @@ class AccountElement extends PureComponent {
      * Updated balance using stored in state
      */
     updatedBalanceFromStore: PropTypes.string,
+    index: PropTypes.number,
   };
 
   onPress = () => {
@@ -129,6 +131,7 @@ class AccountElement extends PureComponent {
       isImported,
       balanceError,
       isQRHardware,
+      index,
     } = this.props.item;
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
@@ -162,11 +165,16 @@ class AccountElement extends PureComponent {
           <View style={styles.accountInfo}>
             <View style={styles.accountMain}>
               <Text numberOfLines={1} style={[styles.accountLabel]}>
-                {isDefaultAccountName(name) && ens ? ens : name}
+                {isDefaultAccountName(name) && ens
+                  ? ens
+                  : `Account ${index + 1}`}
               </Text>
               <View style={styles.accountBalanceWrapper}>
                 <Text style={styles.accountBalance}>
                   {renderFromWei(updatedBalanceFromStore)} {getTicker(ticker)}
+                </Text>
+                <Text style={[styles.accountBalance, { marginLeft: 15 }]}>
+                  {renderShortAddress(address)}
                 </Text>
                 {!!balanceError && (
                   <Text
